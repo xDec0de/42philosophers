@@ -6,18 +6,21 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:05:44 by danimart          #+#    #+#             */
-/*   Updated: 2022/05/31 14:07:24 by danimart         ###   ########.fr       */
+/*   Updated: 2022/06/03 15:59:12 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo_info	parse_arguments(int argc, char **args)
+t_philo_info	*parse_arguments(int argc, char **args)
 {
 	t_philo_info	info;
+	t_philo_info	*res;
 
 	(void) args;
-	(void) argc;
+	if (argc < 5 || argc > 6)
+		print_error(ARGC_ERR);
 	info.amount = 10;
-	return (info);
+	res = &info;
+	return (res);
 }

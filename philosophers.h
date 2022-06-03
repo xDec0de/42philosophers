@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:47:13 by danimart          #+#    #+#             */
-/*   Updated: 2022/05/31 14:11:48 by danimart         ###   ########.fr       */
+/*   Updated: 2022/06/03 15:56:30 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define PHILOSOPHERS_H
 
 # include <stdio.h>
+
+# define ARGC_ERR_STR "\e[0;31mError\e[1;30m: \e[0;31mInvalid input\
+\e[1;30m.\e[0m\n"
+# define ARGC_ERR 1
 
 typedef struct s_philo_info {
 	int	amount;
@@ -23,6 +27,6 @@ typedef struct s_philo_info {
 void			print_error(int code);
 
 // input_parser.c
-t_philo_info	parse_arguments(int argc, char **args);
+t_philo_info	*parse_arguments(int argc, char **args);
 
 #endif
