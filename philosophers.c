@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:31:27 by danimart          #+#    #+#             */
-/*   Updated: 2022/06/24 13:21:43 by danimart         ###   ########.fr       */
+/*   Updated: 2022/06/24 13:26:45 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ if not specified simulation stops after one death.
 
 #include "philosophers.h"
 
-void	print_error(int code)
+void	*print_error(char *err, void *ret)
 {
-	if (code == ARGC_ERR)
-		printf(ARGC_ERR_STR);
+	printf("%s", err);
+	return (ret);
 }
 
 int	main(int argc, char **args)

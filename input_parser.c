@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:05:44 by danimart          #+#    #+#             */
-/*   Updated: 2022/06/24 13:21:06 by danimart         ###   ########.fr       */
+/*   Updated: 2022/06/24 13:26:25 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ t_philo_info	*parse_arguments(int argc, char **args)
 
 	i = 1;
 	if (argc < 5 || argc > 6)
-	{
-		print_error(ARGC_ERR);
-		return (NULL);
-	}
+		return (print_error(ARGC_ERR, NULL));
 	while (i < argc)
 	{
 		current_num = get_number(args[i]);
