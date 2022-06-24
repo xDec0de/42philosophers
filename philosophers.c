@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:31:27 by danimart          #+#    #+#             */
-/*   Updated: 2022/06/03 15:58:17 by danimart         ###   ########.fr       */
+/*   Updated: 2022/06/24 13:21:43 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	main(int argc, char **args)
 	t_philo_info	*info;
 
 	info = parse_arguments(argc, args);
+	if (info == NULL)
+		return (1);
 	printf("Number of philosophers is %d\n", info->amount);
 	return (0);
 }

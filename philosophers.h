@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:47:13 by danimart          #+#    #+#             */
-/*   Updated: 2022/06/03 15:56:30 by danimart         ###   ########.fr       */
+/*   Updated: 2022/06/24 13:17:32 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILOSOPHERS_H
 
 # include <stdio.h>
+# include <limits.h>
 
 # define ARGC_ERR_STR "\e[0;31mError\e[1;30m: \e[0;31mInvalid input\
 \e[1;30m.\e[0m\n"
