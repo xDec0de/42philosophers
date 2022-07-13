@@ -6,11 +6,27 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:05:44 by danimart          #+#    #+#             */
-/*   Updated: 2022/06/24 13:26:25 by danimart         ###   ########.fr       */
+/*   Updated: 2022/06/24 16:44:44 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int	verify_info(t_philo_info info)
+{
+	int	errors;
+
+	errors = 0;
+	if (info.amount <= 0)
+		errors += (int)print_error(AMOUNT_ERR, (void *)1);
+	if (info.die_time <= 0)
+		errors += (int)print_error(DIE_TIME_ERR, (void *)1);
+	if (info.eat_time <= 0)
+		errors += (int)print_error(EAT_TIME_ERR, (void *)1);
+	if (info.sleep_time <= 0)
+		errors += (int)print_error(SLEEP_TIME_ERR, (void *)1);
+	return (errors);
+}
 
 long	get_number(char *str)
 {
@@ -39,18 +55,20 @@ t_philo_info	*parse_arguments(int argc, char **args)
 	t_philo_info	info;
 	t_philo_info	*res;
 	int				i;
-	long			current_num;
 
 	i = 1;
 	if (argc < 5 || argc > 6)
 		return (print_error(ARGC_ERR, NULL));
-	while (i < argc)
-	{
-		current_num = get_number(args[i]);
-		printf("Number at %d is %ld\n", i, current_num);
-		i++;
-	}
-	info.amount = 10;
+	info.amount = get_number(args[1]);
+	info.die_time = get_number(args[2]);
+	info.eat_time = get_number(args[3]);
+	info.sleep_time = get_number(args[4]);
+	if (argc == 6)
+		info.eat_num = get_number(args[5]);
+	else
+		info.eat_num = -1;
 	res = &info;
+	if (verify_info(info) != 0)
+		return (NULL);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:31:27 by danimart          #+#    #+#             */
-/*   Updated: 2022/06/24 13:26:45 by danimart         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:38:21 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int	main(int argc, char **args)
 	info = parse_arguments(argc, args);
 	if (info == NULL)
 		return (1);
-	printf("Number of philosophers is %d\n", info->amount);
+	printf("Number of philosophers is %d\nTime to die is %d\nTime to eat is %d\nTime to sleep is %d\nEat times are %d\n", info->amount, info->die_time, info->eat_time, info->sleep_time, info->eat_num);
 	return (0);
 }
