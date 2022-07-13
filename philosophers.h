@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 13:47:13 by danimart          #+#    #+#             */
-/*   Updated: 2022/06/24 16:45:13 by danimart         ###   ########.fr       */
+/*   Updated: 2022/07/13 22:07:02 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
  to eat\e[1;30m.\e[0m\n"
 # define SLEEP_TIME_ERR "\e[0;31mError\e[1;30m: \e[0;31mInvalid time\
  to sleep\e[1;30m.\e[0m\n"
+# define EAT_NUM_ERR "\e[0;31mError\e[1;30m: \e[0;31mInvalid eat\
+ amount\e[1;30m.\e[0m\n"
 
 typedef struct s_philo_info {
 	int	amount;
