@@ -6,33 +6,30 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/04/06 18:06:16 by danimart         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:48:45 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "headers/philosophers.h"
 
-int	verify_info(t_philo_info *info)
+void	verify_info(t_philo_info *info)
 {
-	int	errors;
-
-	errors = 0;
 	if (info->amount <= 0 || info->amount > MAX_PHILOSOPHERS)
 	{
 		printf(AMOUNT_ERR, MAX_PHILOSOPHERS);
-		errors++;
+		free(info);
+		exit(1);
 	}
 	else if (info->amount > 200)
-		print_error(AMOUNT_WARN, 1);
+		exit_error(AMOUNT_WARN, info);
 	if (info->die_time <= 0)
-		errors += print_error(DIE_TIME_ERR, 1);
+		exit_error(DIE_TIME_ERR, info);
 	if (info->eat_time <= 0)
-		errors += print_error(EAT_TIME_ERR, 1);
+		exit_error(EAT_TIME_ERR, info);
 	if (info->sleep_time <= 0)
-		errors += print_error(SLEEP_TIME_ERR, 1);
+		exit_error(SLEEP_TIME_ERR, info);
 	if (info->eat_num <= 0)
-		errors += print_error(EAT_NUM_ERR, 1);
-	return (errors);
+		exit_error(EAT_NUM_ERR, info);
 }
 
 long	get_number(char *str)
@@ -59,24 +56,19 @@ long	get_number(char *str)
 
 t_philo_info	*parse_arguments(int argc, char **argv)
 {
-	t_philo_info	info;
-	t_philo_info	*res;
+	t_philo_info	*info;
 
 	if (argc < 5 || argc > 6)
-	{
-		print_error(ARGC_ERR, 1);
-		return (NULL);
-	}
-	info.amount = get_number(argv[1]);
-	info.die_time = get_number(argv[2]);
-	info.eat_time = get_number(argv[3]);
-	info.sleep_time = get_number(argv[4]);
+		exit_error(ARGC_ERR, NULL);
+	info = malloc(sizeof(t_philo_info));
+	info->amount = get_number(argv[1]);
+	info->die_time = get_number(argv[2]);
+	info->eat_time = get_number(argv[3]);
+	info->sleep_time = get_number(argv[4]);
 	if (argc == 6)
-		info.eat_num = get_number(argv[5]);
+		info->eat_num = get_number(argv[5]);
 	else
-		info.eat_num = 1;
-	res = &info;
-	if (verify_info(res) != 0)
-		return (NULL);
-	return (res);
+		info->eat_num = 1;
+	verify_info(info);
+	return (info);
 }

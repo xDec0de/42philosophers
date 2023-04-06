@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/04/06 17:54:45 by danimart         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:47:36 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <limits.h>
 # include <pthread.h>
+# include <stdlib.h>
 # include "philosopher.h"
 
 // Struct used to store program information such as parameters and philosophers
@@ -76,8 +77,16 @@ is \e[1;32mthinking\e[1;30m.\e[0m\n"
 # define PHILO_DIED "\e[1;30m[\e[0;31m%d\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
 
-int				print_error(char *err, int ret);
+/* philosophers.c */
+
+void			exit_error(char *err, t_philo_info *info);
+
+/* input_parser.c */
 
 t_philo_info	*parse_arguments(int argc, char **argv);
+
+/* philo_builder.c */
+
+t_philo_info	*build_philosophers(t_philo_info *info);
 
 #endif
