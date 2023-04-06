@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/04/06 16:52:52 by danimart         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:16:48 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@
 # include <stdio.h>
 # include <limits.h>
 # include <pthread.h>
+# include "philosopher.h"
+
+// Struct used to store program information such as parameters and philosophers
+typedef struct s_philo_info {
+	int		amount;
+	int		die_time;
+	int		eat_time;
+	int		sleep_time;
+	int		eat_num;
+	t_philo	philo_lst[MAX_PHILOSOPHERS];
+}				t_philo_info;
 
 /* Error messages */
 
@@ -64,34 +75,5 @@ is \e[1;32mthinking\e[1;30m.\e[0m\n"
 // Invalid time to die.
 # define PHILO_DIED "\e[1;30m[\e[0;31m%d\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
-
-/* Philosopher state constants */
-
-// Philosopher is dead and must stay like that :)
-# define DEAD -1
-/* Philosopher is inactive, this state should only apply
- when the program is initializating philosophers */
-# define INACTIVE 0
-// Philosopher is currently EATING, next action is F(inished)_EATING.
-# define EATING 1
-// Philosopher has finished EATING and should start SLEEPING.
-# define F_EATING 2
-// Philosopher is currently SLEEPING, next action is F(inished)_SLEEPING.
-# define SLEEPING 3
-// Philosopher has finished SLEEPING and should start THINKING.
-# define F_SLEEPING 4
-// Philosopher is currently THINKING, next action is EATING.
-# define THINKING 5
-
-/* Fork state constants */
-
-// Philosopher doesn't have any fork, oh no.
-# define FK_NONE -1
-// Philosopher has a fork on it's RIGHT hand.
-# define FK_RIGHT 1
-// Philosopher has a fork on it's LEFT hand.
-# define FK_LEFT 2
-// Philosopher has a fork on BOTH hands, READY TO EAT!
-# define FK_BOTH 3
 
 #endif
