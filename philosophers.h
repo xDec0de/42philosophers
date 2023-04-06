@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/04/06 17:16:48 by danimart         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:54:45 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,9 @@ is \e[1;32mthinking\e[1;30m.\e[0m\n"
 // Invalid time to die.
 # define PHILO_DIED "\e[1;30m[\e[0;31m%d\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
+
+int				print_error(char *err, int ret);
+
+t_philo_info	*parse_arguments(int argc, char **argv);
 
 #endif

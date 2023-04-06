@@ -6,7 +6,7 @@
 #    By: danimart <danimart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/06 16:29:48 by danimart          #+#    #+#              #
-#    Updated: 2023/04/06 16:31:48 by danimart         ###   ########.fr        #
+#    Updated: 2023/04/06 17:55:42 by danimart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC=gcc
 
 MAX_PHILOSOPHERS?=200
 
-C_FILES=philosophers.c
+C_FILES=philosophers.c input_parser.c
 CFLAGS=-DMAX_PHILOSOPHERS='$(MAX_PHILOSOPHERS)' -Wall -Werror -Wextra -pthread
 SANITIZE=-g3 -fsanitize=address
 
