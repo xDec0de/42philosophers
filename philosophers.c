@@ -6,9 +6,11 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/04/06 16:32:11 by danimart         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:05:19 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "philosophers.h"
 
 int	main(void)
 {
