@@ -54,3 +54,6 @@ dkms.conf
 
 # Visual studio
 .vscode/
+
+# Project subject
+*.pdf
