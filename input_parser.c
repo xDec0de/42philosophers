@@ -6,13 +6,13 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/04/06 19:48:45 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/07 10:02:40 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
 
-void	verify_info(t_philo_info *info)
+t_philo_info	*verify_info(t_philo_info *info)
 {
 	if (info->amount <= 0 || info->amount > MAX_PHILOSOPHERS)
 	{
@@ -30,6 +30,19 @@ void	verify_info(t_philo_info *info)
 		exit_error(SLEEP_TIME_ERR, info);
 	if (info->eat_num <= 0)
 		exit_error(EAT_NUM_ERR, info);
+	return (info);
+}
+
+t_philo_info	*print_info(t_philo_info *info)
+{
+	printf(INFO_HEADER);
+	printf(INFO_NUM, "Philosopher amount", info->amount);
+	printf(INFO_NUM, "Time to die", info->die_time);
+	printf(INFO_NUM, "Time to eat", info->eat_time);
+	printf(INFO_NUM, "Time to sleep", info->sleep_time);
+	printf(INFO_NUM, "Times to eat", info->eat_num);
+	printf(INFO_FOOTER);
+	return (info);
 }
 
 long	get_number(char *str)
@@ -69,6 +82,6 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 		info->eat_num = get_number(argv[5]);
 	else
 		info->eat_num = 1;
-	verify_info(info);
+	print_info(verify_info(info));
 	return (info);
 }

@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/04/06 19:47:36 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/07 10:20:11 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ typedef struct s_philo_info {
 // Error creating a thread.
 # define THREAD_ERR "\e[0;31mError\e[1;30m: \e[33;31mCould not create\
  a new thread\e[1;30m.\e[0m\n"
+
+/* Program info messages */
+
+# define INFO_HEADER "\n\e[0m|-------------------------->\n"
+# define INFO_NUM "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%d\e[0m\n"
+# define INFO_FOOTER "|-------------------------->\n\n"
 
 /* Philosopher log messages */
 
