@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/07 10:02:40 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/11 19:26:47 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ t_philo_info	*verify_info(t_philo_info *info)
 
 t_philo_info	*print_info(t_philo_info *info)
 {
+	if (!DEBUG)
+		return (info);
+	printf(DEBUG_NOTE);
 	printf(INFO_HEADER);
 	printf(INFO_NUM, "Philosopher amount", info->amount);
 	printf(INFO_NUM, "Time to die", info->die_time);
