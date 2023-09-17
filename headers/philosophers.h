@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/17 21:07:03 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/17 21:25:11 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,20 @@ typedef struct s_philo_info {
 
 /* Debug messages, debug should be disabled on evaluation just in case */
 
+// Notication message sent if debug mode is on
 # define DEBUG_NOTE B_WHITE"Debug "B_GREEN"enabled"B_WHITE", run\
  "B_YELLOW"make re DEBUG=0 "B_WHITE"to disable"B_GRAY"."RESET"\n"
+// Header of the program info
 # define INFO_HEADER "\n"WHITE"|-------------------------->"RESET"\n"
+// Info slot about the program with a numeric value
 # define INFO_NUM B_RED"* "B_WHITE"%s"B_GRAY": "YELLOW"%d"RESET"\n"
+// Footer of the program info
 # define INFO_FOOTER WHITE"|-------------------------->"RESET"\n\n"
+// Prefix used for debug messages
+# define DEBUG_PREFIX B_GRAY"["B_WHITE"DEBUG"B_GRAY"]"RESET
+// Philosopher state debug message
+# define PHILO_STATE DEBUG_PREFIX" "YELLOW"%i"WHITE"'s state is %i"RESET"\n"
+
 
 /* Philosopher log messages */
 
