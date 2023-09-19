@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/17 21:25:11 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/19 04:28:51 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,27 +71,28 @@ typedef struct s_philo_info {
 // Prefix used for debug messages
 # define DEBUG_PREFIX B_GRAY"["B_WHITE"DEBUG"B_GRAY"]"RESET
 // Philosopher state debug message
-# define PHILO_STATE DEBUG_PREFIX" "YELLOW"%i"WHITE"'s state is %i"RESET"\n"
+# define PHILO_STATE DEBUG_PREFIX" "WHITE"Philosopher "YELLOW"%i"WHITE"\
+ is %s"B_GRAY"."RESET"\n"
 
 
 /* Philosopher log messages */
 
-// Invalid time to die.
+// A philosopher takes a fork (Right hand).
 # define PHILO_TAKE_RFORK B_GRAY"["YELLOW"%d"B_GRAY"] "B_YELLOW"%d "B_WHITE"\
 has taken a "B_YELLOW"fork "B_GRAY"("B_BLUE"Right"B_GRAY")"RESET"\n"
-// Invalid time to die.
+// A philosopher takes a fork (Left hand).
 # define PHILO_TAKE_LFORK B_GRAY"["YELLOW"%d"B_GRAY"] "B_YELLOW"%d "B_WHITE"\
 has taken a "B_YELLOW"fork "B_GRAY"("B_BLUE"Left"B_GRAY")"RESET"\n"
-// Invalid time to die.
+// A philosopher is eating
 # define PHILO_EATING B_GRAY"["YELLOW"%d"B_GRAY"] "B_YELLOW"%d "B_WHITE"\
 is "B_MAGENTA"meating"B_GRAY"."RESET"\n"
-// Invalid time to die.
+// A philosopher is sleeping.
 # define PHILO_SLEEPING B_GRAY"["YELLOW"%d"B_GRAY"] "B_YELLOW"%d "B_WHITE"\
 is "B_CYAN"sleeping"B_GRAY"."RESET"\n"
-// Invalid time to die.
+// A philosopher is thinking.
 # define PHILO_THINKING B_GRAY"["YELLOW"%d"B_GRAY"] "B_YELLOW"%d "B_WHITE"\
 is "B_GREEN"thinking"B_GRAY"."RESET"\n"
-// Invalid time to die.
+// A philosopher died :(
 # define PHILO_DIED B_GRAY"["RED"%d"B_GRAY"] "B_RED"%d \
 died"B_GRAY"."RESET"\n"
 
