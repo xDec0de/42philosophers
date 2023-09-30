@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 20:15:34 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/30 20:39:35 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ Here is all the data stored in this struct:
 - fork: The fork state of this philosopher (FK_X constants).
 - state: The state of this philosopher (DEAD, INACTIVE, EATING...).
 - meals: The amount of times this philosopher ate so far.
+- last_interaction: The date of the last interaction of this philosopher (millis)
 */
 typedef struct s_philo {
 	struct s_philo_info	*prog_info;
@@ -52,6 +53,7 @@ Here is all the data stored in this struct:
 - eat_num: The amount of times every philosopher must eat, this is final.
 - *forks: The amount of forks currently available at the center of the table.
 - philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
+- start_date: The date (In milliseconds) when the program started.
 */
 typedef struct s_philo_info {
 	int				amount;
@@ -160,19 +162,24 @@ died\e[1;30m.\e[0m\n"
 
 /* philosophers.c */
 
+// Exits the program and prints the err message, freeing all program info.
 void			exit_error(char *err, t_philo_info *info);
 
 /* input_parser.c */
 
+// Parses program arguments to create a t_philo_info struct
 t_philo_info	*parse_arguments(int argc, char **argv);
 
 /* philo_builder.c */
 
+// Gets the current timestamp of the program
 u_int64_t		get_current_ms(t_philo_info *info);
+// Builds all required philosophers and creates a thread for each one
 t_philo_info	*build_philosophers(t_philo_info *info);
 
 /* debug_helper.c */
 
+// Test method to debug philosopher states, may be removed.
 t_philo_info	*test_philosophers(t_philo_info *info);
 
 #endif
