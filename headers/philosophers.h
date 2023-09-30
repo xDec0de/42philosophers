@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 16:09:39 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/30 16:22:55 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include "philosopher.h"
-# include "text_colors.h"
 
 // Struct used to store program information such as parameters and philosophers
 typedef struct s_philo_info {
@@ -106,5 +105,9 @@ t_philo_info	*parse_arguments(int argc, char **argv);
 /* philo_builder.c */
 
 t_philo_info	*build_philosophers(t_philo_info *info);
+
+/* debug_helper.c */
+
+t_philo_info	*test_philosophers(t_philo_info *info);
 
 #endif
