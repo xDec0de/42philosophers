@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 18:01:54 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:18:27 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILOSOPHERS_H
 
 # include <stdio.h>
+# include <unistd.h>
 # include <limits.h>
 # include <pthread.h>
 # include <stdlib.h>
