@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/19 04:33:12 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/30 16:14:27 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 char	*get_state_name(int state)
 {
 	if (state == DEAD)
-		return RED"dead";
+		return (RED"dead");
 	else if (state == INACTIVE)
-		return YELLOW"inactive";
+		return (YELLOW"inactive");
 	else if (state == EATING)
-		return B_GREEN"eating";
+		return (B_GREEN"eating");
 	else if (state == F_EATING)
-		return B_GREEN"eating"B_GRAY" ("WHITE"Finished"B_GRAY")";
+		return (B_GREEN"eating"B_GRAY" ("WHITE"Finished"B_GRAY")");
 	else if (state == SLEEPING)
-		return MAGENTA"sleeping";
+		return (MAGENTA"sleeping");
 	else if (state == F_SLEEPING)
-		return MAGENTA"sleeping"B_GRAY" ("WHITE"Finished"B_GRAY")";
+		return (MAGENTA"sleeping"B_GRAY" ("WHITE"Finished"B_GRAY")");
 	else if (state == THINKING)
-		return B_BLUE"thinking";
-	return B_RED"broken";
+		return (B_BLUE"thinking");
+	return (B_RED"broken");
 }
 
-t_philo_info	*test_philosophers(t_philo_info* info)
+t_philo_info	*test_philosophers(t_philo_info *info)
 {
 	int		id;
 	t_philo	philo;
@@ -42,7 +42,7 @@ t_philo_info	*test_philosophers(t_philo_info* info)
 	while (id < info->amount)
 	{
 		philo = info->philo_lst[id];
-		printf(PHILO_STATE, id, get_state_name(philo.state));
+		printf(DEBUG_PREFIX PHILO_STATE, id, get_state_name(philo.state));
 		id++;
 	}
 	return (info);
