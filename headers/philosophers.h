@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 16:22:55 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:01:54 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,47 @@
 # include <limits.h>
 # include <pthread.h>
 # include <stdlib.h>
-# include "philosopher.h"
 
-// Struct used to store program information such as parameters and philosophers
+struct	s_philo_info;
+
+/* Struct used to represent an actual philosopher
+
+Here is all the data stored in this struct:
+- *prog_info: Program information, available forks are stored here.
+- th_id: The thread id of this philosopher.
+- id: The internal id of this philosopher.
+- fork: The fork state of this philosopher (FK_X constants).
+- state: The state of this philosopher (DEAD, INACTIVE, EATING...).
+- meals: The amount of times this philosopher ate so far.
+*/
+typedef struct s_philo {
+	struct s_philo_info	*prog_info;
+	pthread_t			th_id;
+	int					id;
+	int					fork;
+	int					state;
+	int					meals;
+}			t_philo;
+
+/* Struct used to store program information such as parameters and philosophers
+
+Here is all the data stored in this struct:
+- amount: The amount of philosophers, this is final.
+- die_time: The time to die for philosophers, this is final.
+- eat_time: The time to eat for philosophers, this is final.
+- sleep_time: The time to sleep for philosophers, this is final.
+- eat_num: The amount of times every philosopher must eat, this is final.
+- *forks: The amount of forks currently available at the center of the table.
+- philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
+*/
 typedef struct s_philo_info {
-	int		amount;
-	int		die_time;
-	int		eat_time;
-	int		sleep_time;
-	int		eat_num;
-	t_philo	philo_lst[MAX_PHILOSOPHERS];
+	int				amount;
+	int				die_time;
+	int				eat_time;
+	int				sleep_time;
+	int				eat_num;
+	pthread_mutex_t	*forks;
+	t_philo			philo_lst[MAX_PHILOSOPHERS];
 }				t_philo_info;
 
 /* Error messages */
@@ -93,6 +124,35 @@ is \e[1;32mthinking\e[1;30m.\e[0m\n"
 // A philosopher died :(
 # define PHILO_DIED "\e[1;30m[\e[0;31m%d\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
+
+/* Fork state constants, saved on s_philo::fork */
+
+// Philosopher doesn't have any fork, oh no.
+# define FK_NONE -1
+// Philosopher has a fork on it's RIGHT hand.
+# define FK_RIGHT 1
+// Philosopher has a fork on it's LEFT hand.
+# define FK_LEFT 2
+// Philosopher has a fork on BOTH hands, READY TO EAT!
+# define FK_BOTH 3
+
+/* Philosopher state constants, saved on s_philo::state */
+
+// Philosopher is dead and must stay like that :)
+# define DEAD -1
+/* Philosopher is inactive, this state should only apply
+ when the program is initializating philosophers */
+# define INACTIVE 0
+// Philosopher is currently EATING, next action is F(inished)_EATING.
+# define EATING 1
+// Philosopher has finished EATING and should start SLEEPING.
+# define F_EATING 2
+// Philosopher is currently SLEEPING, next action is F(inished)_SLEEPING.
+# define SLEEPING 3
+// Philosopher has finished SLEEPING and should start THINKING.
+# define F_SLEEPING 4
+// Philosopher is currently THINKING, next action is EATING.
+# define THINKING 5
 
 /* philosophers.c */
 
