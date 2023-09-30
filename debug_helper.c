@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 16:21:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 16:22:09 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/30 19:43:59 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_state_name(int state)
 t_philo_info	*test_philosophers(t_philo_info *info)
 {
 	int		id;
-	t_philo	philo;
+	t_philo	*philo;
 
 	if (!DEBUG)
 		return (info);
@@ -43,7 +43,7 @@ t_philo_info	*test_philosophers(t_philo_info *info)
 	while (id < info->amount)
 	{
 		philo = info->philo_lst[id];
-		printf(DEBUG_PREFIX PHILO_STATE, id, get_state_name(philo.state));
+		printf(DEBUG_PREFIX PHILO_STATE, id, get_state_name(philo->state));
 		id++;
 	}
 	return (info);

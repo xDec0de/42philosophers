@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 17:53:47 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/30 20:14:11 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 		info->eat_num = get_number(argv[5]);
 	else
 		info->eat_num = 1;
+	info->start_date = 0;
 	print_info(verify_info(info));
 	return (info);
 }

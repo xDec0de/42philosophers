@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 18:21:28 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/30 20:15:49 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,18 @@ int	watcher_routine(t_philo_info *info)
 {
 	int		id;
 	int		stop;
-	t_philo	philo;
+	t_philo	*philo;
 
 	id = 0;
 	stop = 1;
 	while (id < info->amount && stop == 1)
 	{
 		philo = info->philo_lst[id];
-		if (philo.state == DEAD)
+		if (philo->state == DEAD)
+		{
+			printf(PHILO_DIED, get_current_ms(info), id);
 			stop = 0;
+		}
 	}
 	return (stop);
 }

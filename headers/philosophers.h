@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 18:18:27 by danimart         ###   ########.fr       */
+/*   Updated: 2023/09/30 20:15:34 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <limits.h>
 # include <pthread.h>
 # include <stdlib.h>
+# include <sys/time.h>
 
 struct	s_philo_info;
 
@@ -38,6 +39,7 @@ typedef struct s_philo {
 	int					fork;
 	int					state;
 	int					meals;
+	u_int64_t			last_interacion;
 }			t_philo;
 
 /* Struct used to store program information such as parameters and philosophers
@@ -58,7 +60,8 @@ typedef struct s_philo_info {
 	int				sleep_time;
 	int				eat_num;
 	pthread_mutex_t	*forks;
-	t_philo			philo_lst[MAX_PHILOSOPHERS];
+	t_philo			*philo_lst[MAX_PHILOSOPHERS];
+	u_int64_t		start_date;
 }				t_philo_info;
 
 /* Error messages */
@@ -123,7 +126,7 @@ is \e[1;36msleeping\e[1;30m.\e[0m\n"
 # define PHILO_THINKING "\e[1;30m[\e[0;33m%d\e[1;30m] \e[1;33m%d \e[1;37m\
 is \e[1;32mthinking\e[1;30m.\e[0m\n"
 // A philosopher died :(
-# define PHILO_DIED "\e[1;30m[\e[0;31m%d\e[1;30m] \e[1;31m%d \
+# define PHILO_DIED "\e[1;30m[\e[0;31m%llu\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
 
 /* Fork state constants, saved on s_philo::fork */
@@ -165,6 +168,7 @@ t_philo_info	*parse_arguments(int argc, char **argv);
 
 /* philo_builder.c */
 
+u_int64_t		get_current_ms(t_philo_info *info);
 t_philo_info	*build_philosophers(t_philo_info *info);
 
 /* debug_helper.c */
