@@ -6,7 +6,7 @@
 #    By: danimart <danimart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/06 16:29:48 by danimart          #+#    #+#              #
-#    Updated: 2023/09/30 16:44:10 by danimart         ###   ########.fr        #
+#    Updated: 2023/10/01 18:42:04 by danimart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,7 @@ MAX_PHILOSOPHERS?=200
 DEBUG?=1
 
 C_FILES=philosophers.c input_parser.c philo_builder.c debug_helper.c
-CFLAGS=-DMAX_PHILOSOPHERS='$(MAX_PHILOSOPHERS)' -DDEBUG='$(DEBUG)' -Wall -Werror -Wextra -pthread
-SANITIZE=-g3 -fsanitize=address
+CFLAGS=-DMAX_PHILOSOPHERS='$(MAX_PHILOSOPHERS)' -DDEBUG='$(DEBUG)' -Wall -Werror -Wextra -pthread -g3 -fsanitize=address # REMOVE SANITIZE BEFORE EVALUATION
 
 O_FILES=$(C_FILES:.c=.o)
 
@@ -29,7 +28,8 @@ headermk:
 	\n\n\e[0;35mCommands\e[1;30m:\n"
 $(NAME): headermk $(O_FILES)
 	@printf "\n\e[0;33m-\e[1;32m "
-	$(CC)$(C_FLAGS) $(O_FILES) -o $(EXEC_NAME)
+	@printf "\e[1;31m! ! ! ! ! ! REMOVE -g3 -fsanitize=address BEFORE EVALUATION ! ! ! ! ! !\n\e[1;32m"
+	$(CC)$(C_FLAGS) $(O_FILES) -g3 -fsanitize=address -o $(EXEC_NAME)
 	@printf "\n\033[0m"
 clean:
 	@printf "\n\e[1;31m> \e[1;36mRemoving \e[1;34m$(NAME)\e[1;36m's objects...\
@@ -42,10 +42,6 @@ fclean:
 	\e[1;30m\n\n"
 	@printf "\e[0;33m-\e[1;32m "
 	rm -rf $(EXEC_NAME) $(O_FILES)
-	@printf "\n\033[0m"
-sanitize: headermk $(O_FILES)
-	@printf "\n\e[1;31m- \e[0;33mSanitize enabled\n\e[0;33m-\e[1;32m "
-	$(CC)$(C_FLAGS) $(O_FILES) -o $(EXEC_NAME) $(SANITIZE)
 	@printf "\n\033[0m"
 re: fclean $(NAME)
 .PHONY: all clean fclean re
