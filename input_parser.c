@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 20:14:11 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:13:03 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,35 @@
 
 t_philo_info	*verify_info(t_philo_info *info)
 {
+	int	errors;
+	int	one;
+
+	errors = 0;
+	one = 1;
 	if (info->amount <= 0 || info->amount > MAX_PHILOSOPHERS)
 	{
 		printf(AMOUNT_ERR, MAX_PHILOSOPHERS);
 		free(info);
-		exit(1);
+		return (NULL);
 	}
 	else if (info->amount > 200)
-		exit_error(AMOUNT_WARN, info);
+		errors += (int) print_error(AMOUNT_WARN, info, &one);
 	if (info->die_time <= 0)
-		exit_error(DIE_TIME_ERR, info);
+		errors += (int) print_error(DIE_TIME_ERR, info, &one);
 	if (info->eat_time <= 0)
-		exit_error(EAT_TIME_ERR, info);
+		errors += (int) print_error(EAT_TIME_ERR, info, &one);
 	if (info->sleep_time <= 0)
-		exit_error(SLEEP_TIME_ERR, info);
+		errors += (int) print_error(SLEEP_TIME_ERR, info, &one);
 	if (info->eat_num <= 0)
-		exit_error(EAT_NUM_ERR, info);
-	return (info);
+		errors += (int) print_error(EAT_NUM_ERR, info, &one);
+	if (errors == 0)
+		return (info);
+	return (NULL);
 }
 
 t_philo_info	*print_info(t_philo_info *info)
 {
-	if (!DEBUG)
+	if (!DEBUG || info == NULL)
 		return (info);
 	printf(DEBUG_NOTE);
 	printf(INFO_HEADER);
@@ -75,7 +82,7 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 	t_philo_info	*info;
 
 	if (argc < 5 || argc > 6)
-		exit_error(ARGC_ERR, NULL);
+		return (print_error(ARGC_ERR, NULL, NULL));
 	info = malloc(sizeof(t_philo_info));
 	info->amount = get_number(argv[1]);
 	info->die_time = get_number(argv[2]);
@@ -86,6 +93,6 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 	else
 		info->eat_num = 1;
 	info->start_date = 0;
-	print_info(verify_info(info));
-	return (info);
+	info->valid = 1;
+	return (print_info(verify_info(info)));
 }

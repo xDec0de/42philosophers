@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 12:11:33 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:37:31 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ Here is all the data stored in this struct:
 - *forks: The amount of forks currently available at the center of the table.
 - philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
 - start_date: The date (In milliseconds) when the program started.
+- valid: Either 0 or 1, only 0 when an error ocurred, to check program status.
 */
 typedef struct s_philo_info {
 	int				amount;
@@ -64,6 +65,7 @@ typedef struct s_philo_info {
 	pthread_mutex_t	*forks;
 	t_philo			*philo_lst[MAX_PHILOSOPHERS];
 	u_int64_t		start_date;
+	int				valid;
 }				t_philo_info;
 
 /* Error messages */
@@ -164,17 +166,34 @@ died\e[1;30m.\e[0m\n"
 
 /* philosophers.c */
 
-// Exits the program and prints the err message, freeing all program info.
-void			exit_error(char *err, t_philo_info *info);
+/**
+ * @brief Prints an error message, freeing all program info.
+ * @param err The error message to print
+ * @param info The program info struct, will be freed if necessary, can be NULL.
+ * @param result Whatever you want this method to return, can be NULL.
+ * @returns Whatever was specified as a result, can be NULL.
+ */
+void			*print_error(char *err, t_philo_info *info, void *result);
 
 /* input_parser.c */
 
 // Parses program arguments to create a t_philo_info struct
+/**
+ * @brief Parses program arguments to create a t_philo_info struct.
+ * @param argc The argument count of the program (Directly from main)
+ * @param argv The argument values of the program (Directly from main)
+ * @return The info struct, NULL if any argument was invalid.
+ */
 t_philo_info	*parse_arguments(int argc, char **argv);
 
 /* philo_builder.c */
 
-// Gets the current timestamp of the program
+/**
+ * @brief Get the current timestamp of the program (Milliseconds since start)
+ * @param info The program info struct, used to set and get
+ * t_philo_info::start_date.
+ * @return The current timestamp of the program, 0 if an error occurred.
+ */
 u_int64_t		get_current_ms(t_philo_info *info);
 // Builds all required philosophers and creates a thread for each one
 t_philo_info	*build_philosophers(t_philo_info *info);
