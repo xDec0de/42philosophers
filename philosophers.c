@@ -6,18 +6,20 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 13:55:01 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 18:05:13 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
 
-void	*print_error(char *err, t_philo_info *info, void *result)
+void	*free_info(char *err, t_philo_info *info, void *result)
 {
-	printf("%s", err);
-	if (info != NULL && info->valid)
+	if (err != NULL)
+		printf("%s", err);
+	if (info != NULL && info->valid != 0)
 	{
 		info->valid = 0;
+		pthread_mutex_destroy(info->forks); // Always causes Illegal instruction: 4 for some reason
 		free(info);
 	}
 	return (result);
@@ -61,6 +63,6 @@ int	main(int argc, char **argv)
 		return (2);
 	while (watcher_routine(info))
 		usleep(100);
-	free(info);
+	free_info(NULL, info, NULL);
 	return (0);
 }

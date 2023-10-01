@@ -6,11 +6,21 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 14:53:23 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 18:04:35 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
+
+t_philo_info	*init_mutex(t_philo_info *info)
+{
+	pthread_mutex_t	forks;
+
+	pthread_mutex_init(&forks, NULL);
+	info->forks = &forks;
+	pthread_mutex_unlock(info->forks);
+	return (info);
+}
 
 t_philo_info	*verify_info(t_philo_info *info)
 {
@@ -25,33 +35,18 @@ t_philo_info	*verify_info(t_philo_info *info)
 		errors++;
 	}
 	else if (info->amount > 200)
-		errors += (int) print_error(AMOUNT_WARN, info, &one);
+		errors += (int) free_info(AMOUNT_WARN, info, &one);
 	if (info->die_time <= 0)
-		errors += (int) print_error(DIE_TIME_ERR, info, &one);
+		errors += (int) free_info(DIE_TIME_ERR, info, &one);
 	if (info->eat_time <= 0)
-		errors += (int) print_error(EAT_TIME_ERR, info, &one);
+		errors += (int) free_info(EAT_TIME_ERR, info, &one);
 	if (info->sleep_time <= 0)
-		errors += (int) print_error(SLEEP_TIME_ERR, info, &one);
+		errors += (int) free_info(SLEEP_TIME_ERR, info, &one);
 	if (info->eat_num <= 0)
-		errors += (int) print_error(EAT_NUM_ERR, info, &one);
+		errors += (int) free_info(EAT_NUM_ERR, info, &one);
 	if (errors == 0)
 		return (info);
 	return (NULL);
-}
-
-t_philo_info	*print_info(t_philo_info *info)
-{
-	if (!DEBUG || info == NULL)
-		return (info);
-	printf(DEBUG_NOTE);
-	printf(INFO_HEADER);
-	printf(INFO_NUM, "Philosopher amount", info->amount);
-	printf(INFO_NUM, "Time to die", info->die_time);
-	printf(INFO_NUM, "Time to eat", info->eat_time);
-	printf(INFO_NUM, "Time to sleep", info->sleep_time);
-	printf(INFO_NUM, "Times to eat", info->eat_num);
-	printf(INFO_FOOTER);
-	return (info);
 }
 
 long	get_number(char *str)
@@ -79,8 +74,8 @@ long	get_number(char *str)
 void	*notify_argc_err(int argc)
 {
 	if (argc > 6)
-		return (print_error(ARGC_LONG, NULL, NULL));
-	print_error(ARGC_SMALL, NULL, NULL);
+		return (free_info(ARGC_LONG, NULL, NULL));
+	free_info(ARGC_SMALL, NULL, NULL);
 	if (argc < 2)
 		printf(MISSING_ARG, "Amount of philosophers");
 	if (argc < 3)
@@ -99,6 +94,8 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		return (notify_argc_err(argc));
 	info = malloc(sizeof(t_philo_info));
+	if (info == NULL)
+		return (NULL);
 	info->amount = get_number(argv[1]);
 	info->die_time = get_number(argv[2]);
 	info->eat_time = get_number(argv[3]);
@@ -109,5 +106,6 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 		info->eat_num = 1;
 	info->start_date = 0;
 	info->valid = 1;
-	return (print_info(verify_info(info)));
+	info = print_info(verify_info(init_mutex(info)));
+	return (info);
 }

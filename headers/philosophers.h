@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 14:52:50 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 17:45:38 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,9 @@ died\e[1;30m.\e[0m\n"
 
 // Philosopher doesn't have any fork, oh no.
 # define FK_NONE -1
-// Philosopher has a fork on it's RIGHT hand.
+// Philosopher has a fork on its RIGHT hand.
 # define FK_RIGHT 1
-// Philosopher has a fork on it's LEFT hand.
+// Philosopher has a fork on its LEFT hand.
 # define FK_LEFT 2
 // Philosopher has a fork on BOTH hands, READY TO EAT!
 # define FK_BOTH 3
@@ -172,13 +172,13 @@ died\e[1;30m.\e[0m\n"
 /**
  * @brief Prints an error message, freeing all program info.
  * 
- * @param err The error message to print
+ * @param err The error message to print, if NULL, nothing will be printed.
  * @param info The program info struct, will be freed if necessary, can be NULL.
  * @param result Whatever you want this method to return, can be NULL.
  * 
  * @returns Whatever was specified as a result, can be NULL.
  */
-void			*print_error(char *err, t_philo_info *info, void *result);
+void			*free_info(char *err, t_philo_info *info, void *result);
 
 /* input_parser.c */
 
@@ -218,5 +218,6 @@ t_philo_info	*build_philosophers(t_philo_info *info);
 
 // Test method to debug philosopher states, may be removed.
 t_philo_info	*test_philosophers(t_philo_info *info);
+t_philo_info	*print_info(t_philo_info *info);
 
 #endif
