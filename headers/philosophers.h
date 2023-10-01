@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 20:39:35 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 12:11:33 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ typedef struct s_philo_info {
 // Error creating a thread.
 # define THREAD_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not create\
  a new thread\e[1;30m.\e[0m\n"
+# define GET_TIME_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not get current\
+ time\e[1;30m.\e[0m\n"
 
 /* Debug messages, debug should be disabled on evaluation just in case */
 

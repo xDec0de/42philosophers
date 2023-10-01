@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/09/30 20:20:44 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 12:12:23 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ u_int64_t	get_current_ms(t_philo_info *info)
 	struct timeval	time;
 	u_int64_t		current_ms;
 
-	if (gettimeofday(&time, NULL))
+	if (gettimeofday(&time, NULL) != 0)
 	{
-		exit_error("Failed while getting current ms\n", info);
+		exit_error(GET_TIME_ERR, info);
 		return (0);
 	}
 	current_ms = ((time.tv_sec * (u_int64_t) 1000) + (time.tv_usec / 1000));
