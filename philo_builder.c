@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 13:22:42 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:41:34 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 
 	id = 0;
 	philo = (t_philo *) malloc(sizeof(t_philo));
+	if (philo == NULL)
+		return (NULL);
 	while (id < info->amount)
 	{
 		philo->prog_info = info;

@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 13:12:37 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:42:48 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,11 @@ int	main(int argc, char **argv)
 	info = parse_arguments(argc, argv);
 	if (info == NULL)
 		return (1);
-	else
-		printf("Arguments parsed\n");
 	info = build_philosophers(info);
 	if (info == NULL)
 		return (2);
 	while (watcher_routine(info))
-		usleep(1000);
+		usleep(100);
 	free(info);
 	return (0);
 }

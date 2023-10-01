@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 13:37:31 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:40:57 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,11 @@ died\e[1;30m.\e[0m\n"
 
 /**
  * @brief Prints an error message, freeing all program info.
+ * 
  * @param err The error message to print
  * @param info The program info struct, will be freed if necessary, can be NULL.
  * @param result Whatever you want this method to return, can be NULL.
+ * 
  * @returns Whatever was specified as a result, can be NULL.
  */
 void			*print_error(char *err, t_philo_info *info, void *result);
@@ -180,8 +182,10 @@ void			*print_error(char *err, t_philo_info *info, void *result);
 // Parses program arguments to create a t_philo_info struct
 /**
  * @brief Parses program arguments to create a t_philo_info struct.
+ * 
  * @param argc The argument count of the program (Directly from main)
  * @param argv The argument values of the program (Directly from main)
+ * 
  * @return The info struct, NULL if any argument was invalid.
  */
 t_philo_info	*parse_arguments(int argc, char **argv);
@@ -190,12 +194,21 @@ t_philo_info	*parse_arguments(int argc, char **argv);
 
 /**
  * @brief Get the current timestamp of the program (Milliseconds since start)
+ * 
  * @param info The program info struct, used to set and get
  * t_philo_info::start_date.
+ * 
  * @return The current timestamp of the program, 0 if an error occurred.
  */
 u_int64_t		get_current_ms(t_philo_info *info);
-// Builds all required philosophers and creates a thread for each one
+/**
+ * @brief Builds all required philosophers and creates a thread for each one.
+ * 
+ * @param info The program info struct.
+ * 
+ * @return The program info struct with all created philosophers,
+ * NULL if any error occurs.
+ */
 t_philo_info	*build_philosophers(t_philo_info *info);
 
 /* debug_helper.c */
