@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 13:50:12 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 14:53:23 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,28 @@ long	get_number(char *str)
 	return (res);
 }
 
+void	*notify_argc_err(int argc)
+{
+	if (argc > 6)
+		return (print_error(ARGC_LONG, NULL, NULL));
+	print_error(ARGC_SMALL, NULL, NULL);
+	if (argc < 2)
+		printf(MISSING_ARG, "Amount of philosophers");
+	if (argc < 3)
+		printf(MISSING_ARG, "Time to die");
+	if (argc < 4)
+		printf(MISSING_ARG, "Time to eat");
+	if (argc < 5)
+		printf(MISSING_ARG, "Time to sleep");
+	return (NULL);
+}
+
 t_philo_info	*parse_arguments(int argc, char **argv)
 {
 	t_philo_info	*info;
 
 	if (argc < 5 || argc > 6)
-		return (print_error(ARGC_ERR, NULL, NULL));
+		return (notify_argc_err(argc));
 	info = malloc(sizeof(t_philo_info));
 	info->amount = get_number(argv[1]);
 	info->die_time = get_number(argv[2]);

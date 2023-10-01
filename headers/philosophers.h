@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 13:48:53 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 14:52:50 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ typedef struct s_philo_info {
 /* Error messages */
 
 // Invalid argument count.
-# define ARGC_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid input\
+# define ARGC_LONG "\e[0;31mError\e[1;30m: \e[1;31mToo many arguments\
 \e[1;30m.\e[0m\n"
+# define ARGC_SMALL "\e[0;31mError\e[1;30m: \e[1;31mThe following\
+ program arguments are missing\e[1;30m:\e[0m\n"
+# define MISSING_ARG " \e[1;30m- \e[0;31m%s\e[1;30m.\e[0m\n"
 // Invalid amount of philosophers.
 # define AMOUNT_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid number\
  of philosophers \e[1;30m[\e[1;33m1\e[1;30m-\e[1;33m%d\e[1;30m]\e[0m\n"
