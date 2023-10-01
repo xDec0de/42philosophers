@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 13:40:57 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:48:53 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_philo_info {
 \e[1;30m.\e[0m\n"
 // Invalid amount of philosophers.
 # define AMOUNT_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid number\
- of philosophers \e[1;30m(\e[1;33mMax is %d\e[1;30m)\e[0m\n"
+ of philosophers \e[1;30m[\e[1;33m1\e[1;30m-\e[1;33m%d\e[1;30m]\e[0m\n"
 // Warn philosophers over 200 if a higher amount is allowed.
 # define AMOUNT_WARN "\e[0;33mWarning\e[1;30m: \e[1;33mUsing over\
  200 philosophers is not recommended\e[1;30m.\e[0m\n"

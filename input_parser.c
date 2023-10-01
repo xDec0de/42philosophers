@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 13:13:03 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:50:12 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ t_philo_info	*verify_info(t_philo_info *info)
 	if (info->amount <= 0 || info->amount > MAX_PHILOSOPHERS)
 	{
 		printf(AMOUNT_ERR, MAX_PHILOSOPHERS);
-		free(info);
-		return (NULL);
+		errors++;
 	}
 	else if (info->amount > 200)
 		errors += (int) print_error(AMOUNT_WARN, info, &one);
