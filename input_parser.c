@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 18:11:29 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 19:24:16 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_philo_info	*verify_info(t_philo_info *info)
 		errors += (int) free_info(EAT_TIME_ERR, NULL, &one);
 	if (info->sleep_time <= 0)
 		errors += (int) free_info(SLEEP_TIME_ERR, NULL, &one);
-	if (info->eat_num <= 0)
+	if (info->eat_num < 0)
 		errors += (int) free_info(EAT_NUM_ERR, NULL, &one);
 	if (DEBUG)
 		printf(DEBUG_PREFIX" Input errors = %i\n", errors);
@@ -113,7 +113,7 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 	if (argc == 6)
 		info->eat_num = get_number(argv[5]);
 	else
-		info->eat_num = 1;
+		info->eat_num = 0;
 	info = print_info(verify_info(info));
 	return (info);
 }

@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 16:21:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 18:14:54 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 19:24:21 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ t_philo_info	*print_info(t_philo_info *info)
 	printf(INFO_NUM, "Time to die", info->die_time);
 	printf(INFO_NUM, "Time to eat", info->eat_time);
 	printf(INFO_NUM, "Time to sleep", info->sleep_time);
-	printf(INFO_NUM, "Times to eat", info->eat_num);
+	if (info->eat_num == 0)
+		printf(INFO_STR, "Times to eat", "unlimited");
+	else
+		printf(INFO_NUM, "Times to eat", info->eat_num);
 	printf(INFO_FOOTER);
 	return (info);
 }

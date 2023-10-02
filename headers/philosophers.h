@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 18:10:54 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 19:18:50 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ typedef struct s_philo_info {
  \e[1;33mmake re DEBUG=0 \e[1;37mto disable\e[1;30m.\e[0m\n"
 // Header of the program info
 # define INFO_HEADER "\n\e[0;37m|-------------------------->\e[0m\n"
+// Info slot about the program with a string value
+# define INFO_STR "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%s\e[0m\n"
 // Info slot about the program with a numeric value
 # define INFO_NUM "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%d\e[0m\n"
 // Footer of the program info
@@ -114,8 +116,6 @@ typedef struct s_philo_info {
 // Prefix used for debug messages
 # define DEBUG_PREFIX "\e[1;30m[\e[1;37mDEBUG\e[1;30m]\e[0m"
 // Philosopher state debug message
-# define PHILO_STATE " \e[0;37mPhilosopher \e[0;33m%i\e[0;37m\
- is %s\e[1;30m.\e[0m\n"
 
 /* Philosopher log messages */
 
