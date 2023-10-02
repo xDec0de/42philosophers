@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 17:54:43 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:15:49 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 		info->philo_lst[id] = philo;
 		id++;
 	}
-	return (test_philosophers(info));
+	return (info);
 }

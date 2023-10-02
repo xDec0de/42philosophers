@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 18:05:10 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:10:54 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ Here is all the data stored in this struct:
 - eat_time: The time to eat for philosophers, this is final.
 - sleep_time: The time to sleep for philosophers, this is final.
 - eat_num: The amount of times every philosopher must eat, this is final.
-- *forks: The amount of forks currently available at the center of the table.
 - philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
 - start_date: The date (In milliseconds) when the program started.
+- m_print: Mutex for message printing (printf calls).
 - valid: Either 0 or 1, only 0 when an error ocurred, to check program status.
 */
 typedef struct s_philo_info {
@@ -62,9 +62,9 @@ typedef struct s_philo_info {
 	int				eat_time;
 	int				sleep_time;
 	int				eat_num;
-	pthread_mutex_t	*forks;
 	t_philo			*philo_lst[MAX_PHILOSOPHERS];
 	u_int64_t		start_date;
+	pthread_mutex_t	*m_print;
 	int				valid;
 }				t_philo_info;
 

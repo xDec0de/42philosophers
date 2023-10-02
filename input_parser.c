@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 17:51:21 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:11:29 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 t_philo_info	*init_info(void)
 {
 	t_philo_info	*info;
-	pthread_mutex_t	forks;
+	pthread_mutex_t	m_print;
 
 	info = malloc(sizeof(t_philo_info));
 	if (info == NULL)
 		return (NULL);
-	info->forks = &forks;
-	pthread_mutex_init(info->forks, NULL);
+	info->m_print = &m_print;
+	pthread_mutex_init(info->m_print, NULL);
 	info->start_date = 0;
 	info->valid = 1;
 	if (DEBUG)

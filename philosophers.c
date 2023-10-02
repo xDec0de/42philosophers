@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 17:52:27 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:25:58 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 		printf("%s", err);
 	if (info != NULL)
 	{
-		pthread_mutex_destroy(info->forks);
 		info->valid = 0;
 		free(info);
 	}

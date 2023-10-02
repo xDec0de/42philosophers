@@ -6,18 +6,27 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 18:04:30 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:27:37 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
 
+void	print_philo_msg(char *message, t_philo *philo)
+{
+	pthread_mutex_lock(philo->prog_info->m_print);
+	printf(message, get_current_ms(philo->prog_info), philo->id);
+	pthread_mutex_unlock(philo->prog_info->m_print);
+}
+
 void	start_sleep(t_philo *philo)
 {
-	printf(PHILO_SLEEPING, get_current_ms(philo->prog_info), philo->id);
+	pthread_mutex_lock(philo->prog_info->m_print);
+	print_philo_msg(PHILO_SLEEPING, philo);
 	philo->state = SLEEPING;
 	usleep(philo->prog_info->sleep_time * 1000);
 	philo->state = F_SLEEPING;
+	pthread_mutex_unlock(philo->prog_info->m_print);
 }
 
 void	*philo_routine(void *philo_ptr)
