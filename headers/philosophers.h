@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 19:18:50 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 20:59:08 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ Here is all the data stored in this struct:
 - th_id: The thread id of this philosopher.
 - id: The internal id of this philosopher.
 - fork: The fork state of this philosopher (FK_X constants).
+- m_state: Mutex to interact with t_philo::state
 - state: The state of this philosopher (DEAD, INACTIVE, EATING...).
 - meals: The amount of times this philosopher ate so far.
 - last_interaction: The date of the last interaction of this philosopher (millis)
@@ -38,6 +39,7 @@ typedef struct s_philo {
 	pthread_t			th_id;
 	int					id;
 	int					fork;
+	pthread_mutex_t		*m_state;
 	int					state;
 	int					meals;
 	u_int64_t			last_interacion;
@@ -204,6 +206,7 @@ t_philo_info	*parse_arguments(int argc, char **argv);
  * @return The current timestamp of the program, 0 if an error occurred.
  */
 u_int64_t		get_current_ms(t_philo_info *info);
+
 /**
  * @brief Builds all required philosophers and creates a thread for each one.
  * 
@@ -215,12 +218,46 @@ u_int64_t		get_current_ms(t_philo_info *info);
 t_philo_info	*build_philosophers(t_philo_info *info);
 
 /* philo_handler.c */
+
+/**
+ * @brief Changes the state of a philosopher, the state will
+ * be changed safely and a state change message will be printed,
+ * also safely. But the philosopher won't start any action, this
+ * is just to change data internally and to notify about changes.
+ * 
+ * @param philo the philosopher to change.
+ * @param state the new state of the philosopher.
+ * 
+ * @return The same philosopher that was supplied to this function.
+ */
+t_philo			*set_philo_state(t_philo *philo, int state);
+
+/**
+ * @brief Starts the routine of a philosopher.
+ * 
+ * @param philo_ptr a void pointer of any philosopher (t_philo).
+ * 
+ * @return The same pointer that was supplied to this function,
+ * this is pretty irrelevant as this is meant to run on a different
+ * thread for any amount of time.
+ */
 void			*philo_routine(void *philo_ptr);
+
+/* utils.c */
+
+/**
+ * @brief Creates a mutex, handling any error that occurs by returning
+ * NULL and printing the error. Info won't be freed.
+ * 
+ * @param errors A nullable integer pointer that will increase by one
+ * if pthread_mutex_init fails.
+ * 
+ * @return A new pthread_mutex_t pointer. NULL if any error occurs.
+ */
+pthread_mutex_t	*mutex_init(int	*errors);
 
 /* debug_helper.c */
 
-// Test method to debug philosopher states, may be removed.
-t_philo_info	*test_philosophers(t_philo_info *info);
 t_philo_info	*print_info(t_philo_info *info);
 
 #endif

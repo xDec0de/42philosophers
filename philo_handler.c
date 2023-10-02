@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 19:13:29 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 20:20:42 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,35 @@
 void	p_eat(t_philo *philo);
 void	p_sleep(t_philo *philo);
 
-void	print_philo_msg(char *message, t_philo *philo)
+t_philo	*set_philo_state(t_philo *philo, int state)
 {
+	char	*state_str;
+
+	if (state == DEAD)
+		state_str = PHILO_DIED;
+	else if (state == THINKING)
+		state_str = PHILO_THINKING;
+	else if (state == SLEEPING)
+		state_str = PHILO_SLEEPING;
+	pthread_mutex_lock(philo->m_state);
+	philo->state = state;
 	pthread_mutex_lock(philo->prog_info->m_print);
-	printf(message, get_current_ms(philo->prog_info), philo->id);
+	printf(state_str, get_current_ms(philo->prog_info), philo->id);
 	pthread_mutex_unlock(philo->prog_info->m_print);
+	pthread_mutex_unlock(philo->m_state);
+	return (philo);
 }
 
 void	p_eat(t_philo *philo)
 {
-	philo->state = THINKING;
-	pthread_mutex_lock(philo->prog_info->m_print);
-	print_philo_msg(PHILO_THINKING, philo);
-	pthread_mutex_unlock(philo->prog_info->m_print);
+	set_philo_state(philo, THINKING);
 	// Eating logic here...
 	p_sleep(philo);
 }
 
 void	p_sleep(t_philo *philo)
 {
-	pthread_mutex_lock(philo->prog_info->m_print);
-	print_philo_msg(PHILO_SLEEPING, philo);
-	pthread_mutex_unlock(philo->prog_info->m_print);
-	philo->state = SLEEPING;
+	set_philo_state(philo, SLEEPING);
 	usleep(philo->prog_info->sleep_time * 1000);
 	// Attempt to eat again... We just kill the philosopher now to end the program.
 	philo->state = DEAD;

@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 18:15:49 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 20:54:02 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,37 @@ u_int64_t	get_current_ms(t_philo_info *info)
 	return (current_ms - info->start_date);
 }
 
-pthread_t	create_philo_thread(t_philo *philo)
+pthread_t	create_philo_thread(t_philo *philo, int *errors)
 {
 	pthread_t	thread;
+	int			result;
 
-	pthread_create(&thread, NULL, &philo_routine, philo);
+	result = pthread_create(&thread, NULL, &philo_routine, philo);
+	if (result == 0)
+		return (thread);
+	if (errors != NULL)
+		*errors += 1;
 	return (thread);
+}
+
+t_philo	*buid_philo(int id)
+{
+	t_philo	*philo;
+	int		errors;
+
+	philo = (t_philo *) malloc(sizeof(t_philo));
+	if (philo == NULL)
+		return (NULL);
+	errors = 0;
+	philo->id = id;
+	philo->fork = FK_NONE;
+	philo->state = INACTIVE;
+	philo->meals = 0;
+	philo->th_id = create_philo_thread(philo, &errors);
+	philo->m_state = mutex_init(&errors);
+	if (errors != 0)
+		return (NULL);
+	return (philo);
 }
 
 t_philo_info	*build_philosophers(t_philo_info *info)
@@ -39,18 +64,13 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 	int		id;
 
 	id = 0;
-	philo = (t_philo *) malloc(sizeof(t_philo));
-	if (philo == NULL)
-		return (NULL);
 	while (id < info->amount)
 	{
-		philo->prog_info = info;
-		philo->id = id;
-		philo->fork = FK_NONE;
-		philo->state = INACTIVE;
-		philo->meals = 0;
+		philo = buid_philo(id);
+		if (philo == NULL)
+			return (NULL);
 		philo->last_interacion = get_current_ms(info);
-		philo->th_id = create_philo_thread(philo);
+		philo->prog_info = info;
 		info->philo_lst[id] = philo;
 		id++;
 	}
