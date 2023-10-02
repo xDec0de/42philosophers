@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 20:54:02 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 21:04:23 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ pthread_t	create_philo_thread(t_philo *philo, int *errors)
 	result = pthread_create(&thread, NULL, &philo_routine, philo);
 	if (result == 0)
 		return (thread);
+	printf(THREAD_ERR);
 	if (errors != NULL)
 		*errors += 1;
 	return (thread);

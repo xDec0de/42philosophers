@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 20:56:44 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 21:04:18 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ pthread_mutex_t	*mutex_init(int *errors)
 	mutex_ptr = &mutex;
 	if (result == 0)
 		return (mutex_ptr);
+	printf(MUTEX_ERR);
 	if (errors != NULL)
 		*errors += 1;
 	return (NULL);

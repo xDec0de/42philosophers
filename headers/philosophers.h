@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 20:59:08 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 21:01:40 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_philo_info {
 	int				valid;
 }				t_philo_info;
 
-/* Error messages */
+/* Input error messages */
 
 // Invalid argument count.
 # define ARGC_LONG "\e[0;31mError\e[1;30m: \e[1;31mToo many arguments\
@@ -96,11 +96,17 @@ typedef struct s_philo_info {
 // Invalid amount of times to eat.
 # define EAT_NUM_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid amount\
  of times to eat\e[1;30m.\e[0m\n"
+
+/* External error messages */
 // Error creating a thread.
 # define THREAD_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not create\
  a new thread\e[1;30m.\e[0m\n"
+// Error getting the current time day
 # define GET_TIME_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not get current\
  time\e[1;30m.\e[0m\n"
+// Error creating a mutex
+# define MUTEX_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not create\
+ a new mutex\e[1;30m.\e[0m\n"
 
 /* Debug messages, debug should be disabled on evaluation just in case */
 
@@ -117,7 +123,6 @@ typedef struct s_philo_info {
 # define INFO_FOOTER "\e[0;37m|-------------------------->\e[0m\n\n"
 // Prefix used for debug messages
 # define DEBUG_PREFIX "\e[1;30m[\e[1;37mDEBUG\e[1;30m]\e[0m"
-// Philosopher state debug message
 
 /* Philosopher log messages */
 
