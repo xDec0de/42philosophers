@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 17:45:38 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:05:10 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,19 +120,19 @@ typedef struct s_philo_info {
 /* Philosopher log messages */
 
 // A philosopher takes a fork (Right hand).
-# define PHILO_TAKE_RFORK "\e[1;30m[\e[0;33m%d\e[1;30m] \e[1;33m%d \e[1;37m\
+# define PHILO_TAKE_RFORK "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 has taken a \e[1;33mfork \e[1;30m(\e[1;34mRight\e[1;30m)\e[0m\n"
 // A philosopher takes a fork (Left hand).
-# define PHILO_TAKE_LFORK "\e[1;30m[\e[0;33m%d\e[1;30m] \e[1;33m%d \e[1;37m\
+# define PHILO_TAKE_LFORK "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 has taken a \e[1;33mfork \e[1;30m(\e[1;34mLeft\e[1;30m)\e[0m\n"
 // A philosopher is eating
-# define PHILO_EATING "\e[1;30m[\e[0;33m%d\e[1;30m] \e[1;33m%d \e[1;37m\
+# define PHILO_EATING "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 is \e[1;35mmeating\e[1;30m.\e[0m\n"
 // A philosopher is sleeping.
-# define PHILO_SLEEPING "\e[1;30m[\e[0;33m%d\e[1;30m] \e[1;33m%d \e[1;37m\
+# define PHILO_SLEEPING "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 is \e[1;36msleeping\e[1;30m.\e[0m\n"
 // A philosopher is thinking.
-# define PHILO_THINKING "\e[1;30m[\e[0;33m%d\e[1;30m] \e[1;33m%d \e[1;37m\
+# define PHILO_THINKING "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 is \e[1;32mthinking\e[1;30m.\e[0m\n"
 // A philosopher died :(
 # define PHILO_DIED "\e[1;30m[\e[0;31m%llu\e[1;30m] \e[1;31m%d \
@@ -213,6 +213,9 @@ u_int64_t		get_current_ms(t_philo_info *info);
  * NULL if any error occurs.
  */
 t_philo_info	*build_philosophers(t_philo_info *info);
+
+/* philo_handler.c */
+void			*philo_routine(void *philo_ptr);
 
 /* debug_helper.c */
 
