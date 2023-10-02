@@ -6,19 +6,27 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 18:04:35 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:51:21 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
+#include "headers/text_colors.h"
 
-t_philo_info	*init_mutex(t_philo_info *info)
+t_philo_info	*init_info(void)
 {
+	t_philo_info	*info;
 	pthread_mutex_t	forks;
 
-	pthread_mutex_init(&forks, NULL);
+	info = malloc(sizeof(t_philo_info));
+	if (info == NULL)
+		return (NULL);
 	info->forks = &forks;
-	pthread_mutex_unlock(info->forks);
+	pthread_mutex_init(info->forks, NULL);
+	info->start_date = 0;
+	info->valid = 1;
+	if (DEBUG)
+		printf("\n"DEBUG_PREFIX" Info and mutex initiaized\n");
 	return (info);
 }
 
@@ -35,18 +43,20 @@ t_philo_info	*verify_info(t_philo_info *info)
 		errors++;
 	}
 	else if (info->amount > 200)
-		errors += (int) free_info(AMOUNT_WARN, info, &one);
+		errors += (int) free_info(AMOUNT_WARN, NULL, &one);
 	if (info->die_time <= 0)
-		errors += (int) free_info(DIE_TIME_ERR, info, &one);
+		errors += (int) free_info(DIE_TIME_ERR, NULL, &one);
 	if (info->eat_time <= 0)
-		errors += (int) free_info(EAT_TIME_ERR, info, &one);
+		errors += (int) free_info(EAT_TIME_ERR, NULL, &one);
 	if (info->sleep_time <= 0)
-		errors += (int) free_info(SLEEP_TIME_ERR, info, &one);
+		errors += (int) free_info(SLEEP_TIME_ERR, NULL, &one);
 	if (info->eat_num <= 0)
-		errors += (int) free_info(EAT_NUM_ERR, info, &one);
+		errors += (int) free_info(EAT_NUM_ERR, NULL, &one);
+	if (DEBUG)
+		printf(DEBUG_PREFIX" Input errors = %i\n", errors);
 	if (errors == 0)
 		return (info);
-	return (NULL);
+	return (free_info(NULL, info, NULL));
 }
 
 long	get_number(char *str)
@@ -93,7 +103,7 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 		return (notify_argc_err(argc));
-	info = malloc(sizeof(t_philo_info));
+	info = init_info();
 	if (info == NULL)
 		return (NULL);
 	info->amount = get_number(argv[1]);
@@ -104,8 +114,6 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 		info->eat_num = get_number(argv[5]);
 	else
 		info->eat_num = 1;
-	info->start_date = 0;
-	info->valid = 1;
-	info = print_info(verify_info(init_mutex(info)));
+	info = print_info(verify_info(info));
 	return (info);
 }
