@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/01 18:05:13 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:52:27 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 {
 	if (err != NULL)
 		printf("%s", err);
-	if (info != NULL && info->valid != 0)
+	if (info != NULL)
 	{
+		pthread_mutex_destroy(info->forks);
 		info->valid = 0;
-		pthread_mutex_destroy(info->forks); // Always causes Illegal instruction: 4 for some reason
 		free(info);
 	}
 	return (result);
@@ -55,6 +55,8 @@ int	main(int argc, char **argv)
 	t_philo_info	*info;
 
 	atexit(leaks);
+	if (DEBUG)
+		printf("\n"DEBUG_NOTE);
 	info = parse_arguments(argc, argv);
 	if (info == NULL)
 		return (1);
