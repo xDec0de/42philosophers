@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 19:33:55 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 20:57:03 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ Here is all the data stored in this struct:
 */
 typedef struct s_philo_info {
 	int				amount;
-	int				die_time;
+	u_int64_t		die_time;
 	int				eat_time;
 	int				sleep_time;
 	int				eat_num;
@@ -122,8 +122,10 @@ typedef struct s_philo_info {
 # define INFO_HEADER "\n\e[0;37m|-------------------------->\e[0m\n"
 // Info slot about the program with a string value
 # define INFO_STR "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%s\e[0m\n"
-// Info slot about the program with a numeric value
-# define INFO_NUM "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%d\e[0m\n"
+// Info slot about the program with a integer value
+# define INFO_INT "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%d\e[0m\n"
+// Info slot about the program with a unsigned long long value
+# define INFO_LONG "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%llu\e[0m\n"
 // Footer of the program info
 # define INFO_FOOTER "\e[0;37m|-------------------------->\e[0m\n\n"
 // Prefix used for debug messages
