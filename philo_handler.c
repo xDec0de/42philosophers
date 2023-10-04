@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 20:20:42 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:13:11 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 	return (philo);
 }
 
+t_philo	*get_left_philo(t_philo *philo)
+{
+	int	id;
+	int	max;
+
+	id = philo->id;
+	max = philo->prog_info->amount;
+	if (id == 0)
+		return (philo->prog_info->philo_lst[max - 1]);
+	return (philo->prog_info->philo_lst[id - 1]);
+}
+
 void	p_eat(t_philo *philo)
 {
 	set_philo_state(philo, THINKING);
@@ -55,6 +67,7 @@ void	*philo_routine(void *philo_ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *) philo_ptr;
+	printf("Left philo of %i is %i\n", philo->id, get_left_philo(philo)->id);
 	p_eat(philo);
 	if (philo->state == DEAD)
 		return (philo_ptr);
