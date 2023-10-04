@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 17:46:12 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:52:20 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ t_philo	*buid_philo(int id)
 	philo->meals = 0;
 	philo->th_id = create_philo_thread(philo, &errors);
 	philo->m_state = mutex_init(&errors);
+	philo->m_fork = mutex_init(&errors);
+	philo->m_meal = mutex_init(&errors);
 	if (errors != 0)
 		return (NULL);
 	return (philo);
@@ -70,7 +72,7 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 		philo = buid_philo(id);
 		if (philo == NULL)
 			return (free_info(NULL, info, NULL));
-		philo->last_interacion = get_current_ms(info);
+		philo->last_meal = get_current_ms(info);
 		philo->prog_info = info;
 		info->philo_lst[id] = philo;
 		id++;

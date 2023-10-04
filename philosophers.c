@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 19:23:45 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:53:42 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,12 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 		id = 0;
 		info->valid = 0;
 		pthread_mutex_destroy(info->m_print);
-		if (DEBUG)
-			printf(DEBUG_PREFIX" Destroyed printf mutex.\n");
 		while (id < info->amount && info->philo_lst[id] != NULL)
 		{
 			pthread_mutex_destroy(info->philo_lst[id]->m_state);
+			pthread_mutex_destroy(info->philo_lst[id]->m_fork);
+			pthread_mutex_destroy(info->philo_lst[id]->m_meal);
 			pthread_detach(info->philo_lst[id]->th_id);
-			if (DEBUG)
-				printf(DEBUG_PREFIX" Destroyed philosopher %i.\n", id);
 			id++;
 		}
 		free(info);
