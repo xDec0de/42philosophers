@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 17:43:22 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:24:51 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,9 +263,5 @@ void			*philo_routine(void *philo_ptr);
  * @return A new pthread_mutex_t pointer. NULL if any error occurs.
  */
 pthread_mutex_t	*mutex_init(int	*errors);
-
-/* debug_helper.c */
-
-t_philo_info	*print_info(t_philo_info *info);
 
 #endif

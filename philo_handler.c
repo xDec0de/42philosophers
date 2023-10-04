@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 19:13:11 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:18:10 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	*philo_routine(void *philo_ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *) philo_ptr;
-	printf("Left philo of %i is %i\n", philo->id, get_left_philo(philo)->id);
 	p_eat(philo);
 	if (philo->state == DEAD)
 		return (philo_ptr);
