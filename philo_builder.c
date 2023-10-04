@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 21:04:23 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:46:12 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_philo	*buid_philo(int id)
 
 	philo = (t_philo *) malloc(sizeof(t_philo));
 	if (philo == NULL)
-		return (NULL);
+		return (free_info(MALLOC_ERR, NULL, NULL));
 	errors = 0;
 	philo->id = id;
 	philo->fork = FK_NONE;
@@ -69,7 +69,7 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 	{
 		philo = buid_philo(id);
 		if (philo == NULL)
-			return (NULL);
+			return (free_info(NULL, info, NULL));
 		philo->last_interacion = get_current_ms(info);
 		philo->prog_info = info;
 		info->philo_lst[id] = philo;

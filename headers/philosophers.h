@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/02 21:01:40 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:43:22 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_philo_info {
  of times to eat\e[1;30m.\e[0m\n"
 
 /* External error messages */
+
 // Error creating a thread.
 # define THREAD_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not create\
  a new thread\e[1;30m.\e[0m\n"
@@ -107,6 +108,8 @@ typedef struct s_philo_info {
 // Error creating a mutex
 # define MUTEX_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not create\
  a new mutex\e[1;30m.\e[0m\n"
+// Error while calling malloc
+# define MALLOC_ERR "\e[0;31mError\e[1;30m: \e[1;31mMalloc failed\e[1;30m.\e[0m\n"
 
 /* Debug messages, debug should be disabled on evaluation just in case */
 
