@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 19:18:10 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:25:39 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,6 @@
 
 void	p_eat(t_philo *philo);
 void	p_sleep(t_philo *philo);
-
-t_philo	*set_philo_state(t_philo *philo, int state)
-{
-	char	*state_str;
-
-	if (state == DEAD)
-		state_str = PHILO_DIED;
-	else if (state == THINKING)
-		state_str = PHILO_THINKING;
-	else if (state == SLEEPING)
-		state_str = PHILO_SLEEPING;
-	pthread_mutex_lock(philo->m_state);
-	philo->state = state;
-	pthread_mutex_lock(philo->prog_info->m_print);
-	printf(state_str, get_current_ms(philo->prog_info), philo->id);
-	pthread_mutex_unlock(philo->prog_info->m_print);
-	pthread_mutex_unlock(philo->m_state);
-	return (philo);
-}
 
 t_philo	*get_left_philo(t_philo *philo)
 {

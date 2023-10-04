@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 19:24:51 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:27:13 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,19 +228,6 @@ t_philo_info	*build_philosophers(t_philo_info *info);
 /* philo_handler.c */
 
 /**
- * @brief Changes the state of a philosopher, the state will
- * be changed safely and a state change message will be printed,
- * also safely. But the philosopher won't start any action, this
- * is just to change data internally and to notify about changes.
- * 
- * @param philo the philosopher to change.
- * @param state the new state of the philosopher.
- * 
- * @return The same philosopher that was supplied to this function.
- */
-t_philo			*set_philo_state(t_philo *philo, int state);
-
-/**
  * @brief Starts the routine of a philosopher.
  * 
  * @param philo_ptr a void pointer of any philosopher (t_philo).
@@ -251,7 +238,7 @@ t_philo			*set_philo_state(t_philo *philo, int state);
  */
 void			*philo_routine(void *philo_ptr);
 
-/* utils.c */
+/* mutex_helper.c */
 
 /**
  * @brief Creates a mutex, handling any error that occurs by returning
@@ -263,5 +250,18 @@ void			*philo_routine(void *philo_ptr);
  * @return A new pthread_mutex_t pointer. NULL if any error occurs.
  */
 pthread_mutex_t	*mutex_init(int	*errors);
+
+/**
+ * @brief Changes the state of a philosopher, the state will
+ * be changed safely and a state change message will be printed,
+ * also safely. But the philosopher won't start any action, this
+ * is just to change data internally and to notify about changes.
+ * 
+ * @param philo the philosopher to change.
+ * @param state the new state of the philosopher.
+ * 
+ * @return The same philosopher that was supplied to this function.
+ */
+t_philo			*set_philo_state(t_philo *philo, int state);
 
 #endif
