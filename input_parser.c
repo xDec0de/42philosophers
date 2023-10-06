@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 20:36:22 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 21:05:19 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_philo_info	*verify_info(t_philo_info *info)
 	return (free_info(NULL, info, NULL));
 }
 
-long	get_number(char *str)
+unsigned long long	get_number(char *str)
 {
 	int		i;
 	long	res;
@@ -73,11 +73,11 @@ long	get_number(char *str)
 		if (str[i] >= '0' && str[i] <= '9')
 			res = (res * 10) + (str[i] - '0');
 		else
-			return (-1);
+			return (0);
 		i++;
 	}
 	if (res > INT_MAX)
-		return (-2);
+		return (0);
 	return (res);
 }
 
