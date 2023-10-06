@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 20:57:03 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 17:17:35 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,21 +165,14 @@ died\e[1;30m.\e[0m\n"
 
 /* Philosopher state constants, saved on s_philo::state */
 
-// Philosopher is dead and must stay like that :)
-# define DEAD -1
-/* Philosopher is inactive, this state should only apply
- when the program is initializating philosophers */
-# define INACTIVE 0
-// Philosopher is currently EATING, next action is F(inished)_EATING.
+// Philosopher is dead and must stay like that, sorry :)
+# define DEAD 0
+// Philosopher is currently EATING, next action is SLEEPING.
 # define EATING 1
-// Philosopher has finished EATING and should start SLEEPING.
-# define F_EATING 2
-// Philosopher is currently SLEEPING, next action is F(inished)_SLEEPING.
-# define SLEEPING 3
+// Philosopher is currently SLEEPING, next action is THINKING.
+# define SLEEPING 2
 // Philosopher has finished SLEEPING and should start THINKING.
-# define F_SLEEPING 4
-// Philosopher is currently THINKING, next action is EATING.
-# define THINKING 5
+# define THINKING 3
 
 /* philosophers.c */
 
