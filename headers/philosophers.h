@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 17:17:35 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 17:30:53 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ struct	s_philo_info;
 /* Struct used to represent an actual philosopher
 
 Here is all the data stored in this struct:
-- *prog_info: Program information, available forks are stored here.
+- *prog_info: Program info, ONLY to access the print mutex and fork availability.
 - th_id: The thread id of this philosopher.
 - id: The internal id of this philosopher.
+- *m_fork: Mutex to interact with t_philo::fork
 - fork: The fork state of this philosopher (FK_X constants).
-- m_state: Mutex to interact with t_philo::state
-- state: The state of this philosopher (DEAD, INACTIVE, EATING...).
+- *m_state: Mutex to interact with t_philo::state
+- state: The state of this philosopher (DEAD, EATING, SLEEPING or THINKING).
+- *m_meal: Mutex to interact with t_philo::meals
 - meals: The amount of times this philosopher ate so far.
-- last_interaction: The date of the last interaction of this philosopher (millis)
+- last_meal: The date of the last meal of this philosopher (millis)
 */
 typedef struct s_philo {
 	struct s_philo_info	*prog_info;
@@ -55,9 +57,9 @@ Here is all the data stored in this struct:
 - eat_time: The time to eat for philosophers, this is final.
 - sleep_time: The time to sleep for philosophers, this is final.
 - eat_num: The amount of times every philosopher must eat, this is final.
-- philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
+- *philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
 - start_date: The date (In milliseconds) when the program started.
-- m_print: Mutex for message printing (printf calls).
+- *m_print: Mutex for message printing (printf calls).
 - valid: Either 0 or 1, only 0 when an error ocurred, to check program status.
 */
 typedef struct s_philo_info {
