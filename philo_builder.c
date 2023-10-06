@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 17:22:13 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 18:18:24 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ t_philo	*buid_philo(int id)
 		return (free_info(MALLOC_ERR, NULL, NULL));
 	errors = 0;
 	philo->id = id;
-	philo->fork = FK_NONE;
+	philo->r_fork = 0;
+	philo->l_fork = 0;
 	philo->state = THINKING;
 	philo->meals = 0;
 	philo->th_id = create_philo_thread(philo, &errors);

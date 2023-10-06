@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 17:30:53 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 17:58:43 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ Here is all the data stored in this struct:
 - th_id: The thread id of this philosopher.
 - id: The internal id of this philosopher.
 - *m_fork: Mutex to interact with t_philo::fork
-- fork: The fork state of this philosopher (FK_X constants).
+- r_fork: The right fork state of this philosopher (0 = false, 1 = true).
+- l_fork: The left fork state of this philosopher (0 = false, 1 = true).
 - *m_state: Mutex to interact with t_philo::state
 - state: The state of this philosopher (DEAD, EATING, SLEEPING or THINKING).
 - *m_meal: Mutex to interact with t_philo::meals
@@ -41,7 +42,8 @@ typedef struct s_philo {
 	pthread_t			th_id;
 	int					id;
 	pthread_mutex_t		*m_fork;
-	int					fork;
+	int					r_fork;
+	int					l_fork;
 	pthread_mutex_t		*m_state;
 	int					state;
 	pthread_mutex_t		*m_meal;
@@ -73,6 +75,11 @@ typedef struct s_philo_info {
 	pthread_mutex_t	*m_print;
 	int				valid;
 }				t_philo_info;
+
+typedef struct s_philo_relatives {
+	t_philo	*left;
+	t_philo	*right;
+}				t_philo_relatives;
 
 /* Input error messages */
 
@@ -153,17 +160,6 @@ is \e[1;32mthinking\e[1;30m.\e[0m\n"
 // A philosopher died :(
 # define PHILO_DIED "\e[1;30m[\e[0;31m%llu\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
-
-/* Fork state constants, saved on s_philo::fork */
-
-// Philosopher doesn't have any fork, oh no.
-# define FK_NONE -1
-// Philosopher has a fork on its RIGHT hand.
-# define FK_RIGHT 1
-// Philosopher has a fork on its LEFT hand.
-# define FK_LEFT 2
-// Philosopher has a fork on BOTH hands, READY TO EAT!
-# define FK_BOTH 3
 
 /* Philosopher state constants, saved on s_philo::state */
 
