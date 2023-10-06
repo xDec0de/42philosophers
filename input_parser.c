@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 19:22:50 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 18:56:50 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_philo_info	*init_info(void)
 		return (NULL);
 	info->start_date = 0;
 	info->valid = 1;
-	if (DEBUG)
-		printf("\n"DEBUG_PREFIX" Info and mutex initiaized\n");
 	return (info);
 }
 
@@ -54,8 +52,6 @@ t_philo_info	*verify_info(t_philo_info *info)
 		errors += (int) free_info(SLEEP_TIME_ERR, NULL, &one);
 	if (info->eat_num < 0)
 		errors += (int) free_info(EAT_NUM_ERR, NULL, &one);
-	if (DEBUG)
-		printf(DEBUG_PREFIX" Input errors = %i\n", errors);
 	if (errors == 0)
 		return (info);
 	return (free_info(NULL, info, NULL));
