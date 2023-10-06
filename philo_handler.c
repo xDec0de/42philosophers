@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 18:51:21 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 20:37:35 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	get_right_fork(t_philo *philo)
 {
 	t_philo	*right;
 
-	if (philo->r_fork == 1)
+	if (sim_ended(philo->prog_info) || philo->r_fork == 1)
 		return (1);
 	if (philo->id == (philo->prog_info->amount - 1))
 		right = philo->prog_info->philo_lst[0];
@@ -42,7 +42,7 @@ int	get_left_fork(t_philo *philo)
 {
 	t_philo	*left;
 
-	if (philo->l_fork == 1)
+	if (sim_ended(philo->prog_info) || philo->l_fork == 1)
 		return (1);
 	if (philo->id == 0)
 		left = philo->prog_info->philo_lst[philo->prog_info->amount - 1];

@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 18:50:44 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 20:38:27 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 {
 	char	*state_str;
 
+	if (sim_ended(philo->prog_info))
+		return (philo);
 	if (state == DEAD)
 		state_str = PHILO_DIED;
 	else if (state == THINKING)
@@ -47,4 +49,14 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 	pthread_mutex_unlock(philo->prog_info->m_print);
 	pthread_mutex_unlock(philo->m_state);
 	return (philo);
+}
+
+int	sim_ended(t_philo_info *info)
+{
+	int	ended;
+
+	pthread_mutex_lock(info->m_ended);
+	ended = info->ended;
+	pthread_mutex_unlock(info->m_ended);
+	return (ended);
 }

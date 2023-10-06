@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 19:35:00 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 20:31:43 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ Here is all the data stored in this struct:
 - *philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
 - start_date: The date (In milliseconds) when the program started.
 - *m_print: Mutex for message printing (printf calls).
-- valid: Either 0 or 1, only 0 when an error ocurred, to check program status.
+- valid: Either 0 or 1, only 0 when an error ocurred.
+- *m_ended: Mutex to interact with t_philo_info::ended
+- ended: 1 if the simulation has ended, 0 otherwise.
 */
 typedef struct s_philo_info {
 	int				amount;
@@ -74,6 +76,8 @@ typedef struct s_philo_info {
 	u_int64_t		start_date;
 	pthread_mutex_t	*m_print;
 	int				valid;
+	pthread_mutex_t	*m_ended;
+	int				ended;
 }				t_philo_info;
 
 typedef struct s_philo_relatives {
@@ -260,5 +264,16 @@ pthread_mutex_t	*mutex_init(int	*errors);
  * @return The same philosopher that was supplied to this function.
  */
 t_philo			*set_philo_state(t_philo *philo, int state);
+
+/**
+ * @brief Checks if the simulation has ended. The program will only
+ * end if a philosopher died or if a philosopher managed to eat
+ * enough times.
+ * 
+ * @param info The program info struct.
+ * 
+ * @return int 1 if the program has ended, 0 otherwise.
+ */
+int				sim_ended(t_philo_info *info);
 
 #endif
