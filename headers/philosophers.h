@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 18:57:51 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 19:35:00 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ is \e[1;32mthinking\e[1;30m.\e[0m\n"
 // A philosopher died :(
 # define PHILO_DIED "\e[1;30m[\e[0;31m%llu\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
+# define PHILO_SURVIVED "\e[1;30m[\e[0;32m%llu\e[1;30m] \e[1;37m%d \e[1;32m\
+ate enough times, ending the simulation\e[1;30m.\e[0m\n"
 
 /* Philosopher state constants, saved on s_philo::state */
 

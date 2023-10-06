@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/04 20:53:35 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 19:35:52 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,30 @@ void	leaks(void)
 	system("leaks philo | grep 'leaks for' | awk '$1 == \"Process\" {leaks = $3} END {printf(\"\e[0;31mLeaks\e[1;30m: \e[0;33m%d\e[0m\\n\"), leaks}'");
 }
 
+int	print_end_msg(char *msg, pthread_mutex_t *m_print, u_int64_t ms, int id)
+{
+	pthread_mutex_lock(m_print);
+	printf(msg, ms, id);
+	pthread_mutex_unlock(m_print);
+	return (0);
+}
+
 int	watcher_routine(t_philo_info *info)
 {
 	int			id;
 	t_philo		*philo;
-	u_int64_t	current_ms;
+	u_int64_t	c_ms;
 
 	id = 0;
-	current_ms = get_current_ms(info);
+	c_ms = get_current_ms(info);
 	while (id < info->amount)
 	{
 		philo = info->philo_lst[id];
 		pthread_mutex_lock(philo->m_meal);
-		if ((current_ms - philo->last_meal) > info->die_time)
-		{
-			printf(PHILO_DIED, get_current_ms(info), id);
-			return (0);
-		}
+		if (info->eat_num > 0 && philo->meals >= info->eat_num)
+			return (print_end_msg(PHILO_SURVIVED, info->m_print, c_ms, id));
+		else if ((get_current_ms(info) - philo->last_meal) > info->die_time)
+			return (print_end_msg(PHILO_DIED, info->m_print, c_ms, id));
 		pthread_mutex_unlock(philo->m_meal);
 		id++;
 	}
