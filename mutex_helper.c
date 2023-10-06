@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 20:38:27 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 21:19:42 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,17 @@ int	sim_ended(t_philo_info *info)
 	ended = info->ended;
 	pthread_mutex_unlock(info->m_ended);
 	return (ended);
+}
+
+int	free_philo(t_philo *philo)
+{
+	pthread_detach(philo->th_id);
+	pthread_mutex_unlock(philo->m_fork);
+	pthread_mutex_destroy(philo->m_fork);
+	pthread_mutex_unlock(philo->m_meal);
+	pthread_mutex_destroy(philo->m_meal);
+	pthread_mutex_unlock(philo->m_state);
+	pthread_mutex_destroy(philo->m_state);
+	free(philo);
+	return (1);
 }

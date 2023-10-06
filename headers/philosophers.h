@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 20:31:43 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 21:20:51 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,5 +275,7 @@ t_philo			*set_philo_state(t_philo *philo, int state);
  * @return int 1 if the program has ended, 0 otherwise.
  */
 int				sim_ended(t_philo_info *info);
+
+int				free_philo(t_philo *info);
 
 #endif

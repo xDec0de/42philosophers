@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 20:52:06 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 21:24:32 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,10 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 		id = 0;
 		info->valid = 0;
 		while (id < info->amount && info->philo_lst[id] != NULL)
-		{
-			pthread_detach(info->philo_lst[id]->th_id);
-			pthread_mutex_destroy(info->philo_lst[id]->m_state);
-			pthread_mutex_destroy(info->philo_lst[id]->m_fork);
-			pthread_mutex_destroy(info->philo_lst[id]->m_meal);
-			id++;
-		}
+			id += free_philo(info->philo_lst[id]);
+		pthread_mutex_unlock(info->m_print);
 		pthread_mutex_destroy(info->m_print);
+		pthread_mutex_unlock(info->m_ended);
 		pthread_mutex_destroy(info->m_ended);
 		free(info);
 	}
@@ -101,7 +97,7 @@ int	main(int argc, char **argv)
 {
 	t_philo_info	*info;
 
-	atexit(leaks);
+	//atexit(leaks);
 	if (DEBUG)
 		printf("\n"DEBUG_NOTE);
 	info = print_info(parse_arguments(argc, argv));
