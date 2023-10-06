@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 18:45:09 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/06 18:51:21 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	p_eat(t_philo *philo)
 	pthread_mutex_unlock(philo->m_fork);
 	pthread_mutex_lock(philo->m_meal);
 	philo->meals += 1;
+	philo->last_meal = get_current_ms(philo->prog_info);
 	pthread_mutex_unlock(philo->m_meal);
 	p_sleep(philo);
 }
@@ -97,8 +98,5 @@ void	*philo_routine(void *philo_ptr)
 
 	philo = (t_philo *) philo_ptr;
 	p_eat(philo);
-	if (philo->state == DEAD)
-		return (philo_ptr);
-	usleep(100);
-	return (philo_routine(philo_ptr));
+	return (philo_ptr);
 }
