@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 18:04:21 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 18:08:48 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ pthread_mutex_t	*mutex_init(int *errors)
 	return (NULL);
 }
 
-void	*mutex_unlock(pthread_mutex_t *mutex, void *result, int destroy)
+void	*mutex_unlock(pthread_mutex_t *mutex, void *res, int destroy)
 {
 	pthread_mutex_unlock(mutex);
 	if (destroy)
@@ -35,7 +35,7 @@ void	*mutex_unlock(pthread_mutex_t *mutex, void *result, int destroy)
 		pthread_mutex_destroy(mutex);
 		free(mutex);
 	}
-	return (result);
+	return (res);
 }
 
 t_philo	*set_philo_state(t_philo *philo, int state)

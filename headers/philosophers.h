@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 17:55:35 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 18:12:13 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,16 @@ void			*philo_routine(void *philo_ptr);
  */
 pthread_mutex_t	*mutex_init(int	*errors);
 
-void			*mutex_unlock(pthread_mutex_t *mutex, void *result, int destroy);
+/**
+ * @brief Unlocks a mutex and optionally destoys and frees it.
+ * 
+ * @param mutex The pthread_mutex_t to use.
+ * @param res Whatever you want this method to return, can be NULL.
+ * @param destroy 0 to do nothing, any other integer to destroy and free mutex.
+ * 
+ * @return Whatever was specified as a result (res), can be NULL.
+ */
+void			*mutex_unlock(pthread_mutex_t *mutex, void *res, int destroy);
 
 /**
  * @brief Changes the state of a philosopher, the state will

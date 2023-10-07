@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 18:02:59 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 18:07:26 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	*p_eat(t_philo *philo)
 
 void	*p_sleep(t_philo *philo)
 {
-
 	if (set_philo_state(philo, SLEEPING))
 		return (NULL);
 	usleep(philo->prog_info->sleep_time * 1000);
