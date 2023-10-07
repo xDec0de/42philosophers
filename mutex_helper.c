@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 21:19:42 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 14:27:51 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 pthread_mutex_t	*mutex_init(int *errors)
 {
-	pthread_mutex_t	mutex;
-	pthread_mutex_t	*mutex_ptr;
+	pthread_mutex_t	*mutex;
 	int				result;
 
-	result = pthread_mutex_init(&mutex, NULL);
-	mutex_ptr = &mutex;
+	mutex = malloc(sizeof(pthread_mutex_t));
+	result = pthread_mutex_init(mutex, NULL);
 	if (result == 0)
-		return (mutex_ptr);
+		return (mutex);
 	printf(MUTEX_ERR);
 	if (errors != NULL)
 		*errors += 1;
@@ -33,7 +32,7 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 	char	*state_str;
 
 	if (sim_ended(philo->prog_info))
-		return (philo);
+		return (NULL);
 	if (state == DEAD)
 		state_str = PHILO_DIED;
 	else if (state == THINKING)
@@ -63,13 +62,16 @@ int	sim_ended(t_philo_info *info)
 
 int	free_philo(t_philo *philo)
 {
-	pthread_detach(philo->th_id);
+	pthread_join(philo->th_id, NULL);
 	pthread_mutex_unlock(philo->m_fork);
 	pthread_mutex_destroy(philo->m_fork);
+	free(philo->m_fork);
 	pthread_mutex_unlock(philo->m_meal);
 	pthread_mutex_destroy(philo->m_meal);
+	free(philo->m_meal);
 	pthread_mutex_unlock(philo->m_state);
 	pthread_mutex_destroy(philo->m_state);
+	free(philo->m_state);
 	free(philo);
 	return (1);
 }
