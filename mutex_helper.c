@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 14:27:51 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 15:27:43 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 {
 	char	*state_str;
 
-	if (sim_ended(philo->prog_info))
-		return (NULL);
 	if (state == DEAD)
 		state_str = PHILO_DIED;
 	else if (state == THINKING)
@@ -43,6 +41,8 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 		state_str = PHILO_EATING;
 	pthread_mutex_lock(philo->m_state);
 	philo->state = state;
+	if (state == DEAD)
+		return (NULL);
 	pthread_mutex_lock(philo->prog_info->m_print);
 	printf(state_str, get_current_ms(philo->prog_info), philo->id);
 	pthread_mutex_unlock(philo->prog_info->m_print);
@@ -50,19 +50,12 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 	return (philo);
 }
 
-int	sim_ended(t_philo_info *info)
-{
-	int	ended;
-
-	pthread_mutex_lock(info->m_ended);
-	ended = info->ended;
-	pthread_mutex_unlock(info->m_ended);
-	return (ended);
-}
-
 int	free_philo(t_philo *philo)
 {
-	pthread_join(philo->th_id, NULL);
+	pthread_mutex_lock(philo->m_state);
+	philo->state = DEAD;
+	pthread_mutex_unlock(philo->m_state);
+	//pthread_join(philo->th_id, NULL);
 	pthread_mutex_unlock(philo->m_fork);
 	pthread_mutex_destroy(philo->m_fork);
 	free(philo->m_fork);

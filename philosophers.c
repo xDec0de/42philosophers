@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/06 21:24:32 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 15:24:49 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 			id += free_philo(info->philo_lst[id]);
 		pthread_mutex_unlock(info->m_print);
 		pthread_mutex_destroy(info->m_print);
-		pthread_mutex_unlock(info->m_ended);
-		pthread_mutex_destroy(info->m_ended);
 		free(info);
 	}
 	return (result);
@@ -61,13 +59,9 @@ void	leaks(void)
 
 int	print_end_msg(char *msg, t_philo_info *info, u_int64_t ms, int id)
 {
-	pthread_mutex_lock(info->m_ended);
-	info->ended = 1;
-	pthread_mutex_unlock(info->m_ended);
 	pthread_mutex_lock(info->m_print);
 	printf(msg, ms, id);
 	pthread_mutex_unlock(info->m_print);
-	free_info(NULL, info, NULL);
 	return (0);
 }
 
