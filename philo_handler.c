@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 18:20:27 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 18:31:16 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,33 @@ int	get_left_fork(t_philo *philo)
 	return (1);
 }
 
-void	*p_eat(t_philo *philo)
+void	*try_eat(t_philo *philo)
 {
-	if (set_philo_state(philo, THINKING) == NULL)
-		return (NULL);
 	while (philo->state != EATING && philo->state != DEAD)
 	{
 		pthread_mutex_lock(philo->m_r_fork);
 		philo->r_fork = get_right_fork(philo);
-		pthread_mutex_unlock(philo->m_r_fork);
 		pthread_mutex_lock(philo->m_l_fork);
 		philo->l_fork = get_left_fork(philo);
-		pthread_mutex_unlock(philo->m_l_fork);
 		if (philo->r_fork == 1 && philo->l_fork == 1)
+		{
+			pthread_mutex_unlock(philo->m_r_fork);
+			pthread_mutex_unlock(philo->m_l_fork);
 			if (set_philo_state(philo, EATING) == NULL)
 				return (NULL);
+		}
+		pthread_mutex_unlock(philo->m_r_fork);
+		pthread_mutex_unlock(philo->m_l_fork);
 	}
+	return (philo);
+}
+
+void	*p_eat(t_philo *philo)
+{
+	if (set_philo_state(philo, THINKING) == NULL)
+		return (NULL);
+	if (try_eat(philo) == NULL)
+		return (NULL);
 	usleep(philo->prog_info->eat_time * 1000);
 	pthread_mutex_lock(philo->m_r_fork);
 	philo->r_fork = 0;
@@ -91,14 +102,6 @@ void	*p_eat(t_philo *philo)
 	return (philo);
 }
 
-void	*p_sleep(t_philo *philo)
-{
-	if (set_philo_state(philo, SLEEPING) == NULL)
-		return (NULL);
-	usleep(philo->prog_info->sleep_time * 1000);
-	return (philo);
-}
-
 void	*philo_routine(void *philo_ptr)
 {
 	t_philo	*philo;
@@ -109,8 +112,9 @@ void	*philo_routine(void *philo_ptr)
 	while (result != NULL)
 	{
 		result = p_eat(philo);
-		if (result != NULL)
-			result = p_sleep(philo);
+		if (set_philo_state(philo, SLEEPING) == NULL)
+			break ;
+		usleep(philo->prog_info->sleep_time * 1000);
 	}
 	return (philo_ptr);
 }
