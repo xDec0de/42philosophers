@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 15:25:19 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 17:59:25 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,23 @@ t_philo_info	*init_info(void)
 t_philo_info	*verify_info(t_philo_info *info)
 {
 	int	errors;
-	int	one;
 
 	errors = 0;
-	one = 1;
 	if (info->amount <= 0 || info->amount > MAX_PHILOSOPHERS)
 	{
 		printf(AMOUNT_ERR, MAX_PHILOSOPHERS);
 		errors++;
 	}
 	else if (info->amount > 200)
-		errors += (int) free_info(AMOUNT_WARN, NULL, &one);
+		errors += (int) free_info(AMOUNT_WARN, NULL, (void *)1);
 	if (info->die_time <= 0)
-		errors += (int) free_info(DIE_TIME_ERR, NULL, &one);
+		errors += (int) free_info(DIE_TIME_ERR, NULL, (void *)1);
 	if (info->eat_time <= 0)
-		errors += (int) free_info(EAT_TIME_ERR, NULL, &one);
+		errors += (int) free_info(EAT_TIME_ERR, NULL, (void *)1);
 	if (info->sleep_time <= 0)
-		errors += (int) free_info(SLEEP_TIME_ERR, NULL, &one);
+		errors += (int) free_info(SLEEP_TIME_ERR, NULL, (void *)1);
 	if (info->eat_num < 0)
-		errors += (int) free_info(EAT_NUM_ERR, NULL, &one);
+		errors += (int) free_info(EAT_NUM_ERR, NULL, (void *)1);
 	if (errors == 0)
 		return (info);
 	return (free_info(NULL, info, NULL));

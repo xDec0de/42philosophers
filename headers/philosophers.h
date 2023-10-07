@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 17:37:50 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 17:55:35 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,8 @@ void			*philo_routine(void *philo_ptr);
  * @return A new pthread_mutex_t pointer. NULL if any error occurs.
  */
 pthread_mutex_t	*mutex_init(int	*errors);
+
+void			*mutex_unlock(pthread_mutex_t *mutex, void *result, int destroy);
 
 /**
  * @brief Changes the state of a philosopher, the state will
