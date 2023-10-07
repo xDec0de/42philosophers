@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 15:24:26 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 17:37:50 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ typedef struct s_philo {
 	struct s_philo_info	*prog_info;
 	pthread_t			th_id;
 	int					id;
-	pthread_mutex_t		*m_fork;
+	pthread_mutex_t		*m_r_fork;
 	int					r_fork;
+	pthread_mutex_t		*m_l_fork;
 	int					l_fork;
 	pthread_mutex_t		*m_state;
 	int					state;

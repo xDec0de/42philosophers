@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 15:27:43 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/07 17:40:39 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 {
 	char	*state_str;
 
+	pthread_mutex_lock(philo->m_state);
+	if (philo->state == DEAD)
+		return (NULL);
 	if (state == DEAD)
 		state_str = PHILO_DIED;
 	else if (state == THINKING)
@@ -39,32 +42,31 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 		state_str = PHILO_SLEEPING;
 	else if (state == EATING)
 		state_str = PHILO_EATING;
-	pthread_mutex_lock(philo->m_state);
 	philo->state = state;
+	pthread_mutex_unlock(philo->m_state);
 	if (state == DEAD)
 		return (NULL);
 	pthread_mutex_lock(philo->prog_info->m_print);
 	printf(state_str, get_current_ms(philo->prog_info), philo->id);
 	pthread_mutex_unlock(philo->prog_info->m_print);
-	pthread_mutex_unlock(philo->m_state);
 	return (philo);
 }
 
 int	free_philo(t_philo *philo)
 {
-	pthread_mutex_lock(philo->m_state);
-	philo->state = DEAD;
-	pthread_mutex_unlock(philo->m_state);
-	//pthread_join(philo->th_id, NULL);
-	pthread_mutex_unlock(philo->m_fork);
-	pthread_mutex_destroy(philo->m_fork);
-	free(philo->m_fork);
+	pthread_mutex_unlock(philo->m_r_fork);
+	pthread_mutex_destroy(philo->m_r_fork);
+	free(philo->m_r_fork);
+	pthread_mutex_unlock(philo->m_l_fork);
+	pthread_mutex_destroy(philo->m_l_fork);
+	free(philo->m_l_fork);
 	pthread_mutex_unlock(philo->m_meal);
 	pthread_mutex_destroy(philo->m_meal);
 	free(philo->m_meal);
 	pthread_mutex_unlock(philo->m_state);
 	pthread_mutex_destroy(philo->m_state);
 	free(philo->m_state);
+	pthread_join(philo->th_id, NULL);
 	free(philo);
 	return (1);
 }
