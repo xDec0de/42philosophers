@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 18:12:13 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 17:02:52 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,21 @@ pthread_mutex_t	*mutex_init(int	*errors);
  */
 void			*mutex_unlock(pthread_mutex_t *mutex, void *res, int destroy);
 
+/** philo_utils.c */
+
+/**
+ * @brief Pauses a thread for the specified amount of ms, this
+ * function must be called from the thread of the specified philo,
+ * as this will check if the program is trying to end while this
+ * philosopher thread is paused.
+ * 
+ * @param philo the philosopher that is going to be paused.
+ * @param ms the time in milliseconds that that the thread will be paused.
+ * 
+ * @return The same philosopher that was supplied to this function.
+ */
+t_philo			*pause_philo(t_philo *philo, useconds_t ms);
+
 /**
  * @brief Changes the state of a philosopher, the state will
  * be changed safely and a state change message will be printed,
@@ -272,17 +287,6 @@ void			*mutex_unlock(pthread_mutex_t *mutex, void *res, int destroy);
  * @return The same philosopher that was supplied to this function.
  */
 t_philo			*set_philo_state(t_philo *philo, int state);
-
-/**
- * @brief Checks if the simulation has ended. The program will only
- * end if a philosopher died or if a philosopher managed to eat
- * enough times.
- * 
- * @param info The program info struct.
- * 
- * @return int 1 if the program has ended, 0 otherwise.
- */
-int				sim_ended(t_philo_info *info);
 
 int				free_philo(t_philo *info);
 
