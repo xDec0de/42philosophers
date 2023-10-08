@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 16:52:02 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 19:53:16 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,17 @@ void	*mutex_unlock(pthread_mutex_t *mutex, void *res, int destroy)
 		free(mutex);
 	}
 	return (res);
+}
+
+void	*lock_fork(t_philo *philo)
+{
+	int	dead;
+
+	pthread_mutex_lock(philo->m_dead);
+	dead = philo->dead;
+	pthread_mutex_unlock(philo->m_dead);
+	if (dead)
+		return (NULL);
+	pthread_mutex_lock(philo->m_fork);
+	return (philo);
 }

@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 19:32:01 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 19:53:09 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,37 @@ void	*print_fork_taken(char *msg, t_philo *philo, pthread_mutex_t *m_print)
 	if (!dead)
 		printf(msg, get_current_ms(philo->prog_info), philo->id);
 	pthread_mutex_unlock(m_print);
-	return (philo);
+	if (!dead)
+		return (philo);
+	return (NULL);
 }
 
-void	*lock_fork(t_philo *philo)
+void	*take_forks_l(t_philo *philo, t_philo *left)
 {
-	int	dead;
+	pthread_mutex_t	*m_print;
 
-	pthread_mutex_lock(philo->m_dead);
-	dead = philo->dead;
-	pthread_mutex_unlock(philo->m_dead);
-	if (dead)
+	m_print = philo->prog_info->m_print;
+	if (lock_fork(left) == NULL)
 		return (NULL);
-	pthread_mutex_lock(philo->m_fork);
-	return (philo);
+	if (print_fork_taken(PHILO_TAKE_LFORK, philo, m_print) == NULL)
+		return (NULL);
+	if (lock_fork(philo) == NULL)
+		return (NULL);
+	return (print_fork_taken(PHILO_TAKE_RFORK, philo, m_print));
 }
 
-void	*take_forks(t_philo *philo, t_philo *left)
+void	*take_forks_r(t_philo *philo, t_philo *left)
 {
 	pthread_mutex_t	*m_print;
 
 	m_print = philo->prog_info->m_print;
 	if (lock_fork(philo) == NULL)
 		return (NULL);
-	print_fork_taken(PHILO_TAKE_RFORK, philo, m_print);
+	if (print_fork_taken(PHILO_TAKE_RFORK, philo, m_print) == NULL)
+		return (NULL);
 	if (lock_fork(left) == NULL)
 		return (NULL);
-	print_fork_taken(PHILO_TAKE_LFORK, philo, m_print);
-	return (philo);
+	return (print_fork_taken(PHILO_TAKE_LFORK, philo, m_print));
 }
 
 void	*p_eat(t_philo *philo)
@@ -63,8 +66,14 @@ void	*p_eat(t_philo *philo)
 		left = philo->prog_info->philo_lst[philo->prog_info->amount - 1];
 	else
 		left = philo->prog_info->philo_lst[(philo->id - 1)];
-	if (take_forks(philo, left) == NULL)
-		return (NULL);
+	if (philo->id % 2 == 0)
+	{
+		if (take_forks_r(philo, left) == NULL)
+			return (NULL);
+	}
+	else
+		if (take_forks_l(philo, left) == NULL)
+			return (NULL);
 	if (set_philo_state(philo, EATING, 1) == NULL)
 		return (NULL);
 	if (pause_philo(philo, philo->prog_info->eat_time) == NULL)
@@ -94,7 +103,6 @@ void	*philo_routine(void *philo_ptr)
 			return (NULL);
 		if (pause_philo(philo, philo->prog_info->sleep_time) == NULL)
 			return (NULL);
-		usleep(100);
 	}
 	return (philo_ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 18:16:11 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 19:55:06 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,15 @@ pthread_mutex_t	*mutex_init(int	*errors);
  * @return Whatever was specified as a result (res), can be NULL.
  */
 void			*mutex_unlock(pthread_mutex_t *mutex, void *res, int destroy);
+
+/**
+ * @brief Locks the fork mutex of a philosopher.
+ * 
+ * @param philo the philosopher to use.
+ * @return NULL if the philosopher dies before the fork is locked,
+ * *philo otherwise.
+ */
+void			*lock_fork(t_philo *philo);
 
 /** philo_utils.c */
 
