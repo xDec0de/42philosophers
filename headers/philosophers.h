@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 19:55:06 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 20:22:01 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,7 @@ void			*lock_fork(t_philo *philo);
  * 
  * @return The same philosopher that was supplied to this function.
  */
-t_philo			*pause_philo(t_philo *philo, useconds_t ms);
+t_philo			*pause_philo(t_philo *philo, u_int64_t ms);
 
 /**
  * @brief Changes the state of a philosopher, the state will

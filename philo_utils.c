@@ -6,25 +6,24 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 18:17:01 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 20:21:40 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
 
-t_philo	*pause_philo(t_philo *philo, useconds_t ms)
+t_philo	*pause_philo(t_philo *philo, u_int64_t ms)
 {
-	useconds_t	i;
+	useconds_t	to_match;
 
-	i = 1;
-	while (i < ms)
+	to_match = get_current_ms(philo->prog_info) + ms;
+	while (get_current_ms(philo->prog_info) < to_match)
 	{
 		pthread_mutex_lock(philo->m_dead);
 		if (philo->dead == 1)
 			return (NULL);
 		pthread_mutex_unlock(philo->m_dead);
-		usleep(1000);
-		i++;
+		usleep(100);
 	}
 	return (philo);
 }
