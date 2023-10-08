@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 18:18:08 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:41:15 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 			pthread_mutex_lock(info->philo_lst[id]->m_dead);
 			info->philo_lst[id]->dead = 1;
 			pthread_mutex_unlock(info->philo_lst[id]->m_dead);
+			pthread_mutex_unlock(info->philo_lst[id]->m_fork);
 			id++;
 		}
+		usleep(100);
 		id = 0;
 		while (id < info->amount && info->philo_lst[id] != NULL)
 			id += free_philo(info->philo_lst[id]);
