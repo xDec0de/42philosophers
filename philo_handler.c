@@ -6,11 +6,25 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 18:31:10 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 19:32:01 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
+
+void	*print_fork_taken(char *msg, t_philo *philo, pthread_mutex_t *m_print)
+{
+	int	dead;
+
+	pthread_mutex_lock(philo->m_dead);
+	dead = philo->dead;
+	pthread_mutex_unlock(philo->m_dead);
+	pthread_mutex_lock(m_print);
+	if (!dead)
+		printf(msg, get_current_ms(philo->prog_info), philo->id);
+	pthread_mutex_unlock(m_print);
+	return (philo);
+}
 
 void	*lock_fork(t_philo *philo)
 {
@@ -32,14 +46,10 @@ void	*take_forks(t_philo *philo, t_philo *left)
 	m_print = philo->prog_info->m_print;
 	if (lock_fork(philo) == NULL)
 		return (NULL);
-	pthread_mutex_lock(m_print);
-	printf(PHILO_TAKE_RFORK, get_current_ms(philo->prog_info), philo->id);
-	pthread_mutex_unlock(m_print);
+	print_fork_taken(PHILO_TAKE_RFORK, philo, m_print);
 	if (lock_fork(left) == NULL)
 		return (NULL);
-	pthread_mutex_lock(m_print);
-	printf(PHILO_TAKE_LFORK, get_current_ms(philo->prog_info), philo->id);
-	pthread_mutex_unlock(m_print);
+	print_fork_taken(PHILO_TAKE_LFORK, philo, m_print);
 	return (philo);
 }
 
