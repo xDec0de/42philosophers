@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 18:41:15 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 19:01:48 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,6 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 	return (result);
 }
 
-/**
- * @brief May cause segmentation faults and other errors, disable if any error
- * occurs to make sure this is not causing it.
- */
-void	leaks(void)
-{
-	system("leaks philo | grep 'leaks for' | awk '$1 == \"Process\" {leaks = $3} END {printf(\"\e[0;31mLeaks\e[1;30m: \e[0;33m%d\e[0m\\n\"), leaks}'");
-}
-
 int	print_end_msg(char *msg, t_philo_info *info, u_int64_t ms, int id)
 {
 	free_info(NULL, info, NULL);
@@ -98,7 +89,6 @@ int	main(int argc, char **argv)
 {
 	t_philo_info	*info;
 
-	//atexit(leaks);
 	if (DEBUG)
 		printf("\n"DEBUG_NOTE);
 	info = print_info(parse_arguments(argc, argv));
@@ -108,6 +98,6 @@ int	main(int argc, char **argv)
 	if (info == NULL)
 		return (2);
 	while (watcher_routine(info))
-		usleep(1000);
+		usleep(100);
 	return (0);
 }
