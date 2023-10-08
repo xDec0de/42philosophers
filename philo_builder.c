@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 17:39:58 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 17:40:19 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,10 @@ t_philo	*buid_philo(int id)
 		return (free_info(MALLOC_ERR, NULL, NULL));
 	errors = 0;
 	philo->id = id;
-	philo->r_fork = 0;
-	philo->l_fork = 0;
 	philo->state = THINKING;
 	philo->meals = 0;
 	philo->m_state = mutex_init(&errors);
-	philo->m_r_fork = mutex_init(&errors);
-	philo->m_l_fork = mutex_init(&errors);
+	philo->m_fork = mutex_init(&errors);
 	philo->m_meal = mutex_init(&errors);
 	if (errors != 0)
 		return (NULL);

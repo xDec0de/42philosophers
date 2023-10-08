@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 17:08:37 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 17:50:36 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ t_philo	*set_philo_state(t_philo *philo, int state)
 
 int	free_philo(t_philo *philo)
 {
-	mutex_unlock(philo->m_r_fork, NULL, 1);
-	mutex_unlock(philo->m_l_fork, NULL, 1);
+	mutex_unlock(philo->m_fork, NULL, 1);
 	mutex_unlock(philo->m_meal, NULL, 1);
 	mutex_unlock(philo->m_state, NULL, 1);
 	pthread_join(philo->th_id, NULL);

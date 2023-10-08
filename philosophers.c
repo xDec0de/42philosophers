@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 18:34:01 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 17:32:38 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ int	main(int argc, char **argv)
 	if (info == NULL)
 		return (2);
 	while (watcher_routine(info))
-		usleep(100);
+		usleep(1000);
 	return (0);
 }
