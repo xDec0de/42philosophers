@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 18:08:25 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:17:38 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void	*p_eat(t_philo *philo)
 {
 	t_philo	*left;
 
-	if (set_philo_state(philo, THINKING) == NULL)
+	if (set_philo_state(philo, THINKING, 1) == NULL)
 		return (NULL);
 	if (philo->id == 0)
 		left = philo->prog_info->philo_lst[philo->prog_info->amount - 1];
 	else
 		left = philo->prog_info->philo_lst[(philo->id - 1)];
 	take_forks(philo, left);
-	set_philo_state(philo, EATING);
+	set_philo_state(philo, EATING, 1);
 	if (pause_philo(philo, philo->prog_info->eat_time) == NULL)
 		return (NULL);
 	pthread_mutex_unlock(philo->m_fork);
@@ -62,7 +62,7 @@ void	*philo_routine(void *philo_ptr)
 		philo->meals += 1;
 		philo->last_meal = get_current_ms(philo->prog_info);
 		pthread_mutex_unlock(philo->m_meal);
-		if (set_philo_state(philo, SLEEPING) == NULL)
+		if (set_philo_state(philo, SLEEPING, 1) == NULL)
 			return (NULL);
 		if (pause_philo(philo, philo->prog_info->sleep_time) == NULL)
 			return (NULL);

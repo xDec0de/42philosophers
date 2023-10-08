@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 17:40:06 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:16:11 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_philo {
 	pthread_t			th_id;
 	int					id;
 	pthread_mutex_t		*m_fork;
-	pthread_mutex_t		*m_state;
-	int					state;
+	pthread_mutex_t		*m_dead;
+	int					dead;
 	pthread_mutex_t		*m_meal;
 	int					meals;
 	u_int64_t			last_meal;
@@ -177,9 +177,9 @@ ate enough times, ending the simulation\e[1;30m.\e[0m\n"
 /**
  * @brief Prints an error message, freeing all program info.
  * 
- * @param err The error message to print, if NULL, nothing will be printed.
- * @param info The program info struct, will be freed if necessary, can be NULL.
- * @param result Whatever you want this method to return, can be NULL.
+ * @param err the error message to print, if NULL, nothing will be printed.
+ * @param info the program info struct, will be freed if necessary, can be NULL.
+ * @param result whatever you want this method to return, can be NULL.
  * 
  * @returns Whatever was specified as a result, can be NULL.
  */
@@ -191,8 +191,8 @@ void			*free_info(char *err, t_philo_info *info, void *result);
 /**
  * @brief Parses program arguments to create a t_philo_info struct.
  * 
- * @param argc The argument count of the program (Directly from main)
- * @param argv The argument values of the program (Directly from main)
+ * @param argc the argument count of the program (Directly from main)
+ * @param argv the argument values of the program (Directly from main)
  * 
  * @return The info struct, NULL if any argument was invalid.
  */
@@ -203,7 +203,7 @@ t_philo_info	*parse_arguments(int argc, char **argv);
 /**
  * @brief Get the current timestamp of the program (Milliseconds since start)
  * 
- * @param info The program info struct, used to set and get
+ * @param info the program info struct, used to set and get
  * t_philo_info::start_date.
  * 
  * @return The current timestamp of the program, 0 if an error occurred.
@@ -213,7 +213,7 @@ u_int64_t		get_current_ms(t_philo_info *info);
 /**
  * @brief Builds all required philosophers and creates a thread for each one.
  * 
- * @param info The program info struct.
+ * @param info the program info struct.
  * 
  * @return The program info struct with all created philosophers,
  * NULL if any error occurs.
@@ -239,7 +239,7 @@ void			*philo_routine(void *philo_ptr);
  * @brief Creates a mutex, handling any error that occurs by returning
  * NULL and printing the error. Info won't be freed.
  * 
- * @param errors A nullable integer pointer that will increase by one
+ * @param errors a nullable integer pointer that will increase by one
  * if pthread_mutex_init fails.
  * 
  * @return A new pthread_mutex_t pointer. NULL if any error occurs.
@@ -249,8 +249,8 @@ pthread_mutex_t	*mutex_init(int	*errors);
 /**
  * @brief Unlocks a mutex and optionally destoys and frees it.
  * 
- * @param mutex The pthread_mutex_t to use.
- * @param res Whatever you want this method to return, can be NULL.
+ * @param mutex the pthread_mutex_t to use.
+ * @param res whatever you want this method to return, can be NULL.
  * @param destroy 0 to do nothing, any other integer to destroy and free mutex.
  * 
  * @return Whatever was specified as a result (res), can be NULL.
@@ -280,10 +280,11 @@ t_philo			*pause_philo(t_philo *philo, useconds_t ms);
  * 
  * @param philo the philosopher to change.
  * @param state the new state of the philosopher.
+ * @param print whether to print the new state message or not.
  * 
  * @return The same philosopher that was supplied to this function.
  */
-t_philo			*set_philo_state(t_philo *philo, int state);
+t_philo			*set_philo_state(t_philo *philo, int state, int print);
 
 int				free_philo(t_philo *info);
 
