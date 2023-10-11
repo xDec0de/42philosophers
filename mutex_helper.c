@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 19:53:16 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:12:09 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,44 @@ pthread_mutex_t	*mutex_init(int *errors)
 	return (NULL);
 }
 
-void	*mutex_unlock(pthread_mutex_t *mutex, void *res, int destroy)
+int	mutex_unlock(pthread_mutex_t *mutex, int destroy)
 {
-	pthread_mutex_unlock(mutex);
-	if (destroy)
+	int	err;
+	int	attempts;
+
+	attempts = 0;
+	err = 1;
+	while (err != 0 && attempts < 10)
 	{
-		pthread_mutex_destroy(mutex);
-		free(mutex);
+		err = pthread_mutex_unlock(mutex);
+		attempts++;
 	}
-	return (res);
+	if (err != 0 || !destroy)
+		return (err);
+	attempts = 0;
+	err = 1;
+	while (err != 0 && attempts < 10)
+	{
+		err = pthread_mutex_destroy(mutex);
+		attempts++;
+	}
+	free(mutex);
+	return (err);
+}
+
+int	mutex_lock(pthread_mutex_t *mutex)
+{
+	int	err;
+	int	attempts;
+
+	attempts = 0;
+	err = 1;
+	while (err != 0 && attempts < 10)
+	{
+		err = pthread_mutex_lock(mutex);
+		attempts++;
+	}
+	return (err);
 }
 
 void	*lock_fork(t_philo *philo)

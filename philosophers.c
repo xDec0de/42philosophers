@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 20:13:41 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:23:19 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,25 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 		info->valid = 0;
 		while (id < info->amount && info->philo_lst[id] != NULL)
 		{
-			pthread_mutex_lock(info->philo_lst[id]->m_dead);
+			mutex_lock(info->philo_lst[id]->m_dead);
 			info->philo_lst[id]->dead = 1;
-			pthread_mutex_unlock(info->philo_lst[id]->m_dead);
-			pthread_mutex_unlock(info->philo_lst[id]->m_fork);
+			mutex_unlock(info->philo_lst[id]->m_dead, 0);
+			mutex_unlock(info->philo_lst[id]->m_fork, 0);
 			id++;
 		}
 		usleep(100);
 		id = 0;
 		while (id < info->amount && info->philo_lst[id] != NULL)
 			id += free_philo(info->philo_lst[id]);
-		mutex_unlock(info->m_print, NULL, 1);
+		mutex_unlock(info->m_print, 1);
 	}
 	return (result);
 }
 
-int	print_end_msg(char *msg, t_philo_info *info, u_int64_t ms, int id)
+int	print_end_msg(char *msg, t_philo_info *info, int id)
 {
 	free_info(NULL, info, NULL);
-	printf(msg, ms, id);
+	printf(msg, get_current_ms(info), id);
 	return (0);
 }
 
@@ -67,19 +67,23 @@ int	watcher_routine(t_philo_info *info)
 {
 	int			id;
 	t_philo		*philo;
-	u_int64_t	c_ms;
 
 	id = 0;
-	c_ms = get_current_ms(info);
 	while (id < info->amount)
 	{
 		philo = info->philo_lst[id];
-		pthread_mutex_lock(philo->m_meal);
+		mutex_lock(philo->m_meal);
 		if (info->eat_num > 0 && philo->meals >= info->eat_num)
-			return (print_end_msg(PHILO_SURVIVED, info, c_ms, id));
+		{
+			mutex_unlock(philo->m_meal, 0);
+			return (print_end_msg(PHILO_SURVIVED, info, id));
+		}
 		else if ((get_current_ms(info) - philo->last_meal) > info->die_time)
-			return (print_end_msg(PHILO_DIED, info, c_ms, id));
-		pthread_mutex_unlock(philo->m_meal);
+		{
+			mutex_unlock(philo->m_meal, 0);
+			return (print_end_msg(PHILO_DIED, info, id));
+		}
+		mutex_unlock(philo->m_meal, 0);
 		id++;
 	}
 	return (1);
@@ -99,5 +103,6 @@ int	main(int argc, char **argv)
 		return (2);
 	while (watcher_routine(info))
 		usleep(50);
+	free(info);
 	return (0);
 }

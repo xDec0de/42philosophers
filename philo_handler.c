@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 20:31:30 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:28:32 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,15 @@ void	*print_fork_taken(char *msg, t_philo *philo, pthread_mutex_t *m_print)
 {
 	int	dead;
 
-	pthread_mutex_lock(philo->m_dead);
+	mutex_lock(philo->m_dead);
 	dead = philo->dead;
-	pthread_mutex_unlock(philo->m_dead);
-	pthread_mutex_lock(m_print);
-	if (!dead)
-		printf(msg, get_current_ms(philo->prog_info), philo->id);
-	pthread_mutex_unlock(m_print);
-	if (!dead)
-		return (philo);
-	return (NULL);
+	mutex_unlock(philo->m_dead, 0);
+	if (dead)
+		return (NULL);
+	mutex_lock(m_print);
+	printf(msg, get_current_ms(philo->prog_info), philo->id);
+	mutex_unlock(m_print, 0);
+	return (philo);
 }
 
 void	*take_forks_l(t_philo *philo, t_philo *left)
@@ -72,16 +71,16 @@ void	*p_eat(t_philo *philo)
 	else
 		if (take_forks_l(philo, left) == NULL)
 			return (NULL);
-	pthread_mutex_lock(philo->m_meal);
+	mutex_lock(philo->m_meal);
 	philo->meals += 1;
 	philo->last_meal = get_current_ms(philo->prog_info);
-	pthread_mutex_unlock(philo->m_meal);
+	mutex_unlock(philo->m_meal, 0);
 	if (set_philo_state(philo, EATING, 1) == NULL)
 		return (NULL);
 	if (pause_philo(philo, philo->prog_info->eat_time) == NULL)
 		return (NULL);
-	pthread_mutex_unlock(philo->m_fork);
-	pthread_mutex_unlock(left->m_fork);
+	mutex_unlock(philo->m_fork, 0);
+	mutex_unlock(left->m_fork, 0);
 	return (philo);
 }
 

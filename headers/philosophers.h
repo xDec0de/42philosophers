@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 20:22:01 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:15:12 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,15 +247,27 @@ void			*philo_routine(void *philo_ptr);
 pthread_mutex_t	*mutex_init(int	*errors);
 
 /**
- * @brief Unlocks a mutex and optionally destoys and frees it.
+ * @brief Unlocks a mutex and optionally destoys and frees it. This method
+ * will try to unlock the mutex up to 10 times if any error occurs.
  * 
- * @param mutex the pthread_mutex_t to use.
- * @param res whatever you want this method to return, can be NULL.
+ * @param mutex the pthread_mutex_t to unlock and optionally destroy.
  * @param destroy 0 to do nothing, any other integer to destroy and free mutex.
  * 
- * @return Whatever was specified as a result (res), can be NULL.
+ * @return Zero on success, a non-zero value on failure
+ * (After 10 consecutive fails).
  */
-void			*mutex_unlock(pthread_mutex_t *mutex, void *res, int destroy);
+int				mutex_unlock(pthread_mutex_t *mutex, int destroy);
+
+/**
+ * @brief Locks a mutex. This method will try to unlock the mutex up to 10
+ * times if any error occurs.
+ * 
+ * @param mutex the pthread_mutex_t to lock.
+ * 
+ * @return Zero on success, a non-zero value on failure
+ * (After 10 consecutive fails).
+ */
+int				mutex_lock(pthread_mutex_t *mutex);
 
 /**
  * @brief Locks the fork mutex of a philosopher.
