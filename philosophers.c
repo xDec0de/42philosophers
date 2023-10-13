@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/11 17:23:19 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:49:05 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,11 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 	return (result);
 }
 
-int	print_end_msg(char *msg, t_philo_info *info, int id)
+int	print_end_msg(char *msg, t_philo *philo)
 {
-	free_info(NULL, info, NULL);
-	printf(msg, get_current_ms(info), id);
+	mutex_unlock(philo->m_meal, 0);
+	free_info(NULL, philo->prog_info, NULL);
+	printf(msg, get_current_ms(philo->prog_info), philo->id);
 	return (0);
 }
 
@@ -74,15 +75,9 @@ int	watcher_routine(t_philo_info *info)
 		philo = info->philo_lst[id];
 		mutex_lock(philo->m_meal);
 		if (info->eat_num > 0 && philo->meals >= info->eat_num)
-		{
-			mutex_unlock(philo->m_meal, 0);
-			return (print_end_msg(PHILO_SURVIVED, info, id));
-		}
+			return (print_end_msg(PHILO_SURVIVED, philo));
 		else if ((get_current_ms(info) - philo->last_meal) > info->die_time)
-		{
-			mutex_unlock(philo->m_meal, 0);
-			return (print_end_msg(PHILO_DIED, info, id));
-		}
+			return (print_end_msg(PHILO_DIED, philo));
 		mutex_unlock(philo->m_meal, 0);
 		id++;
 	}
