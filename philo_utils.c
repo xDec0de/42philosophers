@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/11 17:19:01 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:45:26 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ t_philo	*set_philo_state(t_philo *philo, int state, int print)
 		state_str = PHILO_SLEEPING;
 	else if (state == EATING)
 		state_str = PHILO_EATING;
-	pthread_mutex_lock(philo->prog_info->m_print);
+	mutex_lock(philo->prog_info->m_print);
 	printf(state_str, get_current_ms(philo->prog_info), philo->id);
-	pthread_mutex_unlock(philo->prog_info->m_print);
+	mutex_unlock(philo->prog_info->m_print, 0);
 	return (philo);
 }
 
