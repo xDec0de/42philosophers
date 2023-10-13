@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/13 19:15:09 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/13 19:35:38 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 			id++;
 		}
 		usleep(1000);
-		id = 0;
-		while (id < info->amount && info->philo_lst[id] != NULL)
-			id += free_philo(info->philo_lst[id]);
+		free_philos(info);
 		mutex_unlock(info->m_print, 1);
 	}
 	return (result);
@@ -58,9 +56,12 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 
 int	print_end_msg(char *msg, t_philo_info *info, t_philo *philo)
 {
+	int	id;
+
+	id = philo->id;
 	mutex_unlock(philo->m_meal, 0);
 	free_info(NULL, info, NULL);
-	printf(msg, get_current_ms(info), philo->id);
+	printf(msg, get_current_ms(info), id);
 	return (0);
 }
 

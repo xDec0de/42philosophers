@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/13 18:42:55 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/13 19:36:49 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,12 @@ t_philo			*pause_philo(t_philo *philo, u_int64_t ms);
  */
 t_philo			*set_philo_state(t_philo *philo, int state, int print);
 
-int				free_philo(t_philo *info);
+/**
+ * @brief Frees all philosophers, joining their threads first to avoid
+ * unexpected behaviour.
+ * 
+ * @param info the program info.
+ */
+void			free_philos(t_philo_info *info);
 
 #endif
