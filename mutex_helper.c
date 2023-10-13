@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/11 17:12:09 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:43:29 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	mutex_unlock(pthread_mutex_t *mutex, int destroy)
 
 	attempts = 0;
 	err = 1;
-	while (err != 0 && attempts < 10)
+	while (err != 0 && attempts < MUTEX_ATTEMPTS)
 	{
 		err = pthread_mutex_unlock(mutex);
 		attempts++;
@@ -43,7 +43,7 @@ int	mutex_unlock(pthread_mutex_t *mutex, int destroy)
 		return (err);
 	attempts = 0;
 	err = 1;
-	while (err != 0 && attempts < 10)
+	while (err != 0 && attempts < MUTEX_ATTEMPTS)
 	{
 		err = pthread_mutex_destroy(mutex);
 		attempts++;
@@ -59,7 +59,7 @@ int	mutex_lock(pthread_mutex_t *mutex)
 
 	attempts = 0;
 	err = 1;
-	while (err != 0 && attempts < 10)
+	while (err != 0 && attempts < MUTEX_ATTEMPTS)
 	{
 		err = pthread_mutex_lock(mutex);
 		attempts++;

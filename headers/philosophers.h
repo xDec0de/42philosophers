@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/11 17:15:12 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:42:55 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,9 @@ ate enough times, ending the simulation\e[1;30m.\e[0m\n"
 // Philosopher has finished SLEEPING and should start THINKING.
 # define THINKING 3
 
+// The amount of times to try to lock / unock a mutes before giving up.
+# define MUTEX_ATTEMPTS 42
+
 /* philosophers.c */
 
 /**
@@ -253,8 +256,8 @@ pthread_mutex_t	*mutex_init(int	*errors);
  * @param mutex the pthread_mutex_t to unlock and optionally destroy.
  * @param destroy 0 to do nothing, any other integer to destroy and free mutex.
  * 
- * @return Zero on success, a non-zero value on failure
- * (After 10 consecutive fails).
+ * @return Zero on success, a non-zero value on failure. Failure will only
+ * happen after attempting MUTEX_ATTEMPTS times.
  */
 int				mutex_unlock(pthread_mutex_t *mutex, int destroy);
 
@@ -264,8 +267,8 @@ int				mutex_unlock(pthread_mutex_t *mutex, int destroy);
  * 
  * @param mutex the pthread_mutex_t to lock.
  * 
- * @return Zero on success, a non-zero value on failure
- * (After 10 consecutive fails).
+ * @return Zero on success, a non-zero value on failure. Failure will only
+ * happen after attempting MUTEX_ATTEMPTS times.
  */
 int				mutex_lock(pthread_mutex_t *mutex);
 
