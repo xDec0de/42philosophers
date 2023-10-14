@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/13 19:36:49 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:06:16 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,6 @@ typedef struct s_philo_info {
 	pthread_mutex_t	*m_print;
 	int				valid;
 }				t_philo_info;
-
-typedef struct s_philo_relatives {
-	t_philo	*left;
-	t_philo	*right;
-}				t_philo_relatives;
 
 /* Input error messages */
 
