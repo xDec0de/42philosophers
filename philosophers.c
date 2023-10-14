@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/13 19:35:38 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/14 02:59:11 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 		usleep(1000);
 		free_philos(info);
 		mutex_unlock(info->m_print, 1);
+		free(info);
 	}
 	return (result);
 }
@@ -85,10 +86,16 @@ int	watcher_routine(t_philo_info *info)
 	return (1);
 }
 
+void	leaks(void)
+{
+	system("leaks -s philo");
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo_info	*info;
 
+	atexit(leaks);
 	if (DEBUG)
 		printf("\n"DEBUG_NOTE);
 	info = print_info(parse_arguments(argc, argv));
@@ -99,6 +106,5 @@ int	main(int argc, char **argv)
 		return (2);
 	while (watcher_routine(info))
 		usleep(50);
-	free(info);
 	return (0);
 }
