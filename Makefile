@@ -6,7 +6,7 @@
 #    By: danimart <danimart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/06 16:29:48 by danimart          #+#    #+#              #
-#    Updated: 2023/10/11 17:47:33 by danimart         ###   ########.fr        #
+#    Updated: 2023/10/14 23:00:50 by danimart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ O_FILES=$(C_FILES:.c=.o)
 all: $(NAME)
 $(NAME): $(O_FILES)
 	@printf "\n\e[0;33m-\e[1;32m "
-	$(CC) $(C_FLAGS) $(O_FILES) -o $(NAME)
+	$(CC) $(CFLAGS) $(O_FILES) -o $(NAME)
 	@printf "\n\033[0m"
 clean:
 	@printf "\n\e[0;33m-\e[1;32m "
