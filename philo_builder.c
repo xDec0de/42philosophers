@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/08 18:18:28 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/15 00:47:39 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_philo	*buid_philo(int id)
 	if (philo == NULL)
 		return (free_info(MALLOC_ERR, NULL, NULL));
 	errors = 0;
-	philo->id = id;
+	philo->id = id + 1;
 	philo->dead = 0;
 	philo->meals = 0;
 	philo->m_dead = mutex_init(&errors);
