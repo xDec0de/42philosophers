@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/07 17:59:25 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/14 23:03:31 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ unsigned long long	get_number(char *str)
 		if (str[i] >= '0' && str[i] <= '9')
 			res = (res * 10) + (str[i] - '0');
 		else
-			return (0);
+			return (-1);
 		i++;
 	}
 	if (res > INT_MAX)
-		return (0);
+		return (-1);
 	return (res);
 }
 
