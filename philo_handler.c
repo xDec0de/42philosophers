@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/11 17:28:32 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/15 23:44:27 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*p_eat(t_philo *philo)
 {
 	t_philo	*left;
 
-	if (philo->id == 0)
+	if (philo->id == 1)
 		left = philo->prog_info->philo_lst[philo->prog_info->amount - 1];
 	else
 		left = philo->prog_info->philo_lst[(philo->id - 1)];
