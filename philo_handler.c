@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/15 23:53:55 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/16 01:43:35 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	*print_fork_taken(char *msg, t_philo *philo, pthread_mutex_t *m_print)
 {
 	int	dead;
 
-	mutex_lock(philo->m_dead);
-	dead = philo->dead;
-	mutex_unlock(philo->m_dead, 0);
+	mutex_lock(philo->m_ended);
+	dead = philo->ended;
+	mutex_unlock(philo->m_ended, 0);
 	if (dead)
 		return (NULL);
 	mutex_lock(m_print);
@@ -32,12 +32,10 @@ void	*take_forks_l(t_philo *philo, t_philo *left)
 	pthread_mutex_t	*m_print;
 
 	m_print = philo->prog_info->m_print;
-	if (lock_fork(left) == NULL)
-		return (NULL);
+	lock_fork(left);
 	if (print_fork_taken(PHILO_TAKE_LFORK, philo, m_print) == NULL)
 		return (NULL);
-	if (lock_fork(philo) == NULL)
-		return (NULL);
+	lock_fork(philo);
 	return (print_fork_taken(PHILO_TAKE_RFORK, philo, m_print));
 }
 
@@ -46,12 +44,10 @@ void	*take_forks_r(t_philo *philo, t_philo *left)
 	pthread_mutex_t	*m_print;
 
 	m_print = philo->prog_info->m_print;
-	if (lock_fork(philo) == NULL)
-		return (NULL);
+	lock_fork(philo);
 	if (print_fork_taken(PHILO_TAKE_RFORK, philo, m_print) == NULL)
 		return (NULL);
-	if (lock_fork(left) == NULL)
-		return (NULL);
+	lock_fork(left);
 	return (print_fork_taken(PHILO_TAKE_LFORK, philo, m_print));
 }
 
@@ -92,13 +88,16 @@ void	*philo_routine(void *philo_ptr)
 	while (1)
 	{
 		if (set_philo_state(philo, THINKING, 1) == NULL)
-			return (NULL);
+			break ;
 		if (p_eat(philo) == NULL)
-			return (NULL);
+			break ;
 		if (set_philo_state(philo, SLEEPING, 1) == NULL)
-			return (NULL);
+			break ;
 		if (pause_philo(philo, philo->prog_info->sleep_time) == NULL)
-			return (NULL);
+			break ;
 	}
+	mutex_unlock(philo->m_fork, 0);
+	mutex_unlock(philo->m_ended, 0);
+	mutex_unlock(philo->m_meal, 0);
 	return (philo_ptr);
 }

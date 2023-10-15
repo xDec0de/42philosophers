@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/14 23:06:16 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/16 01:19:06 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,20 @@ Here is all the data stored in this struct:
 - *prog_info: Program info, ONLY to access the print mutex and fork availability.
 - th_id: The thread id of this philosopher.
 - id: The internal id of this philosopher.
-- *m_fork: Mutex to interact with t_philo::fork
-- r_fork: The right fork state of this philosopher (0 = false, 1 = true).
-- l_fork: The left fork state of this philosopher (0 = false, 1 = true).
-- *m_state: Mutex to interact with t_philo::state
-- state: The state of this philosopher (DEAD, EATING, SLEEPING or THINKING).
-- *m_meal: Mutex to interact with t_philo::meals
+- *m_fork: Mutex to interact with t_philo::fork.
+- *m_ended: Mutex to interact ith t_philo::ended.
+- ended: 1 means this philosopher is stopped, 0 means its still active.
+- *m_meal: Mutex to interact with t_philo::meals.
 - meals: The amount of times this philosopher ate so far.
-- last_meal: The date of the last meal of this philosopher (millis)
+- last_meal: The date of the last meal of this philosopher (millis).
 */
 typedef struct s_philo {
 	struct s_philo_info	*prog_info;
 	pthread_t			th_id;
 	int					id;
 	pthread_mutex_t		*m_fork;
-	pthread_mutex_t		*m_dead;
-	int					dead;
+	pthread_mutex_t		*m_ended;
+	int					ended;
 	pthread_mutex_t		*m_meal;
 	int					meals;
 	u_int64_t			last_meal;
@@ -153,7 +151,7 @@ is \e[1;32mthinking\e[1;30m.\e[0m\n"
 // A philosopher died :(
 # define PHILO_DIED "\e[1;30m[\e[0;31m%llu\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
-# define PHILO_SURVIVED "\e[1;30m[\e[0;32m%llu\e[1;30m] \e[1;37m%d \e[1;32m\
+# define ALL_SURVIVED "\e[1;30m[\e[0;32m%llu\e[1;30m] \e[1;32mAll philosophers\
 ate enough times, ending the simulation\e[1;30m.\e[0m\n"
 
 /* Philosopher state constants, saved on s_philo::state */
@@ -312,5 +310,7 @@ t_philo			*set_philo_state(t_philo *philo, int state, int print);
  * @param info the program info.
  */
 void			free_philos(t_philo_info *info);
+
+t_philo_info	*print_info(t_philo_info *info);
 
 #endif

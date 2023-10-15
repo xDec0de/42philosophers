@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/13 18:43:29 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/16 01:44:34 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,12 @@ int	mutex_lock(pthread_mutex_t *mutex)
 
 void	*lock_fork(t_philo *philo)
 {
-	int	dead;
+	int	ended;
 
-	pthread_mutex_lock(philo->m_dead);
-	dead = philo->dead;
-	pthread_mutex_unlock(philo->m_dead);
-	if (dead)
-		return (NULL);
-	pthread_mutex_lock(philo->m_fork);
+	mutex_lock(philo->m_ended);
+	ended = philo->ended;
+	mutex_unlock(philo->m_ended, 0);
+	if (ended != 1)
+		mutex_lock(philo->m_fork);
 	return (philo);
 }
