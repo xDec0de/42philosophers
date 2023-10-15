@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/15 23:44:27 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/15 23:53:55 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*print_fork_taken(char *msg, t_philo *philo, pthread_mutex_t *m_print)
 	if (dead)
 		return (NULL);
 	mutex_lock(m_print);
-	printf(msg, get_current_ms(philo->prog_info), philo->id);
+	printf(msg, get_current_ms(philo->prog_info), philo->id + 1);
 	mutex_unlock(m_print, 0);
 	return (philo);
 }
@@ -59,7 +59,7 @@ void	*p_eat(t_philo *philo)
 {
 	t_philo	*left;
 
-	if (philo->id == 1)
+	if (philo->id == 0)
 		left = philo->prog_info->philo_lst[philo->prog_info->amount - 1];
 	else
 		left = philo->prog_info->philo_lst[(philo->id - 1)];
