@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/16 19:08:46 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/16 19:41:01 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 		usleep(1000);
 		free_philos(info);
 		mutex_unlock(info->m_print, 1);
+		mutex_unlock(info->m_ready, 1);
 		free(info);
 	}
 	return (result);
@@ -84,6 +85,8 @@ int	watcher_routine(t_philo_info *info)
 	u_int64_t	ms;
 
 	id = 0;
+	if (!info->ready)
+		return (1);
 	ms = get_current_ms(info);
 	while (id < info->amount)
 	{

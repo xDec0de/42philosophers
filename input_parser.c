@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/14 23:03:31 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/16 19:25:04 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ t_philo_info	*init_info(void)
 	info = malloc(sizeof(t_philo_info));
 	if (info == NULL)
 		return (free_info(MALLOC_ERR, NULL, NULL));
+	info->ready = 0;
 	info->m_print = mutex_init(&errors);
+	info->m_ready = mutex_init(&errors);
 	if (errors != 0)
 		return (NULL);
 	info->start_date = 0;
