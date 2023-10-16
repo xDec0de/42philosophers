@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/16 01:19:06 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/16 19:02:45 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ is \e[1;32mthinking\e[1;30m.\e[0m\n"
 # define PHILO_DIED "\e[1;30m[\e[0;31m%llu\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
 # define ALL_SURVIVED "\e[1;30m[\e[0;32m%llu\e[1;30m] \e[1;32mAll philosophers\
-ate enough times, ending the simulation\e[1;30m.\e[0m\n"
+ ate enough times, ending the simulation\e[1;30m.\e[0m\n"
 
 /* Philosopher state constants, saved on s_philo::state */
 
