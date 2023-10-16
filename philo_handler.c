@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/16 18:57:02 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/16 18:59:53 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,16 @@ void	*p_eat(t_philo *philo)
 		left = philo->prog_info->philo_lst[(philo->id - 1)];
 	if (take_forks(philo, left) == NULL)
 		return (NULL);
-	mutex_lock(philo->m_meal);
-	philo->meals += 1;
-	philo->last_meal = get_current_ms(philo->prog_info);
-	mutex_unlock(philo->m_meal, 0);
 	if (set_philo_state(philo, EATING, 1) == NULL)
 		return (NULL);
 	if (pause_philo(philo, philo->prog_info->eat_time) == NULL)
 		return (NULL);
 	mutex_unlock(philo->m_fork, 0);
 	mutex_unlock(left->m_fork, 0);
+	mutex_lock(philo->m_meal);
+	philo->meals += 1;
+	philo->last_meal = get_current_ms(philo->prog_info);
+	mutex_unlock(philo->m_meal, 0);
 	return (philo);
 }
 
