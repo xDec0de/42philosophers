@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/16 18:45:30 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/16 19:08:46 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	watcher_routine(t_philo_info *info)
 		mutex_lock(philo->m_ended);
 		if (info->eat_num > 0 && philo->meals >= info->eat_num)
 			philo->ended = 1;
-		else if ((ms - philo->last_meal) > info->die_time && philo->ended != 0)
+		else if ((ms - philo->last_meal) > info->die_time && philo->ended != 1)
 			return (print_end_msg(PHILO_DIED, info, philo));
 		mutex_unlock(philo->m_ended, 0);
 		mutex_unlock(philo->m_meal, 0);
