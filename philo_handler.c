@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 13:02:59 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:38:48 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,11 @@ void	*print_fork_taken(char *msg, t_philo *philo)
 
 void	*take_forks(t_philo *philo, t_philo *left)
 {
-	if (philo->id % 2 == 0)
-	{
-		lock_fork(philo);
-		if (print_fork_taken(PHILO_TAKE_RFORK, philo) == NULL)
-			return (NULL);
-		lock_fork(left);
-		return (print_fork_taken(PHILO_TAKE_LFORK, philo));
-	}
-	else
-	{
-		lock_fork(left);
-		if (print_fork_taken(PHILO_TAKE_LFORK, philo) == NULL)
-			return (NULL);
-		lock_fork(philo);
-		return (print_fork_taken(PHILO_TAKE_RFORK, philo));
-	}
+	lock_fork(philo);
+	if (print_fork_taken(PHILO_TAKE_RFORK, philo) == NULL)
+		return (NULL);
+	lock_fork(left);
+	return (print_fork_taken(PHILO_TAKE_LFORK, philo));
 }
 
 void	*p_eat(t_philo *philo)
@@ -77,10 +66,9 @@ t_philo	*await_ready(void *philo_ptr)
 	philo = (t_philo *) philo_ptr;
 	philo->ready = 1;
 	while (!philo->prog_info->ready)
-		;
-	if (philo->id % 2 == 1)
-		while (get_current_ms(philo->prog_info) < 1)
-			;
+		usleep(100);
+	if (philo->id % 2 != 0)
+		pause_philo(philo, 5);
 	return (philo);
 }
 
