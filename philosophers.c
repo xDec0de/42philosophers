@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 11:46:47 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 12:10:50 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	print_end_msg(char *msg, t_philo_info *info, t_philo *philo)
 	}
 	free_info(NULL, info, NULL);
 	if (philo != NULL)
-		printf(msg, get_current_ms(info), id + 1);
+		printf(msg, get_current_ms(info), id);
 	else
 		printf(msg, get_current_ms(info));
 	return (0);

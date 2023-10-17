@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 11:43:49 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 12:19:11 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*print_fork_taken(char *msg, t_philo *philo)
 	if (dead)
 		return (NULL);
 	mutex_lock(philo->prog_info->m_print);
-	printf(msg, get_current_ms(philo->prog_info), philo->id + 1);
+	printf(msg, get_current_ms(philo->prog_info), philo->id);
 	mutex_unlock(philo->prog_info->m_print, 0);
 	return (philo);
 }
@@ -51,10 +51,10 @@ void	*p_eat(t_philo *philo)
 {
 	t_philo	*left;
 
-	if (philo->id == 0)
+	if (philo->id == 1)
 		left = philo->prog_info->philo_lst[philo->prog_info->amount - 1];
 	else
-		left = philo->prog_info->philo_lst[(philo->id - 1)];
+		left = philo->prog_info->philo_lst[(philo->id - 2)];
 	if (take_forks(philo, left) == NULL)
 		return (NULL);
 	if (set_philo_state(philo, EATING, 1) == NULL)
