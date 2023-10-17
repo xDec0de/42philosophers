@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/16 19:26:02 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:01:01 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 		philo = buid_philo(id);
 		if (philo == NULL)
 			return (free_info(NULL, info, NULL));
-		philo->last_meal = get_current_ms(info);
+		philo->last_meal = 0;
 		philo->prog_info = info;
 		info->philo_lst[id] = philo;
 		id++;
