@@ -6,7 +6,7 @@
 #    By: danimart <danimart@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/06 16:29:48 by danimart          #+#    #+#              #
-#    Updated: 2023/10/17 18:04:41 by danimart         ###   ########.fr        #
+#    Updated: 2023/10/17 18:16:51 by danimart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ C_FILES=philosophers.c input_parser.c philo_builder.c \
 philo_handler.c mutex_helper.c philo_utils.c
 
 CFLAGS=-DMAX_PHILOSOPHERS='$(MAX_PHILOSOPHERS)' -Wall \
--Werror -Wextra -pthread -g3 -fsanitize=address
+-Werror -Wextra -pthread
 
 O_FILES=$(C_FILES:.c=.o)
 
