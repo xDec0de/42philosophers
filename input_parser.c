@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 17:27:07 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:25:38 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ t_philo_info	*verify_info(t_philo_info *info, long long die_time)
 		errors += (int) free_info(EAT_NUM_ERR, NULL, (void *)1);
 	if (errors == 0)
 		return (info);
+	mutex_unlock(info->m_print, 1);
+	mutex_unlock(info->m_ready, 1);
 	free(info);
 	return (NULL);
 }
