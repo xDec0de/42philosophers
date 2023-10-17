@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 16:10:57 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:03:47 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ t_philo_info	*verify_info(t_philo_info *info)
 		errors += (int) free_info(EAT_NUM_ERR, NULL, (void *)1);
 	if (errors == 0)
 		return (info);
-	return (free_info(NULL, info, NULL));
+	free(info);
+	return (NULL);
 }
 
 unsigned long long	get_number(char *str)
