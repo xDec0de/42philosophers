@@ -6,24 +6,11 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 14:42:49 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:57:22 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
-
-u_int64_t	get_current_ms(t_philo_info *info)
-{
-	struct timeval	time;
-	u_int64_t		current_ms;
-
-	if (gettimeofday(&time, NULL) != 0)
-		return ((int) free_info(GET_TIME_ERR, info, NULL));
-	current_ms = ((time.tv_sec * (u_int64_t) 1000) + (time.tv_usec / 1000));
-	if (info->start_date == 0)
-		info->start_date = current_ms;
-	return (current_ms - info->start_date);
-}
 
 t_philo	*buid_philo(int id)
 {
@@ -42,6 +29,7 @@ t_philo	*buid_philo(int id)
 	philo->m_ended = mutex_init(&errors);
 	philo->m_fork = mutex_init(&errors);
 	philo->m_meal = mutex_init(&errors);
+	philo->m_ready = mutex_init(&errors);
 	if (errors != 0)
 		return (NULL);
 	return (philo);
@@ -103,8 +91,16 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 		id = 0;
 		ready = 0;
 		while (id < info->amount)
-			ready += info->philo_lst[id++]->ready;
+		{
+			mutex_lock(info->philo_lst[id]->m_ready);
+			ready += info->philo_lst[id]->ready;
+			mutex_unlock(info->philo_lst[id]->m_ready, 0);
+			id++;
+		}
 	}
+	info->start_date = get_current_time(info);
+	mutex_lock(info->m_ready);
 	info->ready = 1;
+	mutex_unlock(info->m_ready, 0);
 	return (info);
 }

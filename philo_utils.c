@@ -6,27 +6,24 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 12:12:48 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:55:12 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
 
-t_philo_info	*print_info(t_philo_info *info)
+u_int64_t	get_current_ms(t_philo_info *info)
 {
-	if (!DEBUG || info == NULL)
-		return (info);
-	printf(INFO_HEADER);
-	printf(INFO_INT, "Philosopher amount", info->amount);
-	printf(INFO_LONG, "Time to die", info->die_time);
-	printf(INFO_INT, "Time to eat", info->eat_time);
-	printf(INFO_INT, "Time to sleep", info->sleep_time);
-	if (info->eat_num == 0)
-		printf(INFO_STR, "Times to eat", "unlimited");
-	else
-		printf(INFO_INT, "Times to eat", info->eat_num);
-	printf(INFO_FOOTER);
-	return (info);
+	return (get_current_time(info) - info->start_date);
+}
+
+u_int64_t	get_current_time(t_philo_info *info)
+{
+	struct timeval	time;
+
+	if (gettimeofday(&time, NULL) != 0)
+		return ((int) free_info(GET_TIME_ERR, info, NULL));
+	return (((time.tv_sec * (u_int64_t) 1000) + (time.tv_usec / 1000)));
 }
 
 t_philo	*pause_philo(t_philo *philo, u_int64_t ms)
@@ -51,20 +48,15 @@ t_philo	*pause_philo(t_philo *philo, u_int64_t ms)
 t_philo	*set_philo_state(t_philo *philo, int state, int print)
 {
 	char	*state_str;
+	int		ended;
 
 	mutex_lock(philo->m_ended);
-	if (philo->ended == 1)
-	{
-		mutex_unlock(philo->m_ended, 0);
-		return (NULL);
-	}
-	if (state == DEAD)
-		philo->ended = 1;
+	ended = philo->ended;
 	mutex_unlock(philo->m_ended, 0);
+	if (ended == 1)
+		return (NULL);
 	if (!print)
 		return (philo);
-	if (state == DEAD)
-		state_str = PHILO_DIED;
 	else if (state == THINKING)
 		state_str = PHILO_THINKING;
 	else if (state == SLEEPING)
@@ -93,6 +85,7 @@ void	free_philos(t_philo_info *info)
 		mutex_unlock(info->philo_lst[id]->m_fork, 1);
 		mutex_unlock(info->philo_lst[id]->m_meal, 1);
 		mutex_unlock(info->philo_lst[id]->m_ended, 1);
+		mutex_unlock(info->philo_lst[id]->m_ready, 1);
 		free(info->philo_lst[id]);
 		id++;
 	}

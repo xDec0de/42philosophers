@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 15:56:43 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:51:05 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 		usleep(1000);
 		free_philos(info);
 		mutex_unlock(info->m_print, 1);
+		mutex_unlock(info->m_ready, 1);
 		free(info);
 	}
 	return (result);
@@ -40,7 +41,8 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 
 int	print_end_msg(char *msg, t_philo_info *info, t_philo *philo)
 {
-	int	id;
+	int			id;
+	u_int64_t	ms;
 
 	id = 0;
 	if (philo != NULL)
@@ -49,11 +51,12 @@ int	print_end_msg(char *msg, t_philo_info *info, t_philo *philo)
 		mutex_unlock(philo->m_ended, 0);
 		mutex_unlock(philo->m_meal, 0);
 	}
+	ms = get_current_ms(info);
 	free_info(NULL, info, NULL);
 	if (philo != NULL)
-		printf(msg, get_current_ms(info), id);
+		printf(msg, ms, id);
 	else
-		printf(msg, get_current_ms(info));
+		printf(msg, ms);
 	return (0);
 }
 
@@ -84,8 +87,6 @@ int	watcher_routine(t_philo_info *info)
 	u_int64_t	ms;
 
 	id = 0;
-	if (!info->ready)
-		return (1);
 	while (id < info->amount)
 	{
 		philo = info->philo_lst[id];
@@ -107,9 +108,7 @@ int	main(int argc, char **argv)
 {
 	t_philo_info	*info;
 
-	if (DEBUG)
-		printf("\n"DEBUG_NOTE);
-	info = print_info(parse_arguments(argc, argv));
+	info = parse_arguments(argc, argv);
 	if (info == NULL)
 		return (1);
 	info = build_philosophers(info);

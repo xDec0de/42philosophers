@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 17:15:22 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:27:07 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_philo_info	*init_info(void)
 		return (free_info(MALLOC_ERR, NULL, NULL));
 	info->ready = 0;
 	info->m_print = mutex_init(&errors);
+	info->m_ready = mutex_init(&errors);
 	if (errors != 0)
 		return (NULL);
 	info->start_date = 0;

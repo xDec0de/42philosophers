@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 12:49:10 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:56:32 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_philo {
 	pthread_mutex_t		*m_meal;
 	int					meals;
 	u_int64_t			last_meal;
+	pthread_mutex_t		*m_ready;
 	int					ready;
 }			t_philo;
 
@@ -71,6 +72,7 @@ typedef struct s_philo_info {
 	u_int64_t		start_date;
 	pthread_mutex_t	*m_print;
 	int				valid;
+	pthread_mutex_t	*m_ready;
 	int				ready;
 }				t_philo_info;
 
@@ -115,24 +117,6 @@ typedef struct s_philo_info {
 // Error while calling malloc
 # define MALLOC_ERR "\e[0;31mError\e[1;30m: \e[1;31mMalloc failed\e[1;30m.\e[0m\n"
 
-/* Debug messages, debug should be disabled on evaluation just in case */
-
-// Notication message sent if debug mode is on
-# define DEBUG_NOTE "\e[1;37mDebug \e[1;32menabled\e[1;37m, run\
- \e[1;33mmake re DEBUG=0 \e[1;37mto disable\e[1;30m.\e[0m\n"
-// Header of the program info
-# define INFO_HEADER "\n\e[0;37m|-------------------------->\e[0m\n"
-// Info slot about the program with a string value
-# define INFO_STR "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%s\e[0m\n"
-// Info slot about the program with a integer value
-# define INFO_INT "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%d\e[0m\n"
-// Info slot about the program with a unsigned long long value
-# define INFO_LONG "\e[1;31m* \e[1;37m%s\e[1;30m: \e[0;33m%llu\e[0m\n"
-// Footer of the program info
-# define INFO_FOOTER "\e[0;37m|-------------------------->\e[0m\n\n"
-// Prefix used for debug messages
-# define DEBUG_PREFIX "\e[1;30m[\e[1;37mDEBUG\e[1;30m]\e[0m"
-
 /* Philosopher log messages */
 
 // A philosopher takes a fork (Right hand).
@@ -158,8 +142,6 @@ died\e[1;30m.\e[0m\n"
 
 /* Philosopher state constants, saved on s_philo::state */
 
-// Philosopher is dead and must stay like that, sorry :)
-# define DEAD 0
 // Philosopher is currently EATING, next action is SLEEPING.
 # define EATING 1
 // Philosopher is currently SLEEPING, next action is THINKING.
@@ -197,16 +179,6 @@ void			*free_info(char *err, t_philo_info *info, void *result);
 t_philo_info	*parse_arguments(int argc, char **argv);
 
 /* philo_builder.c */
-
-/**
- * @brief Get the current timestamp of the program (Milliseconds since start)
- * 
- * @param info the program info struct, used to set and get
- * t_philo_info::start_date.
- * 
- * @return The current timestamp of the program, 0 if an error occurred.
- */
-u_int64_t		get_current_ms(t_philo_info *info);
 
 /**
  * @brief Builds all required philosophers and creates a thread for each one.
@@ -277,6 +249,18 @@ int				mutex_lock(pthread_mutex_t *mutex);
 void			*lock_fork(t_philo *philo);
 
 /** philo_utils.c */
+
+/**
+ * @brief Get the current timestamp of the program (Milliseconds since start)
+ * 
+ * @param info the program info struct, used to set and get
+ * t_philo_info::start_date.
+ * 
+ * @return The current timestamp of the program, 0 if an error occurred.
+ */
+u_int64_t		get_current_ms(t_philo_info *info);
+
+u_int64_t		get_current_time(t_philo_info *info);
 
 /**
  * @brief Pauses a thread for the specified amount of ms, this
