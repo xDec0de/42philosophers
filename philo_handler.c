@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/16 19:42:21 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:18:16 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_philo	*await_ready(void *philo_ptr)
 void	*philo_routine(void *philo_ptr)
 {
 	t_philo	*philo;
+	int		meals;
 
 	philo = await_ready(philo_ptr);
 	while (1)
@@ -100,6 +101,11 @@ void	*philo_routine(void *philo_ptr)
 		if (set_philo_state(philo, THINKING, 1) == NULL)
 			break ;
 		if (p_eat(philo) == NULL)
+			break ;
+		mutex_lock(philo->m_meal);
+		meals = philo->meals;
+		mutex_unlock(philo->m_meal, 0);
+		if (meals == philo->prog_info->eat_num)
 			break ;
 		if (set_philo_state(philo, SLEEPING, 1) == NULL)
 			break ;
