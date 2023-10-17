@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 17:03:47 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:15:22 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_philo_info	*init_info(void)
 	return (info);
 }
 
-t_philo_info	*verify_info(t_philo_info *info)
+t_philo_info	*verify_info(t_philo_info *info, long long die_time)
 {
 	int	errors;
 
@@ -43,7 +43,7 @@ t_philo_info	*verify_info(t_philo_info *info)
 	}
 	else if (info->amount > 200)
 		printf(AMOUNT_WARN);
-	if (info->die_time <= 0)
+	if (die_time <= 0)
 		errors += (int) free_info(DIE_TIME_ERR, NULL, (void *)1);
 	if (info->eat_time <= 0)
 		errors += (int) free_info(EAT_TIME_ERR, NULL, (void *)1);
@@ -57,7 +57,7 @@ t_philo_info	*verify_info(t_philo_info *info)
 	return (NULL);
 }
 
-unsigned long long	get_number(char *str)
+long long	get_number(char *str)
 {
 	int		i;
 	long	res;
@@ -112,6 +112,6 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 		info->eat_num = get_number(argv[5]);
 	else
 		info->eat_num = 0;
-	info = verify_info(info);
+	info = verify_info(info, get_number(argv[2]));
 	return (info);
 }
