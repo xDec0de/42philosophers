@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 12:13:21 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:42:49 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,29 @@ u_int64_t	get_current_ms(t_philo_info *info)
 	return (current_ms - info->start_date);
 }
 
-pthread_t	create_philo_thread(t_philo *philo, int *errors)
+t_philo	*buid_philo(int id)
+{
+	t_philo	*philo;
+	int		errors;
+
+	philo = (t_philo *) malloc(sizeof(t_philo));
+	if (philo == NULL)
+		return (free_info(MALLOC_ERR, NULL, NULL));
+	errors = 0;
+	philo->id = id + 1;
+	philo->ended = 0;
+	philo->meals = 0;
+	philo->last_meal = 0;
+	philo->ready = 0;
+	philo->m_ended = mutex_init(&errors);
+	philo->m_fork = mutex_init(&errors);
+	philo->m_meal = mutex_init(&errors);
+	if (errors != 0)
+		return (NULL);
+	return (philo);
+}
+
+pthread_t	start_thread(t_philo *philo, int *errors)
 {
 	pthread_t	thread;
 	int			result;
@@ -39,30 +61,30 @@ pthread_t	create_philo_thread(t_philo *philo, int *errors)
 	return (thread);
 }
 
-t_philo	*buid_philo(int id)
+t_philo_info	*create_threads(t_philo_info *info)
 {
-	t_philo	*philo;
+	int		id;
 	int		errors;
+	t_philo	*philo;
 
-	philo = (t_philo *) malloc(sizeof(t_philo));
-	if (philo == NULL)
-		return (free_info(MALLOC_ERR, NULL, NULL));
+	id = 0;
 	errors = 0;
-	philo->id = id + 1;
-	philo->ended = 0;
-	philo->meals = 0;
-	philo->m_ended = mutex_init(&errors);
-	philo->m_fork = mutex_init(&errors);
-	philo->m_meal = mutex_init(&errors);
+	while (id < info->amount || errors != 0)
+	{
+		philo = info->philo_lst[id];
+		philo->th_id = start_thread(philo, &errors);
+		id++;
+	}
 	if (errors != 0)
 		return (NULL);
-	return (philo);
+	return (info);
 }
 
 t_philo_info	*build_philosophers(t_philo_info *info)
 {
 	t_philo	*philo;
 	int		id;
+	int		ready;
 
 	id = 0;
 	while (id < info->amount)
@@ -70,20 +92,19 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 		philo = buid_philo(id);
 		if (philo == NULL)
 			return (free_info(NULL, info, NULL));
-		philo->last_meal = 0;
 		philo->prog_info = info;
 		info->philo_lst[id] = philo;
 		id++;
 	}
-	id = 0;
-	while (id < info->amount)
+	create_threads(info);
+	ready = 0;
+	while (ready != info->amount)
 	{
-		philo = info->philo_lst[id];
-		philo->th_id = create_philo_thread(philo, NULL);
-		id++;
+		id = 0;
+		ready = 0;
+		while (id < info->amount)
+			ready += info->philo_lst[id++]->ready;
 	}
-	mutex_lock(info->m_ready);
 	info->ready = 1;
-	mutex_unlock(info->m_ready, 0);
 	return (info);
 }

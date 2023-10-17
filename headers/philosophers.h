@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/16 19:21:44 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 12:49:10 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_philo {
 	pthread_mutex_t		*m_meal;
 	int					meals;
 	u_int64_t			last_meal;
+	int					ready;
 }			t_philo;
 
 /* Struct used to store program information such as parameters and philosophers
@@ -70,7 +71,6 @@ typedef struct s_philo_info {
 	u_int64_t		start_date;
 	pthread_mutex_t	*m_print;
 	int				valid;
-	pthread_mutex_t	*m_ready;
 	int				ready;
 }				t_philo_info;
 

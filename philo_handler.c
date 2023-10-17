@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 12:19:11 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:02:59 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,14 @@ void	*p_eat(t_philo *philo)
 t_philo	*await_ready(void *philo_ptr)
 {
 	t_philo	*philo;
-	int		ready;
 
 	philo = (t_philo *) philo_ptr;
-	ready = 0;
-	while (!ready)
-	{
-		mutex_lock(philo->prog_info->m_ready);
-		ready = philo->prog_info->ready;
-		mutex_unlock(philo->prog_info->m_ready, 0);
-	}
-	if (philo->id % 2 == 0)
-		usleep(1000);
+	philo->ready = 1;
+	while (!philo->prog_info->ready)
+		;
+	if (philo->id % 2 == 1)
+		while (get_current_ms(philo->prog_info) < 1)
+			;
 	return (philo);
 }
 

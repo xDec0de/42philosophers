@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 12:10:50 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 12:40:14 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 		usleep(1000);
 		free_philos(info);
 		mutex_unlock(info->m_print, 1);
-		mutex_unlock(info->m_ready, 1);
 		free(info);
 	}
 	return (result);
@@ -117,6 +116,6 @@ int	main(int argc, char **argv)
 	if (info == NULL)
 		return (2);
 	while (watcher_routine(info))
-		usleep(1000);
+		usleep(100);
 	return (0);
 }
