@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 15:38:48 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:06:40 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,12 @@ t_philo	*await_ready(void *philo_ptr)
 	while (!philo->prog_info->ready)
 		usleep(100);
 	if (philo->id % 2 != 0)
-		pause_philo(philo, 5);
+	{
+		if (philo->prog_info->amount <= 20)
+			pause_philo(philo, 2);
+		else
+			pause_philo(philo, 5);
+	}
 	return (philo);
 }
 
