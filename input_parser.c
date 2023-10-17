@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 12:25:34 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:10:57 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_philo_info	*verify_info(t_philo_info *info)
 		errors++;
 	}
 	else if (info->amount > 200)
-		errors += (int) free_info(AMOUNT_WARN, NULL, (void *)1);
+		printf(AMOUNT_WARN);
 	if (info->die_time <= 0)
 		errors += (int) free_info(DIE_TIME_ERR, NULL, (void *)1);
 	if (info->eat_time <= 0)
