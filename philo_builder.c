@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 17:57:22 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:01:26 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,11 @@ t_philo_info	*create_threads(t_philo_info *info)
 	return (info);
 }
 
-t_philo_info	*build_philosophers(t_philo_info *info)
+void	await_prog_ready(t_philo_info *info)
 {
-	t_philo	*philo;
-	int		id;
-	int		ready;
+	int	ready;
+	int	id;
 
-	id = 0;
-	while (id < info->amount)
-	{
-		philo = buid_philo(id);
-		if (philo == NULL)
-			return (free_info(NULL, info, NULL));
-		philo->prog_info = info;
-		info->philo_lst[id] = philo;
-		id++;
-	}
-	create_threads(info);
 	ready = 0;
 	while (ready != info->amount)
 	{
@@ -98,6 +86,25 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 			id++;
 		}
 	}
+}
+
+t_philo_info	*build_philosophers(t_philo_info *info)
+{
+	t_philo	*philo;
+	int		id;
+
+	id = 0;
+	while (id < info->amount)
+	{
+		philo = buid_philo(id);
+		if (philo == NULL)
+			return (free_info(NULL, info, NULL));
+		philo->prog_info = info;
+		info->philo_lst[id] = philo;
+		id++;
+	}
+	create_threads(info);
+	await_prog_ready(info);
 	info->start_date = get_current_time(info);
 	mutex_lock(info->m_ready);
 	info->ready = 1;
