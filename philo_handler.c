@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 11:18:16 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:43:49 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ void	*p_eat(t_philo *philo)
 		return (NULL);
 	mutex_unlock(philo->m_fork, 0);
 	mutex_unlock(left->m_fork, 0);
-	mutex_lock(philo->m_meal);
 	philo->meals += 1;
-	mutex_unlock(philo->m_meal, 0);
 	return (philo);
 }
 
@@ -93,7 +91,6 @@ t_philo	*await_ready(void *philo_ptr)
 void	*philo_routine(void *philo_ptr)
 {
 	t_philo	*philo;
-	int		meals;
 
 	philo = await_ready(philo_ptr);
 	while (1)
@@ -102,10 +99,7 @@ void	*philo_routine(void *philo_ptr)
 			break ;
 		if (p_eat(philo) == NULL)
 			break ;
-		mutex_lock(philo->m_meal);
-		meals = philo->meals;
-		mutex_unlock(philo->m_meal, 0);
-		if (meals == philo->prog_info->eat_num)
+		if (philo->meals == philo->prog_info->eat_num)
 			break ;
 		if (set_philo_state(philo, SLEEPING, 1) == NULL)
 			break ;
@@ -113,7 +107,8 @@ void	*philo_routine(void *philo_ptr)
 			break ;
 	}
 	mutex_unlock(philo->m_fork, 0);
+	mutex_lock(philo->m_ended);
+	philo->ended = 1;
 	mutex_unlock(philo->m_ended, 0);
-	mutex_unlock(philo->m_meal, 0);
 	return (philo_ptr);
 }

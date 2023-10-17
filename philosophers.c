@@ -6,7 +6,7 @@
 /*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 11:03:57 by danimart         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:46:47 by danimart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,7 @@ int	watcher_routine(t_philo_info *info)
 		philo = info->philo_lst[id];
 		mutex_lock(philo->m_meal);
 		mutex_lock(philo->m_ended);
-		if (info->eat_num > 0 && philo->meals >= info->eat_num)
-			philo->ended = 1;
-		else if ((ms - philo->last_meal) > info->die_time && philo->ended != 1)
+		if ((ms - philo->last_meal) > info->die_time && philo->ended != 1)
 			return (print_end_msg(PHILO_DIED, info, philo));
 		mutex_unlock(philo->m_ended, 0);
 		mutex_unlock(philo->m_meal, 0);
@@ -106,16 +104,10 @@ int	watcher_routine(t_philo_info *info)
 	return (1);
 }
 
-void	leaks(void)
-{
-	system("leaks -s philo");
-}
-
 int	main(int argc, char **argv)
 {
 	t_philo_info	*info;
 
-	atexit(leaks);
 	if (DEBUG)
 		printf("\n"DEBUG_NOTE);
 	info = print_info(parse_arguments(argc, argv));
@@ -125,6 +117,6 @@ int	main(int argc, char **argv)
 	if (info == NULL)
 		return (2);
 	while (watcher_routine(info))
-		usleep(50);
+		usleep(1000);
 	return (0);
 }
