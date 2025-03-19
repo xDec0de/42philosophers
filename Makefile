@@ -3,38 +3,68 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: danimart <danimart@student.42.fr>          +#+  +:+       +#+         #
+#    By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/06 16:29:48 by danimart          #+#    #+#              #
-#    Updated: 2023/10/17 18:16:51 by danimart         ###   ########.fr        #
+#    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
+#    Updated: 2025/03/19 18:06:53 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME=philo
-CC=gcc
+NAME = philo
+
+CC = gcc
+CFLAGS = -DMAX_PHILOSOPHERS='$(MAX_PHILOSOPHERS)' -Wall \
+-Werror -Wextra -pthread -g3 -fdiagnostics-color=always
+
+SRC_DIR = ./src
+OBJ_DIR = ./objs
 
 MAX_PHILOSOPHERS?=200
 
-C_FILES=philosophers.c input_parser.c philo_builder.c \
-philo_handler.c mutex_helper.c philo_utils.c
+# > ~ List utilities
 
-CFLAGS=-DMAX_PHILOSOPHERS='$(MAX_PHILOSOPHERS)' -Wall \
--Werror -Wextra -pthread
+SRCS =	philosophers.c\
+		input_parser.c\
+		philo_builder.c\
+		philo_handler.c\
+		mutex_helper.c\
+		philo_utils.c
 
-O_FILES=$(C_FILES:.c=.o)
+SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
+
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@echo -n "\r⏳ \e[0;33mCompiling $(notdir $<)\e[0m                          "
+	@{\
+		ERR=$$( ($(CC) $(CFLAGS) -c $< -o $@) 2>&1 );\
+		if [ $$? -ne 0 ]; then\
+			echo -n "\r❌ \e[0;31mFailed to compile $(notdir $<):        \e[0m";\
+			echo "\n$$ERR";\
+			exit 1;\
+		fi;\
+	}
 
 all: $(NAME)
-$(NAME): $(O_FILES)
-	@printf "\n\e[0;33m-\e[1;32m "
-	$(CC) $(CFLAGS) $(O_FILES) -o $(NAME)
-	@printf "\n\033[0m"
+
+$(NAME): $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo -n "\r✅ \e[1;36mpush_swap \e[0;32msuccessfully compiled!             "
+	@echo 
+
 clean:
-	@printf "\n\e[0;33m-\e[1;32m "
-	rm -rf $(O_FILES)
-	@printf "\n\033[0m"
-fclean:
-	@printf "\n\e[0;33m-\e[1;32m "
-	rm -rf $(NAME) $(O_FILES)
-	@printf "\n\033[0m"
+	@echo -n "\r⏳ \e[0;33mRemoving $(NAME) objs.                               "
+	@rm -rf $(OBJ_DIR)
+	@echo -n "\r✅ \e[0;32mSuccessfully removed $(NAME) objs.                   "
+	@echo 
+
+fclean: clean
+	@echo -n "\r⏳ \e[0;33mRemoving $(NAME) executable.                         "
+	@rm -rf $(NAME)
+	@echo -n "\r✅ \e[0;32mSuccessfully removed $(NAME) executable.             "
+	@echo 
+
 re: fclean $(NAME)
+
 .PHONY: all clean fclean re
