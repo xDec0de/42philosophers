@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 17:56:32 by danimart         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:13:15 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <sys/time.h>
+
+#ifndef MAX_PHILOSOPHERS
+# define MAX_PHILOSOPHERS 200
+#endif
 
 struct	s_philo_info;
 
