@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 18:25:38 by danimart         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:19:04 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ t_philo_info	*verify_info(t_philo_info *info, long long die_time)
 	else if (info->amount > 200)
 		printf(AMOUNT_WARN);
 	if (die_time <= 0)
-		errors += (int) free_info(DIE_TIME_ERR, NULL, (void *)1);
+		errors += *(int *) free_info(DIE_TIME_ERR, NULL, (int *)1);
 	if (info->eat_time <= 0)
-		errors += (int) free_info(EAT_TIME_ERR, NULL, (void *)1);
+		errors += *(int *) free_info(EAT_TIME_ERR, NULL, (int *)1);
 	if (info->sleep_time <= 0)
-		errors += (int) free_info(SLEEP_TIME_ERR, NULL, (void *)1);
+		errors += *(int *) free_info(SLEEP_TIME_ERR, NULL, (int *)1);
 	if (info->eat_num < 0)
-		errors += (int) free_info(EAT_NUM_ERR, NULL, (void *)1);
+		errors += *(int *) free_info(EAT_NUM_ERR, NULL, (int *)1);
 	if (errors == 0)
 		return (info);
 	mutex_unlock(info->m_print, 1);
