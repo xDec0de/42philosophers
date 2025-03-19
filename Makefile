@@ -6,7 +6,7 @@
 #    By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
-#    Updated: 2025/03/19 18:06:53 by daniema3         ###   ########.fr        #
+#    Updated: 2025/03/19 18:19:39 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo -n "\r✅ \e[1;36mpush_swap \e[0;32msuccessfully compiled!             "
+	@echo -n "\r✅ \e[1;36m$(NAME) \e[0;32msuccessfully compiled!               "
 	@echo 
 
 clean:
