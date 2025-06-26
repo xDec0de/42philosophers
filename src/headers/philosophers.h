@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/03/19 18:13:15 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:32:00 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
-#ifndef MAX_PHILOSOPHERS
-# define MAX_PHILOSOPHERS 200
-#endif
+# ifndef MAX_PHILOSOPHERS
+#  define MAX_PHILOSOPHERS 200
+# endif
 
 struct	s_philo_info;
 
@@ -39,7 +39,8 @@ Here is all the data stored in this struct:
 - meals: The amount of times this philosopher ate so far.
 - last_meal: The date of the last meal of this philosopher (millis).
 */
-typedef struct s_philo {
+typedef struct s_philo
+{
 	struct s_philo_info	*prog_info;
 	pthread_t			th_id;
 	int					id;
@@ -66,7 +67,8 @@ Here is all the data stored in this struct:
 - *m_print: Mutex for message printing (printf calls).
 - valid: Either 0 or 1, only 0 when an error ocurred.
 */
-typedef struct s_philo_info {
+typedef struct s_philo_info
+{
 	int				amount;
 	u_int64_t		die_time;
 	int				eat_time;
@@ -119,7 +121,8 @@ typedef struct s_philo_info {
 # define MUTEX_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not create\
  a new mutex\e[1;30m.\e[0m\n"
 // Error while calling malloc
-# define MALLOC_ERR "\e[0;31mError\e[1;30m: \e[1;31mMalloc failed\e[1;30m.\e[0m\n"
+# define MALLOC_ERR "\e[0;31mError\e[1;30m: \e[1;31mMalloc failed\e[1;30m.\
+\e[0m\n"
 
 /* Philosopher log messages */
 
