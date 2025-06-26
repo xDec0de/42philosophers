@@ -1,0 +1,34 @@
+name: Validate project
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  norm:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci-skip]')"
+
+    container:
+      image: ghcr.io/xdec0de/42ghcr:main
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pass norminette
+        run: norminette
+
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci-skip]')"
+
+    container:
+      image: ghcr.io/xdec0de/42ghcr:main
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile
+        run: make re
