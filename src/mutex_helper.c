@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 17:51:29 by danimart         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:35:43 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ pthread_mutex_t	*mutex_init(int *errors)
 	int				result;
 
 	mutex = malloc(sizeof(pthread_mutex_t));
+	if (mutex == NULL)
+		return (printf(MALLOC_ERR), NULL);
 	result = pthread_mutex_init(mutex, NULL);
 	if (result == 0)
 		return (mutex);
