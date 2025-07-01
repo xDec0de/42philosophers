@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/06/26 18:32:00 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:25:49 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ died\e[1;30m.\e[0m\n"
 // Philosopher has finished SLEEPING and should start THINKING.
 # define THINKING 3
 
-// The amount of times to try to lock / unock a mutes before giving up.
+// The amount of times to try to lock / unock a mutex before giving up.
 # define MUTEX_ATTEMPTS 42
 
 /* philosophers.c */
