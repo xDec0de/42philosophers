@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 17:54:31 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 17:38:49 by danimart         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:21:58 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,24 @@ void	*print_fork_taken(char *msg, t_philo *philo)
 
 void	*take_forks(t_philo *philo, t_philo *left)
 {
+	if (philo->id % 2 == 0)
+	{
+		lock_fork(left);
+		if (print_fork_taken(PHILO_TAKE_LFORK, philo) == NULL)
+			return (NULL);
+		if (lock_fork(philo) == NULL)
+			return (NULL);
+		return (print_fork_taken(PHILO_TAKE_RFORK, philo));
+	}
+	else
+{
 	lock_fork(philo);
 	if (print_fork_taken(PHILO_TAKE_RFORK, philo) == NULL)
 		return (NULL);
-	lock_fork(left);
+		if (lock_fork(left) == NULL)
+			return (NULL);
 	return (print_fork_taken(PHILO_TAKE_LFORK, philo));
+	}
 }
 
 void	*p_eat(t_philo *philo)
