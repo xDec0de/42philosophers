@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_builder.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 18:01:26 by danimart         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:27:35 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ t_philo	*buid_philo(int id)
 		return (free_info(MALLOC_ERR, NULL, NULL));
 	errors = 0;
 	philo->id = id + 1;
-	philo->ended = 0;
+	philo->ended = false;
 	philo->meals = 0;
 	philo->last_meal = 0;
-	philo->ready = 0;
+	philo->ready = false;
 	philo->m_ended = mutex_init(&errors);
 	philo->m_fork = mutex_init(&errors);
 	philo->m_meal = mutex_init(&errors);
@@ -82,7 +82,7 @@ void	await_prog_ready(t_philo_info *info)
 		{
 			mutex_lock(info->philo_lst[id]->m_ready);
 			ready += info->philo_lst[id]->ready;
-			mutex_unlock(info->philo_lst[id]->m_ready, 0);
+			mutex_unlock(info->philo_lst[id]->m_ready, false);
 			id++;
 		}
 	}
@@ -107,7 +107,7 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 	await_prog_ready(info);
 	info->start_date = get_current_time(info);
 	mutex_lock(info->m_ready);
-	info->ready = 1;
-	mutex_unlock(info->m_ready, 0);
+	info->ready = true;
+	mutex_unlock(info->m_ready, false);
 	return (info);
 }

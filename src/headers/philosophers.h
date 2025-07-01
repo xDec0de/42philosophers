@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 19:29:03 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:50:51 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
 # ifndef MAX_PHILOSOPHERS
 #  define MAX_PHILOSOPHERS 200
@@ -46,12 +47,12 @@ typedef struct s_philo
 	int					id;
 	pthread_mutex_t		*m_fork;
 	pthread_mutex_t		*m_ended;
-	int					ended;
+	bool				ended;
 	pthread_mutex_t		*m_meal;
 	int					meals;
 	int					last_meal;
 	pthread_mutex_t		*m_ready;
-	int					ready;
+	bool				ready;
 }			t_philo;
 
 /* Struct used to store program information such as parameters and philosophers
@@ -77,9 +78,9 @@ typedef struct s_philo_info
 	t_philo			*philo_lst[MAX_PHILOSOPHERS];
 	int				start_date;
 	pthread_mutex_t	*m_print;
-	int				valid;
+	bool			valid;
 	pthread_mutex_t	*m_ready;
-	int				ready;
+	bool			ready;
 }				t_philo_info;
 
 /* Input error messages */
@@ -225,26 +226,26 @@ pthread_mutex_t	*mutex_init(int	*errors);
 
 /**
  * @brief Unlocks a mutex and optionally destoys and frees it. This method
- * will try to unlock the mutex up to 10 times if any error occurs.
+ * will try to unlock the mutex up to MUTEX_ATTEMPTS times if any error occurs.
  * 
  * @param mutex the pthread_mutex_t to unlock and optionally destroy.
- * @param destroy 0 to do nothing, any other integer to destroy and free mutex.
+ * @param destroy whether to to destroy and free mutex.
  * 
- * @return Zero on success, a non-zero value on failure. Failure will only
+ * @return true on success, false on failure. Failure will only
  * happen after attempting MUTEX_ATTEMPTS times.
  */
-int				mutex_unlock(pthread_mutex_t *mutex, int destroy);
+bool			mutex_unlock(pthread_mutex_t *mutex, bool destroy);
 
 /**
- * @brief Locks a mutex. This method will try to unlock the mutex up to 10
- * times if any error occurs.
+ * @brief Locks a mutex. This method will try to unlock the mutex up
+ * to MUTEX_ATTEMPTS times if any error occurs.
  * 
  * @param mutex the pthread_mutex_t to lock.
  * 
- * @return Zero on success, a non-zero value on failure. Failure will only
+ * @return true on success, false on failure. Failure will only
  * happen after attempting MUTEX_ATTEMPTS times.
  */
-int				mutex_lock(pthread_mutex_t *mutex);
+bool			mutex_lock(pthread_mutex_t *mutex);
 
 /**
  * @brief Locks the fork mutex of a philosopher.
@@ -294,7 +295,7 @@ t_philo			*pause_philo(t_philo *philo, int ms);
  * 
  * @return The same philosopher that was supplied to this function.
  */
-t_philo			*set_philo_state(t_philo *philo, int state, int print);
+t_philo			*set_philo_state(t_philo *philo, int state, bool print);
 
 /**
  * @brief Frees all philosophers, joining their threads first to avoid

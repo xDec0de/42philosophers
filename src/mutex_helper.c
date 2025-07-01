@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2025/06/26 18:35:43 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:29:06 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ pthread_mutex_t	*mutex_init(int *errors)
 	return (NULL);
 }
 
-int	mutex_unlock(pthread_mutex_t *mutex, int destroy)
+bool	mutex_unlock(pthread_mutex_t *mutex, bool destroy)
 {
 	int	err;
 	int	attempts;
@@ -42,7 +42,7 @@ int	mutex_unlock(pthread_mutex_t *mutex, int destroy)
 		attempts++;
 	}
 	if (err != 0 || !destroy)
-		return (err);
+		return (err == 0);
 	attempts = 0;
 	err = 1;
 	while (err != 0 && attempts < MUTEX_ATTEMPTS)
@@ -51,10 +51,10 @@ int	mutex_unlock(pthread_mutex_t *mutex, int destroy)
 		attempts++;
 	}
 	free(mutex);
-	return (err);
+	return (err == 0);
 }
 
-int	mutex_lock(pthread_mutex_t *mutex)
+bool	mutex_lock(pthread_mutex_t *mutex)
 {
 	int	err;
 	int	attempts;
@@ -66,17 +66,18 @@ int	mutex_lock(pthread_mutex_t *mutex)
 		err = pthread_mutex_lock(mutex);
 		attempts++;
 	}
-	return (err);
+	return (err == 0);
 }
 
 void	*lock_fork(t_philo *philo)
 {
-	int	ended;
+	bool	ended;
 
 	mutex_lock(philo->m_ended);
 	ended = philo->ended;
-	mutex_unlock(philo->m_ended, 0);
-	if (ended != 1)
-		mutex_lock(philo->m_fork);
+	mutex_unlock(philo->m_ended, false);
+	if (ended)
+		return (NULL);
+	mutex_lock(philo->m_fork);
 	return (philo);
 }

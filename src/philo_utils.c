@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 19:31:57 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:19:02 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,25 @@ t_philo	*pause_philo(t_philo *philo, int ms)
 	while (get_current_ms(philo->prog_info) < to_match)
 	{
 		mutex_lock(philo->m_ended);
-		if (philo->ended == 1)
+		if (philo->ended)
 		{
-			mutex_unlock(philo->m_ended, 0);
+			mutex_unlock(philo->m_ended, false);
 			return (NULL);
 		}
-		mutex_unlock(philo->m_ended, 0);
+		mutex_unlock(philo->m_ended, false);
 	}
 	return (philo);
 }
 
-t_philo	*set_philo_state(t_philo *philo, int state, int print)
+t_philo	*set_philo_state(t_philo *philo, int state, bool print)
 {
 	char	*state_str;
-	int		ended;
+	bool	ended;
 
 	mutex_lock(philo->m_ended);
 	ended = philo->ended;
-	mutex_unlock(philo->m_ended, 0);
-	if (ended == 1)
+	mutex_unlock(philo->m_ended, false);
+	if (ended)
 		return (NULL);
 	if (!print)
 		return (philo);
@@ -64,7 +64,7 @@ t_philo	*set_philo_state(t_philo *philo, int state, int print)
 		state_str = PHILO_EATING;
 	mutex_lock(philo->prog_info->m_print);
 	printf(state_str, get_current_ms(philo->prog_info), philo->id);
-	mutex_unlock(philo->prog_info->m_print, 0);
+	mutex_unlock(philo->prog_info->m_print, false);
 	return (philo);
 }
 
@@ -81,10 +81,10 @@ void	free_philos(t_philo_info *info)
 	id = 0;
 	while (id < info->amount && info->philo_lst[id] != NULL)
 	{
-		mutex_unlock(info->philo_lst[id]->m_fork, 1);
-		mutex_unlock(info->philo_lst[id]->m_meal, 1);
-		mutex_unlock(info->philo_lst[id]->m_ended, 1);
-		mutex_unlock(info->philo_lst[id]->m_ready, 1);
+		mutex_unlock(info->philo_lst[id]->m_fork, true);
+		mutex_unlock(info->philo_lst[id]->m_meal, true);
+		mutex_unlock(info->philo_lst[id]->m_ended, true);
+		mutex_unlock(info->philo_lst[id]->m_ready, true);
 		free(info->philo_lst[id]);
 		id++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2025/03/19 18:19:04 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:31:08 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ t_philo_info	*init_info(void)
 	info = malloc(sizeof(t_philo_info));
 	if (info == NULL)
 		return (free_info(MALLOC_ERR, NULL, NULL));
-	info->ready = 0;
+	info->ready = false;
 	info->m_print = mutex_init(&errors);
 	info->m_ready = mutex_init(&errors);
 	if (errors != 0)
 		return (NULL);
 	info->start_date = 0;
-	info->valid = 1;
+	info->valid = true;
 	return (info);
 }
 
@@ -54,8 +54,8 @@ t_philo_info	*verify_info(t_philo_info *info, long long die_time)
 		errors += *(int *) free_info(EAT_NUM_ERR, NULL, (int *)1);
 	if (errors == 0)
 		return (info);
-	mutex_unlock(info->m_print, 1);
-	mutex_unlock(info->m_ready, 1);
+	mutex_unlock(info->m_print, false);
+	mutex_unlock(info->m_ready, false);
 	free(info);
 	return (NULL);
 }
