@@ -40,7 +40,6 @@ t_philo	*pause_philo(t_philo *philo, u_int64_t ms)
 			return (NULL);
 		}
 		mutex_unlock(philo->m_ended, 0);
-		usleep(100);
 	}
 	return (philo);
 }
