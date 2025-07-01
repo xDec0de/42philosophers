@@ -6,11 +6,11 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 20:27:35 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:48:21 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/philosophers.h"
+#include "philosophers.h"
 
 t_philo	*buid_philo(int id)
 {

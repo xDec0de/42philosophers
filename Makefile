@@ -6,7 +6,7 @@
 #    By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
-#    Updated: 2025/07/01 17:31:05 by daniema3         ###   ########.fr        #
+#    Updated: 2025/07/01 20:58:17 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ MAX_PHILOSOPHERS?=200
 
 SRC_DIR = ./src
 OBJ_DIR = ./objs
-H_DIR = ./headers
 
 CC = gcc
 CFLAGS =	-Wall -Werror -Wextra \
@@ -24,7 +23,6 @@ CFLAGS =	-Wall -Werror -Wextra \
 			-g3 \
 			-fdiagnostics-color=always \
 			-DMAX_PHILOSOPHERS='$(MAX_PHILOSOPHERS)' \
-			-I$(H_DIR)
 
 SRCS =	philosophers.c \
 		input_parser.c \

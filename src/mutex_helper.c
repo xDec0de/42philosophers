@@ -6,11 +6,11 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 20:29:06 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:48:02 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/philosophers.h"
+#include "philosophers.h"
 
 pthread_mutex_t	*mutex_init(int *errors)
 {

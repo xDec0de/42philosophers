@@ -6,11 +6,11 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 19:50:17 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:48:48 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/philosophers.h"
+#include "philosophers.h"
 
 void	*free_info(char *err, t_philo_info *info, void *result)
 {

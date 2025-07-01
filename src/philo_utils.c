@@ -6,11 +6,11 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 20:19:02 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:48:42 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/philosophers.h"
+#include "philosophers.h"
 
 int	get_current_ms(t_philo_info *info)
 {

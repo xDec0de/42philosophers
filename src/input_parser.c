@@ -6,12 +6,11 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:36:24 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 20:31:08 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:47:54 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/philosophers.h"
-#include "headers/text_colors.h"
+#include "philosophers.h"
 
 t_philo_info	*init_info(void)
 {
