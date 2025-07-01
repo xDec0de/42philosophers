@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danimart <danimart@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:31:15 by danimart          #+#    #+#             */
-/*   Updated: 2023/10/17 17:51:05 by danimart         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:30:25 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	*free_info(char *err, t_philo_info *info, void *result)
 
 int	print_end_msg(char *msg, t_philo_info *info, t_philo *philo)
 {
-	int			id;
-	u_int64_t	ms;
+	int	id;
+	int	ms;
 
 	id = 0;
 	if (philo != NULL)
@@ -82,9 +82,9 @@ int	check_eat_times(t_philo_info *info)
 
 int	watcher_routine(t_philo_info *info)
 {
-	int			id;
-	t_philo		*philo;
-	u_int64_t	ms;
+	int		id;
+	t_philo	*philo;
+	int		ms;
 
 	id = 0;
 	while (id < info->amount)

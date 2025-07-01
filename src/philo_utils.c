@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2025/03/19 18:18:12 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:31:57 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/philosophers.h"
 
-u_int64_t	get_current_ms(t_philo_info *info)
+int	get_current_ms(t_philo_info *info)
 {
 	return (get_current_time(info) - info->start_date);
 }
 
-u_int64_t	get_current_time(t_philo_info *info)
+int	get_current_time(t_philo_info *info)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) != 0)
 		return (*(int *) free_info(GET_TIME_ERR, info, NULL));
-	return (((time.tv_sec * (u_int64_t) 1000) + (time.tv_usec / 1000)));
+	return (((time.tv_sec * (int) 1000) + (time.tv_usec / 1000)));
 }
 
-t_philo	*pause_philo(t_philo *philo, u_int64_t ms)
+t_philo	*pause_philo(t_philo *philo, int ms)
 {
-	useconds_t	to_match;
+	int	to_match;
 
 	to_match = get_current_ms(philo->prog_info) + ms;
 	while (get_current_ms(philo->prog_info) < to_match)

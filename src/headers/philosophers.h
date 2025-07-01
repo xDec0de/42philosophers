@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/06/26 20:25:49 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:29:03 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_philo
 	int					ended;
 	pthread_mutex_t		*m_meal;
 	int					meals;
-	u_int64_t			last_meal;
+	int					last_meal;
 	pthread_mutex_t		*m_ready;
 	int					ready;
 }			t_philo;
@@ -70,12 +70,12 @@ Here is all the data stored in this struct:
 typedef struct s_philo_info
 {
 	int				amount;
-	u_int64_t		die_time;
+	int				die_time;
 	int				eat_time;
 	int				sleep_time;
 	int				eat_num;
 	t_philo			*philo_lst[MAX_PHILOSOPHERS];
-	u_int64_t		start_date;
+	int				start_date;
 	pthread_mutex_t	*m_print;
 	int				valid;
 	pthread_mutex_t	*m_ready;
@@ -265,9 +265,9 @@ void			*lock_fork(t_philo *philo);
  * 
  * @return The current timestamp of the program, 0 if an error occurred.
  */
-u_int64_t		get_current_ms(t_philo_info *info);
+int				get_current_ms(t_philo_info *info);
 
-u_int64_t		get_current_time(t_philo_info *info);
+int				get_current_time(t_philo_info *info);
 
 /**
  * @brief Pauses a thread for the specified amount of ms, this
@@ -280,7 +280,7 @@ u_int64_t		get_current_time(t_philo_info *info);
  * 
  * @return The same philosopher that was supplied to this function.
  */
-t_philo			*pause_philo(t_philo *philo, u_int64_t ms);
+t_philo			*pause_philo(t_philo *philo, int ms);
 
 /**
  * @brief Changes the state of a philosopher, the state will
