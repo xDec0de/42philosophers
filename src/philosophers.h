@@ -3,43 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 19:50:51 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:00:28 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+/* - printf - */
 # include <stdio.h>
+
+/* - usleep - */
 # include <unistd.h>
+
+/* - INT_MAX macro - */
 # include <limits.h>
+
+/* - pthread (Multithreading) related functions - */
 # include <pthread.h>
+
+/* - malloc, free & NULL pointer */
 # include <stdlib.h>
+
+/* - gettimeofday - */
 # include <sys/time.h>
+
+/* - bool type - */
 # include <stdbool.h>
 
 # ifndef MAX_PHILOSOPHERS
+// The maximum amount of philosophers. 200 by default
 #  define MAX_PHILOSOPHERS 200
 # endif
 
 struct	s_philo_info;
 
-/* Struct used to represent an actual philosopher
-
-Here is all the data stored in this struct:
-- *prog_info: Program info, ONLY to access the print mutex and fork availability.
-- th_id: The thread id of this philosopher.
-- id: The internal id of this philosopher.
-- *m_fork: Mutex to interact with t_philo::fork.
-- *m_ended: Mutex to interact ith t_philo::ended.
-- ended: 1 means this philosopher is stopped, 0 means its still active.
-- *m_meal: Mutex to interact with t_philo::meals.
-- meals: The amount of times this philosopher ate so far.
-- last_meal: The date of the last meal of this philosopher (millis).
-*/
+/**
+ * Struct used to represent an actual philosopher
+ *
+ * Here is all the data stored in this struct:
+ * - *prog_info: Program info, ONLY to access the print mutex and fork
+ *   availability.
+ * - th_id: The thread id of this philosopher.
+ * - id: The internal id of this philosopher.
+ * - *m_fork: Mutex to interact with t_philo::fork.
+ * - *m_ended: Mutex to interact ith t_philo::ended.
+ * - ended: 1 means this philosopher is stopped, 0 means its still active.
+ * - *m_meal: Mutex to interact with t_philo::meals.
+ * - meals: The amount of times this philosopher ate so far.
+ * - last_meal: The date of the last meal of this philosopher (millis).
+ */
 typedef struct s_philo
 {
 	struct s_philo_info	*prog_info;
@@ -55,19 +71,20 @@ typedef struct s_philo
 	bool				ready;
 }			t_philo;
 
-/* Struct used to store program information such as parameters and philosophers
-
-Here is all the data stored in this struct:
-- amount: The amount of philosophers, this is final.
-- die_time: The time to die for philosophers, this is final.
-- eat_time: The time to eat for philosophers, this is final.
-- sleep_time: The time to sleep for philosophers, this is final.
-- eat_num: The amount of times every philosopher must eat, this is final.
-- *philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
-- start_date: The date (In milliseconds) when the program started.
-- *m_print: Mutex for message printing (printf calls).
-- valid: Either 0 or 1, only 0 when an error ocurred.
-*/
+/**
+ * Struct used to store program information such as parameters and philosophers
+ * 
+ * Here is all the data stored in this struct:
+ * - amount: The amount of philosophers, this is final.
+ * - die_time: The time to die for philosophers, this is final.
+ * - eat_time: The time to eat for philosophers, this is final.
+ * - sleep_time: The time to sleep for philosophers, this is final.
+ * - eat_num: The amount of times every philosopher must eat, this is final.
+ * - *philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
+ * - start_date: The date (In milliseconds) when the program started.
+ * - *m_print: Mutex for message printing (printf calls).
+ * - valid: Either 0 or 1, only 0 when an error ocurred.
+ */
 typedef struct s_philo_info
 {
 	int				amount;
@@ -85,66 +102,86 @@ typedef struct s_philo_info
 
 /* Input error messages */
 
-// Invalid argument count.
+// Input error: Invalid argument count - Too many arguments
 # define ARGC_LONG "\e[0;31mError\e[1;30m: \e[1;31mToo many arguments\
 \e[1;30m.\e[0m\n"
+
+// Input error: Invalid argument count - Missing arguments title
 # define ARGC_SMALL "\e[0;31mError\e[1;30m: \e[1;31mThe following\
  program arguments are missing\e[1;30m:\e[0m\n"
+
+// Input error: Invalid argument count - Missing argument description
 # define MISSING_ARG " \e[1;30m- \e[0;31m%s\e[1;30m.\e[0m\n"
-// Invalid amount of philosophers.
+
+// Input error: Invalid argument - Amount of philosophers
 # define AMOUNT_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid number\
  of philosophers \e[1;30m[\e[1;33m1\e[1;30m-\e[1;33m%d\e[1;30m]\e[0m\n"
-// Warn philosophers over 200 if a higher amount is allowed.
+
+// Input warning: Too many philosophers - Using over 200 philosophers
 # define AMOUNT_WARN "\e[0;33mWarning\e[1;30m: \e[1;33mUsing over\
  200 philosophers is not recommended\e[1;30m.\e[0m\n"
-// Invalid time to die.
+
+// Input error: Invalid argument - Time to die
 # define DIE_TIME_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid time\
  to die\e[1;30m.\e[0m\n"
-// Invalid time to eat.
+
+// Input error: Invalid argument - Time to eat
 # define EAT_TIME_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid time\
  to eat\e[1;30m.\e[0m\n"
-// Invalid time to sleep.
+
+// Input error: Invalid argument - Time to sleep
 # define SLEEP_TIME_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid time\
  to sleep\e[1;30m.\e[0m\n"
-// Invalid amount of times to eat.
+
+// Input error: Invalid argument - Times to eat
 # define EAT_NUM_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid amount\
  of times to eat\e[1;30m.\e[0m\n"
 
 /* External error messages */
 
-// Error creating a thread.
+// Internal error: Thread creation
 # define THREAD_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not create\
  a new thread\e[1;30m.\e[0m\n"
-// Error getting the current time day
+
+// Internal error: Get time of day
 # define GET_TIME_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not get current\
  time\e[1;30m.\e[0m\n"
-// Error creating a mutex
+
+// Internal error: Mutex creation
 # define MUTEX_ERR "\e[0;31mError\e[1;30m: \e[1;31mCould not create\
  a new mutex\e[1;30m.\e[0m\n"
-// Error while calling malloc
+
+// Internal error: Malloc
 # define MALLOC_ERR "\e[0;31mError\e[1;30m: \e[1;31mMalloc failed\e[1;30m.\
 \e[0m\n"
 
 /* Philosopher log messages */
 
-// A philosopher takes a fork (Right hand).
+// Log message: A philosopher took a fork (Left hand)
 # define PHILO_TAKE_RFORK "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 has taken a \e[1;33mfork \e[1;30m(\e[1;34mRight\e[1;30m)\e[0m\n"
-// A philosopher takes a fork (Left hand).
+
+// Log message: A philosopher took a fork (Left hand)
 # define PHILO_TAKE_LFORK "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 has taken a \e[1;33mfork \e[1;30m(\e[1;34mLeft\e[1;30m)\e[0m\n"
-// A philosopher is eating
+
+// Log message: A philosopher changed its state to EATING
 # define PHILO_EATING "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 is \e[1;35meating\e[1;30m.\e[0m\n"
-// A philosopher is sleeping.
+
+// Log message: A philosopher changed its state to SLEEPING
 # define PHILO_SLEEPING "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 is \e[1;36msleeping\e[1;30m.\e[0m\n"
-// A philosopher is thinking.
+
+// Log message: A philosopher changed its state to THINKING
 # define PHILO_THINKING "\e[1;30m[\e[0;33m%llu\e[1;30m] \e[1;33m%d \e[1;37m\
 is \e[1;32mthinking\e[1;30m.\e[0m\n"
-// A philosopher died :(
+
+// Log message: A philosopher died :( - Simulation ends
 # define PHILO_DIED "\e[1;30m[\e[0;31m%llu\e[1;30m] \e[1;31m%d \
 died\e[1;30m.\e[0m\n"
+
+// Log message: All philosophers survived - Simulation ends
 # define ALL_SURVIVED "\e[1;30m[\e[0;32m%llu\e[1;30m] \e[1;32mAll philosophers\
  ate enough times, ending the simulation\e[1;30m.\e[0m\n"
 
@@ -259,15 +296,24 @@ void			*lock_fork(t_philo *philo);
 /** philo_utils.c */
 
 /**
- * @brief Get the current timestamp of the program (Milliseconds since start)
+ * @brief Gets the current timestamp of the program (Milliseconds since start)
  * 
- * @param info the program info struct, used to set and get
- * t_philo_info::start_date.
+ * @param info the program info struct, used to get t_philo_info::start_date
+ * and to free said struct if an error occurs.
  * 
  * @return The current timestamp of the program, 0 if an error occurred.
  */
 int				get_current_ms(t_philo_info *info);
 
+/**
+ * @brief Gets the current time of the system in milliseconds.
+ * This is used to get the current time of the system, not the
+ * current time of the program.
+ * 
+ * @param info the program info struct, freed if an error occurs.
+ * 
+ * @return int The current time in milliseconds, 0 if an error occurred.
+ */
 int				get_current_time(t_philo_info *info);
 
 /**
@@ -304,7 +350,5 @@ t_philo			*set_philo_state(t_philo *philo, int state, bool print);
  * @param info the program info.
  */
 void			free_philos(t_philo_info *info);
-
-t_philo_info	*print_info(t_philo_info *info);
 
 #endif
