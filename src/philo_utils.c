@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/21 17:27:53 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/21 18:40:41 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_philo	*pause_philo(t_philo *philo, int ms)
 			return (NULL);
 		}
 		mutex_unlock(philo->m_ended, false);
+		usleep(1000);
 	}
 	return (philo);
 }
