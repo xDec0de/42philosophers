@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_builder.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 18:55:03 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 20:48:21 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:05:59 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ t_philo_info	*build_philosophers(t_philo_info *info)
 	create_threads(info);
 	await_prog_ready(info);
 	info->start_date = get_current_time(info);
+	if (info->start_date == -1)
+		return (NULL);
 	mutex_lock(info->m_ready);
 	info->ready = true;
 	mutex_unlock(info->m_ready, false);

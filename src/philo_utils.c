@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 20:48:42 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:04:43 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,22 @@
 
 int	get_current_ms(t_philo_info *info)
 {
-	return (get_current_time(info) - info->start_date);
+	int	current_time;
+
+	current_time = get_current_time(info);
+	if (current_time == -1)
+		return (-1);
+	return (current_time - info->start_date);
 }
 
 int	get_current_time(t_philo_info *info)
 {
 	struct timeval	time;
+	int				err;
 
+	err = -1;
 	if (gettimeofday(&time, NULL) != 0)
-		return (*(int *) free_info(GET_TIME_ERR, info, NULL));
+		return (*(int *) free_info(GET_TIME_ERR, info, &err));
 	return (((time.tv_sec * (int) 1000) + (time.tv_usec / 1000)));
 }
 

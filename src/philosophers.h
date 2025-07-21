@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/21 17:00:28 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:08:50 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,12 +275,12 @@ bool			mutex_unlock(pthread_mutex_t *mutex, bool destroy);
 
 /**
  * @brief Locks a mutex. This method will try to unlock the mutex up
- * to MUTEX_ATTEMPTS times if any error occurs.
+ * to `MUTEX_ATTEMPTS` times if any error occurs.
  * 
- * @param mutex the pthread_mutex_t to lock.
+ * @param mutex the `pthread_mutex_t` to lock.
  * 
  * @return true on success, false on failure. Failure will only
- * happen after attempting MUTEX_ATTEMPTS times.
+ * happen after attempting `MUTEX_ATTEMPTS` times.
  */
 bool			mutex_lock(pthread_mutex_t *mutex);
 
@@ -288,8 +288,8 @@ bool			mutex_lock(pthread_mutex_t *mutex);
  * @brief Locks the fork mutex of a philosopher.
  * 
  * @param philo the philosopher to use.
- * @return NULL if the philosopher dies before the fork is locked,
- * *philo otherwise.
+ * @return `NULL` if the philosopher dies before the fork is locked,
+ * `philo` otherwise.
  */
 void			*lock_fork(t_philo *philo);
 
@@ -298,10 +298,10 @@ void			*lock_fork(t_philo *philo);
 /**
  * @brief Gets the current timestamp of the program (Milliseconds since start)
  * 
- * @param info the program info struct, used to get t_philo_info::start_date
- * and to free said struct if an error occurs.
+ * @param info the program info struct, used to get `t_philo_info::start_date`
+ * and to `free` said struct if an error occurs.
  * 
- * @return The current timestamp of the program, 0 if an error occurred.
+ * @return The current timestamp of the program, `-1` if an error occurred.
  */
 int				get_current_ms(t_philo_info *info);
 
@@ -310,9 +310,9 @@ int				get_current_ms(t_philo_info *info);
  * This is used to get the current time of the system, not the
  * current time of the program.
  * 
- * @param info the program info struct, freed if an error occurs.
+ * @param info the program info struct, `free`'d if an error occurs.
  * 
- * @return int The current time in milliseconds, 0 if an error occurred.
+ * @return The current time in milliseconds, `-1` if an error occurred.
  */
 int				get_current_time(t_philo_info *info);
 
