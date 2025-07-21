@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 20:33:26 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/01 20:48:02 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/21 18:50:49 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,42 +31,20 @@ pthread_mutex_t	*mutex_init(int *errors)
 
 bool	mutex_unlock(pthread_mutex_t *mutex, bool destroy)
 {
-	int	err;
-	int	attempts;
-
-	attempts = 0;
-	err = 1;
-	while (err != 0 && attempts < MUTEX_ATTEMPTS)
+	if (pthread_mutex_unlock(mutex) != 0)
+		return (false);
+	if (destroy)
 	{
-		err = pthread_mutex_unlock(mutex);
-		attempts++;
+		if (pthread_mutex_destroy(mutex) != 0)
+			return (false);
+		free(mutex);
 	}
-	if (err != 0 || !destroy)
-		return (err == 0);
-	attempts = 0;
-	err = 1;
-	while (err != 0 && attempts < MUTEX_ATTEMPTS)
-	{
-		err = pthread_mutex_destroy(mutex);
-		attempts++;
-	}
-	free(mutex);
-	return (err == 0);
+	return (true);
 }
 
 bool	mutex_lock(pthread_mutex_t *mutex)
 {
-	int	err;
-	int	attempts;
-
-	attempts = 0;
-	err = 1;
-	while (err != 0 && attempts < MUTEX_ATTEMPTS)
-	{
-		err = pthread_mutex_lock(mutex);
-		attempts++;
-	}
-	return (err == 0);
+	return (pthread_mutex_lock(mutex) == 0);
 }
 
 void	*lock_fork(t_philo *philo)

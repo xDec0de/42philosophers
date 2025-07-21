@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/21 17:27:23 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/21 20:47:40 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,9 +196,6 @@ died\e[1;30m.\e[0m\n"
 # define ALL_SURVIVED "\e[1;30m[\e[0;32m%llu\e[1;30m] \e[1;32mAll philosophers\
  ate enough times, ending the simulation\e[1;30m.\e[0m\n"
 
-// The amount of times to try to lock / unock a mutex before giving up.
-# define MUTEX_ATTEMPTS 42
-
 /* philosophers.c */
 
 /**
@@ -254,35 +251,31 @@ void			*philo_routine(void *philo_ptr);
 
 /**
  * @brief Creates a mutex, handling any error that occurs by returning
- * NULL and printing the error. Info won't be freed.
+ * NULL and printing the error. Info won't be `free`'d.
  * 
  * @param errors a nullable integer pointer that will increase by one
- * if pthread_mutex_init fails.
+ * if `pthread_mutex_init` fails.
  * 
- * @return A new pthread_mutex_t pointer. NULL if any error occurs.
+ * @return A new pthread_mutex_t pointer. `NULL` if any error occurs.
  */
 pthread_mutex_t	*mutex_init(int	*errors);
 
 /**
- * @brief Unlocks a mutex and optionally destoys and frees it. This method
- * will try to unlock the mutex up to MUTEX_ATTEMPTS times if any error occurs.
+ * @brief Unlocks a mutex and optionally destoys and frees it.
  * 
- * @param mutex the pthread_mutex_t to unlock and optionally destroy.
+ * @param mutex the `pthread_mutex_t` to unlock and optionally destroy.
  * @param destroy whether to to destroy and free mutex.
  * 
- * @return true on success, false on failure. Failure will only
- * happen after attempting MUTEX_ATTEMPTS times.
+ * @return `true` on success, `false` on failure.
  */
 bool			mutex_unlock(pthread_mutex_t *mutex, bool destroy);
 
 /**
- * @brief Locks a mutex. This method will try to unlock the mutex up
- * to `MUTEX_ATTEMPTS` times if any error occurs.
+ * @brief Locks a mutex.
  * 
  * @param mutex the `pthread_mutex_t` to lock.
  * 
- * @return true on success, false on failure. Failure will only
- * happen after attempting `MUTEX_ATTEMPTS` times.
+ * @return `true` on success, `false` on failure.
  */
 bool			mutex_lock(pthread_mutex_t *mutex);
 
