@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/21 17:08:50 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:27:23 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@
 // The maximum amount of philosophers. 200 by default
 #  define MAX_PHILOSOPHERS 200
 # endif
+
+// Enum used to represent the different states a philosopher can be in
+typedef enum e_philo_state
+{
+	// Philosopher is currently EATING, next action is SLEEPING.
+	EATING,
+	// Philosopher is currently SLEEPING, next action is THINKING.
+	SLEEPING,
+	// Philosopher has finished SLEEPING and should start THINKING.
+	THINKING
+}	t_philo_state;
 
 struct	s_philo_info;
 
@@ -184,15 +195,6 @@ died\e[1;30m.\e[0m\n"
 // Log message: All philosophers survived - Simulation ends
 # define ALL_SURVIVED "\e[1;30m[\e[0;32m%llu\e[1;30m] \e[1;32mAll philosophers\
  ate enough times, ending the simulation\e[1;30m.\e[0m\n"
-
-/* Philosopher state constants, saved on s_philo::state */
-
-// Philosopher is currently EATING, next action is SLEEPING.
-# define EATING 1
-// Philosopher is currently SLEEPING, next action is THINKING.
-# define SLEEPING 2
-// Philosopher has finished SLEEPING and should start THINKING.
-# define THINKING 3
 
 // The amount of times to try to lock / unock a mutex before giving up.
 # define MUTEX_ATTEMPTS 42
@@ -341,7 +343,8 @@ t_philo			*pause_philo(t_philo *philo, int ms);
  * 
  * @return The same philosopher that was supplied to this function.
  */
-t_philo			*set_philo_state(t_philo *philo, int state, bool print);
+t_philo			*set_philo_state(t_philo *philo, t_philo_state state,
+					bool print);
 
 /**
  * @brief Frees all philosophers, joining their threads first to avoid

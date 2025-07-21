@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:51:49 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/21 17:04:43 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:27:53 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_philo	*pause_philo(t_philo *philo, int ms)
 	return (philo);
 }
 
-t_philo	*set_philo_state(t_philo *philo, int state, bool print)
+t_philo	*set_philo_state(t_philo *philo, t_philo_state state, bool print)
 {
 	char	*state_str;
 	bool	ended;
