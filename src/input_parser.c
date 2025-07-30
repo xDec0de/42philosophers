@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:30:02 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/30 20:00:08 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/30 20:11:00 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	*notify_argc_err(int argc)
 t_philo_info	*parse_arguments(int argc, char **argv)
 {
 	t_philo_info	*info;
+
 	if (argc < 5 || argc > 6)
 		return (notify_argc_err(argc));
 	info = get_info();

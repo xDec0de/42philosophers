@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:53:18 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/30 20:08:57 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/30 20:10:48 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_philo_info	*init_info(void)
 	return (info);
 }
 
-t_philo_info	*get_info()
+t_philo_info	*get_info(void)
 {
-	static	t_philo_info *info = NULL;
+	static t_philo_info	*info = NULL;
 
 	if (info == NULL)
 		info = init_info();
