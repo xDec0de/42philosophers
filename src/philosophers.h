@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/30 20:07:17 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/30 22:21:12 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 
 # define MAX_RECOMMENDED_PHILOSOPHERS 200
 
-struct						s_philo_info;
+struct	s_philo_info;
 
 // Enum used to represent the different states a philosopher can be in
 typedef enum e_philo_state
@@ -91,6 +91,30 @@ t_philo_info	*get_info(void);
  */
 
 t_philo_info	*parse_arguments(int argc, char **argv);
+
+/*
+ - Time
+ */
+
+/**
+ * @brief Three-phase sleep strategy to improve precision while keeping
+ * CPU usage low.
+ *
+ * Phase 1:
+ * Performs a long sleep using `usleep((ms - 10) * 1000)`, leaving a margin
+ * of roughly 10 milliseconds to account for scheduling imprecision.
+ *
+ * Phase 2:
+ * Performs shorter sleeps of 500 microseconds until approximately 3 milliseconds
+ * remain. This phase balances precision with minimal CPU usage.
+ *
+ * Phase 3:
+ * Performs a busy wait for the final ~3 milliseconds to ensure high precision,
+ * accepting a brief increase in CPU usage.
+ *
+ * @param ms The number of milliseconds to sleep.
+ */
+void			p_sleep(size_t ms);
 
 /*
  - Mutex utils

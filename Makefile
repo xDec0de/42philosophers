@@ -6,7 +6,7 @@
 #    By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
-#    Updated: 2025/07/30 20:12:16 by daniema3         ###   ########.fr        #
+#    Updated: 2025/07/30 22:23:04 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ CFLAGS =	-Wall -Werror -Wextra \
 SRCS =	info_manager.c \
 		input_parser.c \
 		philosophers.c \
-		printer.c
+		printer.c \
+		time.c
 
 # > ~ Mutex utilities
 
