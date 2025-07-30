@@ -6,7 +6,7 @@
 #    By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
-#    Updated: 2025/07/30 20:09:15 by daniema3         ###   ########.fr        #
+#    Updated: 2025/07/30 20:12:16 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,14 +27,10 @@ CFLAGS =	-Wall -Werror -Wextra \
 
 # > ~ Main project files (No category)
 
-SRCS =	input_parser.c \
+SRCS =	info_manager.c \
+		input_parser.c \
 		philosophers.c \
 		printer.c
-
-# > ~ Info utilities
-
-SRCS +=	info/free_info.c \
-		info/get_info.c
 
 # > ~ Mutex utilities
 
