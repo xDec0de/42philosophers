@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_info.c                                        :+:      :+:    :+:   */
+/*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:53:18 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/30 19:11:42 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/30 19:48:45 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ t_philo_info	*get_info()
 	static	t_philo_info *info = NULL;
 
 	if (info = NULL)
-		info = get_info();
+		info = init_info();
 	return (info);
 }
