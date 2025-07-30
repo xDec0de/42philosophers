@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/21 20:47:40 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/30 20:07:17 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,17 @@
 /* - bool type - */
 # include <stdbool.h>
 
+/* - va macros - */
+# include <stdarg.h>
+
 # ifndef MAX_PHILOSOPHERS
 // The maximum amount of philosophers. 200 by default
 #  define MAX_PHILOSOPHERS 200
 # endif
+
+# define MAX_RECOMMENDED_PHILOSOPHERS 200
+
+struct						s_philo_info;
 
 // Enum used to represent the different states a philosopher can be in
 typedef enum e_philo_state
@@ -50,68 +57,56 @@ typedef enum e_philo_state
 	THINKING
 }	t_philo_state;
 
-struct	s_philo_info;
-
-/**
- * Struct used to represent an actual philosopher
- *
- * Here is all the data stored in this struct:
- * - *prog_info: Program info, ONLY to access the print mutex and fork
- *   availability.
- * - th_id: The thread id of this philosopher.
- * - id: The internal id of this philosopher.
- * - *m_fork: Mutex to interact with t_philo::fork.
- * - *m_ended: Mutex to interact ith t_philo::ended.
- * - ended: 1 means this philosopher is stopped, 0 means its still active.
- * - *m_meal: Mutex to interact with t_philo::meals.
- * - meals: The amount of times this philosopher ate so far.
- * - last_meal: The date of the last meal of this philosopher (millis).
- */
 typedef struct s_philo
 {
-	struct s_philo_info	*prog_info;
-	pthread_t			th_id;
-	int					id;
-	pthread_mutex_t		*m_fork;
-	pthread_mutex_t		*m_ended;
-	bool				ended;
-	pthread_mutex_t		*m_meal;
-	int					meals;
-	int					last_meal;
-	pthread_mutex_t		*m_ready;
-	bool				ready;
+	struct s_philo_info	*info;
 }			t_philo;
 
-/**
- * Struct used to store program information such as parameters and philosophers
- * 
- * Here is all the data stored in this struct:
- * - amount: The amount of philosophers, this is final.
- * - die_time: The time to die for philosophers, this is final.
- * - eat_time: The time to eat for philosophers, this is final.
- * - sleep_time: The time to sleep for philosophers, this is final.
- * - eat_num: The amount of times every philosopher must eat, this is final.
- * - *philo_lst[MAX_PHILOSOPHERS]: An array of all existing philosophers.
- * - start_date: The date (In milliseconds) when the program started.
- * - *m_print: Mutex for message printing (printf calls).
- * - valid: Either 0 or 1, only 0 when an error ocurred.
- */
 typedef struct s_philo_info
 {
-	int				amount;
-	int				die_time;
-	int				eat_time;
-	int				sleep_time;
+	// Param: The amount of philosophers on the simulation
+	int				philo_n;
+	// Param: The amount of ms philosophers have before dying of starvation
+	int				die_ms;
+	// Param: The amount of ms philosophers must eat
+	int				eat_ms;
+	// Param: The amount of ms philosophers must sleep
+	int				sleep_ms;
+	// Optional param: The amount of times every philosopher must eat
 	int				eat_num;
+	// The array of philosophers
 	t_philo			*philo_lst[MAX_PHILOSOPHERS];
-	int				start_date;
+	// The printing mutex
 	pthread_mutex_t	*m_print;
-	bool			valid;
-	pthread_mutex_t	*m_ready;
-	bool			ready;
 }				t_philo_info;
 
-/* Input error messages */
+/*
+ - Info
+ */
+
+t_philo_info	*get_info(void);
+
+/*
+ - Input parser
+ */
+
+t_philo_info	*parse_arguments(int argc, char **argv);
+
+/*
+ - Mutex utils
+ */
+
+pthread_mutex_t	*mutex_init(void);
+
+/*
+ - String utils
+ */
+
+unsigned int	p_strlen(const char *str);
+
+/*
+ - Input error messages
+ */
 
 // Input error: Invalid argument count - Too many arguments
 # define ARGC_LONG "\e[0;31mError\e[1;30m: \e[1;31mToo many arguments\
@@ -130,7 +125,7 @@ typedef struct s_philo_info
 
 // Input warning: Too many philosophers - Using over 200 philosophers
 # define AMOUNT_WARN "\e[0;33mWarning\e[1;30m: \e[1;33mUsing over\
- 200 philosophers is not recommended\e[1;30m.\e[0m\n"
+ %i philosophers is not recommended\e[1;30m.\e[0m\n"
 
 // Input error: Invalid argument - Time to die
 # define DIE_TIME_ERR "\e[0;31mError\e[1;30m: \e[1;31mInvalid time\
@@ -195,156 +190,5 @@ died\e[1;30m.\e[0m\n"
 // Log message: All philosophers survived - Simulation ends
 # define ALL_SURVIVED "\e[1;30m[\e[0;32m%llu\e[1;30m] \e[1;32mAll philosophers\
  ate enough times, ending the simulation\e[1;30m.\e[0m\n"
-
-/* philosophers.c */
-
-/**
- * @brief Prints an error message, freeing all program info.
- * 
- * @param err the error message to print, if NULL, nothing will be printed.
- * @param info the program info struct, will be freed if necessary, can be NULL.
- * @param result whatever you want this method to return, can be NULL.
- * 
- * @returns Whatever was specified as a result, can be NULL.
- */
-void			*free_info(char *err, t_philo_info *info, void *result);
-
-/* input_parser.c */
-
-// Parses program arguments to create a t_philo_info struct
-/**
- * @brief Parses program arguments to create a t_philo_info struct.
- * 
- * @param argc the argument count of the program (Directly from main)
- * @param argv the argument values of the program (Directly from main)
- * 
- * @return The info struct, NULL if any argument was invalid.
- */
-t_philo_info	*parse_arguments(int argc, char **argv);
-
-/* philo_builder.c */
-
-/**
- * @brief Builds all required philosophers and creates a thread for each one.
- * 
- * @param info the program info struct.
- * 
- * @return The program info struct with all created philosophers,
- * NULL if any error occurs.
- */
-t_philo_info	*build_philosophers(t_philo_info *info);
-
-/* philo_handler.c */
-
-/**
- * @brief Starts the routine of a philosopher.
- * 
- * @param philo_ptr a void pointer of any philosopher (t_philo).
- * 
- * @return The same pointer that was supplied to this function,
- * this is pretty irrelevant as this is meant to run on a different
- * thread for any amount of time.
- */
-void			*philo_routine(void *philo_ptr);
-
-/* mutex_helper.c */
-
-/**
- * @brief Creates a mutex, handling any error that occurs by returning
- * NULL and printing the error. Info won't be `free`'d.
- * 
- * @param errors a nullable integer pointer that will increase by one
- * if `pthread_mutex_init` fails.
- * 
- * @return A new pthread_mutex_t pointer. `NULL` if any error occurs.
- */
-pthread_mutex_t	*mutex_init(int	*errors);
-
-/**
- * @brief Unlocks a mutex and optionally destoys and frees it.
- * 
- * @param mutex the `pthread_mutex_t` to unlock and optionally destroy.
- * @param destroy whether to to destroy and free mutex.
- * 
- * @return `true` on success, `false` on failure.
- */
-bool			mutex_unlock(pthread_mutex_t *mutex, bool destroy);
-
-/**
- * @brief Locks a mutex.
- * 
- * @param mutex the `pthread_mutex_t` to lock.
- * 
- * @return `true` on success, `false` on failure.
- */
-bool			mutex_lock(pthread_mutex_t *mutex);
-
-/**
- * @brief Locks the fork mutex of a philosopher.
- * 
- * @param philo the philosopher to use.
- * @return `NULL` if the philosopher dies before the fork is locked,
- * `philo` otherwise.
- */
-void			*lock_fork(t_philo *philo);
-
-/** philo_utils.c */
-
-/**
- * @brief Gets the current timestamp of the program (Milliseconds since start)
- * 
- * @param info the program info struct, used to get `t_philo_info::start_date`
- * and to `free` said struct if an error occurs.
- * 
- * @return The current timestamp of the program, `-1` if an error occurred.
- */
-int				get_current_ms(t_philo_info *info);
-
-/**
- * @brief Gets the current time of the system in milliseconds.
- * This is used to get the current time of the system, not the
- * current time of the program.
- * 
- * @param info the program info struct, `free`'d if an error occurs.
- * 
- * @return The current time in milliseconds, `-1` if an error occurred.
- */
-int				get_current_time(t_philo_info *info);
-
-/**
- * @brief Pauses a thread for the specified amount of ms, this
- * function must be called from the thread of the specified philo,
- * as this will check if the program is trying to end while this
- * philosopher thread is paused.
- * 
- * @param philo the philosopher that is going to be paused.
- * @param ms the time in milliseconds that that the thread will be paused.
- * 
- * @return The same philosopher that was supplied to this function.
- */
-t_philo			*pause_philo(t_philo *philo, int ms);
-
-/**
- * @brief Changes the state of a philosopher, the state will
- * be changed safely and a state change message will be printed,
- * also safely. But the philosopher won't start any action, this
- * is just to change data internally and to notify about changes.
- * 
- * @param philo the philosopher to change.
- * @param state the new state of the philosopher.
- * @param print whether to print the new state message or not.
- * 
- * @return The same philosopher that was supplied to this function.
- */
-t_philo			*set_philo_state(t_philo *philo, t_philo_state state,
-					bool print);
-
-/**
- * @brief Frees all philosophers, joining their threads first to avoid
- * unexpected behaviour.
- * 
- * @param info the program info.
- */
-void			free_philos(t_philo_info *info);
 
 #endif

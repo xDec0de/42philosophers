@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   free_info.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/30 20:01:38 by daniema3         ###   ########.fr       */
+/*   Created: 2025/07/30 18:41:01 by daniema3          #+#    #+#             */
+/*   Updated: 2025/07/30 19:47:55 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+void	free_info(t_philo_info *info)
 {
-	t_philo_info	*info;
-
-	info = parse_arguments(argc, argv);
-	if (info == NULL)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	pthread_mutex_unlock(info->m_print);
+	pthread_mutex_destroy(info->m_print);
 }

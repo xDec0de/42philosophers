@@ -6,13 +6,13 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:30:02 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/30 19:43:52 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/30 20:00:08 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo_info	*verify_info(t_philo_info *info, long long die_time)
+t_philo_info	*verify_info(t_philo_info *info)
 {
 	unsigned int	err;
 
@@ -21,7 +21,7 @@ t_philo_info	*verify_info(t_philo_info *info, long long die_time)
 		err += printf(AMOUNT_ERR, MAX_PHILOSOPHERS);
 	else if (info->philo_n > MAX_RECOMMENDED_PHILOSOPHERS)
 		printf(AMOUNT_WARN, MAX_RECOMMENDED_PHILOSOPHERS);
-	if (die_time <= 0)
+	if (info->die_ms <= 0)
 		err += printf(DIE_TIME_ERR);
 	if (info->eat_ms <= 0)
 		err += printf(EAT_TIME_ERR);
@@ -59,8 +59,8 @@ long long	get_number(char *str)
 void	*notify_argc_err(int argc)
 {
 	if (argc > 6)
-		return (free_info(ARGC_LONG, NULL, NULL));
-	free_info(ARGC_SMALL, NULL, NULL);
+		return (printf(ARGC_LONG), NULL);
+	printf(ARGC_SMALL);
 	if (argc < 2)
 		printf(MISSING_ARG, "Amount of philosophers");
 	if (argc < 3)
@@ -72,11 +72,12 @@ void	*notify_argc_err(int argc)
 	return (NULL);
 }
 
-t_philo_info	*parse_arguments(t_philo_info *info, int argc, char **argv)
+t_philo_info	*parse_arguments(int argc, char **argv)
 {
+	t_philo_info	*info;
 	if (argc < 5 || argc > 6)
 		return (notify_argc_err(argc));
-	info = init_info();
+	info = get_info();
 	if (info == NULL)
 		return (NULL);
 	info->philo_n = get_number(argv[1]);
@@ -87,6 +88,6 @@ t_philo_info	*parse_arguments(t_philo_info *info, int argc, char **argv)
 		info->eat_num = get_number(argv[5]);
 	else
 		info->eat_num = 0;
-	info = verify_info(info, get_number(argv[2]));
+	info = verify_info(info);
 	return (info);
 }

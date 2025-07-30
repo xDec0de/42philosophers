@@ -6,7 +6,7 @@
 #    By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
-#    Updated: 2025/07/01 20:58:17 by daniema3         ###   ########.fr        #
+#    Updated: 2025/07/30 20:09:15 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,17 +19,32 @@ OBJ_DIR = ./objs
 
 CC = gcc
 CFLAGS =	-Wall -Werror -Wextra \
+			-I$(SRC_DIR) \
 			-pthread \
 			-g3 \
 			-fdiagnostics-color=always \
 			-DMAX_PHILOSOPHERS='$(MAX_PHILOSOPHERS)' \
 
-SRCS =	philosophers.c \
-		input_parser.c \
-		philo_builder.c \
-		philo_handler.c \
-		mutex_helper.c \
-		philo_utils.c
+# > ~ Main project files (No category)
+
+SRCS =	input_parser.c \
+		philosophers.c \
+		printer.c
+
+# > ~ Info utilities
+
+SRCS +=	info/free_info.c \
+		info/get_info.c
+
+# > ~ Mutex utilities
+
+SRCS +=	mutex/mutex_init.c
+
+# > ~ String utilities
+
+SRCS +=	str/p_strlen.c
+
+# > ~ Colors
 
 RED = \e[0;31m
 BRED = \e[1;31m
@@ -42,6 +57,8 @@ RES = \e[0m
 
 WNAME = $(BYLW)$(NAME)$(YLW)
 OKNAME = $(BLUE)$(NAME)$(GREEN)
+
+# > ~ Project compilation
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
@@ -67,6 +84,8 @@ $(NAME): $(OBJS)
 	@echo -n "\r✅ $(OKNAME) $(GREEN)successfully compiled!$(RES)"
 	@echo 
 
+# > ~ Clean project files
+
 clean:
 	@echo -n "\r⏳ $(YLW)Removing $(WNAME) objs$(GRAY)...$(RES)"
 	@rm -rf $(OBJ_DIR)
@@ -78,6 +97,8 @@ fclean: clean
 	@rm -rf $(NAME)
 	@echo -n "\r✅ $(GREEN)Removed $(OKNAME) executable\$(GRAY).$(RES)"
 	@echo 
+
+# > ~ Clean and compile
 
 re: fclean $(NAME)
 
