@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/31 15:01:12 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/31 17:00:09 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ typedef enum e_philo_phase
 typedef struct s_philo
 {
 	int					id;
+	pthread_mutex_t		*m_state;
 	t_philo_state		state;
 	pthread_t			thread_id;
+	int					eat_amount;
+	int					last_meal_ms;
 	struct s_philo_info	*info;
 }			t_philo;
 
@@ -135,6 +138,8 @@ void			p_sleep(size_t ms);
 /*
  - Mutex utils
  */
+
+bool			mutex_free(pthread_mutex_t *mutex);
 
 pthread_mutex_t	*mutex_init(void);
 

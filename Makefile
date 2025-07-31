@@ -6,7 +6,7 @@
 #    By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
-#    Updated: 2025/07/31 15:00:27 by daniema3         ###   ########.fr        #
+#    Updated: 2025/07/31 15:54:21 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS =	info_manager.c \
 
 # > ~ Mutex utilities
 
-SRCS +=	mutex/mutex_init.c
+SRCS +=	mutex/mutex_free.c \
+		mutex/mutex_init.c
 
 # > ~ Philo functions
 

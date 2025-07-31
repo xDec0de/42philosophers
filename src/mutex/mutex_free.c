@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_philo.c                                       :+:      :+:    :+:   */
+/*   mutex_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 14:19:54 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/31 15:51:02 by daniema3         ###   ########.fr       */
+/*   Created: 2025/07/31 15:52:25 by daniema3          #+#    #+#             */
+/*   Updated: 2025/07/31 19:12:24 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo	*init_philo(t_philo_info *info, int id)
+bool	mutex_free(pthread_mutex_t *mutex)
 {
-	t_philo	*philo;
-
-	philo = malloc(sizeof(t_philo));
-	if (philo == NULL)
-		return (NULL);
-	philo->id = id;
-	philo->m_state = mutex_init();
-	if (philo->m_state == NULL)
-		return (NULL);
-	philo->state = ALIVE;
-	philo->info = info;
-	philo->thread_id = 0;
-	philo->eat_amount = 0;
-	philo->last_meal_ms = 0;
-	return (philo);
+	if (mutex == NULL)
+		return (true);
+	if (pthread_mutex_unlock(mutex) != 0)
+		return (false);
+	err = pthread_mutex_destroy(mutex);
+	if (err != 0)
+		return (false);
+	free(mutex);
+	return (true);
 }
