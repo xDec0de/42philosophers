@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/30 22:21:12 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:12:47 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@
 
 struct	s_philo_info;
 
-// Enum used to represent the different states a philosopher can be in
-typedef enum e_philo_state
+// Enum used to represent the different phases a philosopher can be in
+typedef enum e_philo_phase
 {
-	// Philosopher is currently EATING, next action is SLEEPING.
+	// Philosopher is currently THINKING, next phase is EATING.
+	THINKING,
+	// Philosopher is currently EATING, next phase is SLEEPING.
 	EATING,
-	// Philosopher is currently SLEEPING, next action is THINKING.
-	SLEEPING,
-	// Philosopher has finished SLEEPING and should start THINKING.
-	THINKING
-}	t_philo_state;
+	// Philosopher is currently SLEEPING, next phase is THINKING.
+	SLEEPING
+}	t_philo_phase;
 
 typedef struct s_philo
 {
