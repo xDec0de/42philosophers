@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:11:36 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/31 15:08:24 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:15:15 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	free_info(t_philo_info *info)
 {
 	pthread_mutex_unlock(info->m_print);
 	pthread_mutex_destroy(info->m_print);
+	free(info->m_print);
 	free_philos(info);
 	free(info);
 }
