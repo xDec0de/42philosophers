@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/31 14:12:47 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:17:37 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,17 @@
 
 struct	s_philo_info;
 
+// Enum used to represent the actual state of a philosopher.
+typedef enum e_philo_state
+{
+	// The philosopher is currently well and alive (Active).
+	ALIVE,
+	// The philosopher is inactive (Ate enough times).
+	INACTIVE,
+	// The philosopher tragically died of starvation :(
+	DEAD
+}	t_philo_state;
+
 // Enum used to represent the different phases a philosopher can be in
 typedef enum e_philo_phase
 {
@@ -59,6 +70,7 @@ typedef enum e_philo_phase
 
 typedef struct s_philo
 {
+	t_philo_state		state;
 	struct s_philo_info	*info;
 }			t_philo;
 
