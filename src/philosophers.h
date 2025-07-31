@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/31 14:17:37 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:01:12 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ typedef enum e_philo_phase
 
 typedef struct s_philo
 {
+	int					id;
 	t_philo_state		state;
+	pthread_t			thread_id;
 	struct s_philo_info	*info;
 }			t_philo;
 
@@ -97,6 +99,8 @@ typedef struct s_philo_info
  */
 
 t_philo_info	*get_info(void);
+
+void			free_info(t_philo_info *info);
 
 /*
  - Input parser
@@ -133,6 +137,12 @@ void			p_sleep(size_t ms);
  */
 
 pthread_mutex_t	*mutex_init(void);
+
+/*
+ - Philo functions
+ */
+
+t_philo			*init_philo(t_philo_info *info, int id);
 
 /*
  - String utils

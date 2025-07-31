@@ -29,7 +29,7 @@
 *.dylib
 
 # Executables
-philo
+/philo
 *.exe
 *.out
 *.app

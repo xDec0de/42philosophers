@@ -6,16 +6,37 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:11:36 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/30 20:12:24 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:08:24 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+static void	free_philos(t_philo_info *info)
+{
+	int	id;
+
+	id = 0;
+	while (id < info->philo_n && info->philo_lst[id] != NULL)
+	{
+		pthread_join(info->philo_lst[id]->thread_id, NULL);
+		id++;
+	}
+	id = 0;
+	while (id < info->philo_n && info->philo_lst[id] != NULL)
+	{
+		free(info->philo_lst[id]);
+		info->philo_lst[id] = NULL;
+		id++;
+	}
+}
+
 void	free_info(t_philo_info *info)
 {
 	pthread_mutex_unlock(info->m_print);
 	pthread_mutex_destroy(info->m_print);
+	free_philos(info);
+	free(info);
 }
 
 static t_philo_info	*init_info(void)

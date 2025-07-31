@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   init_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/31 15:01:19 by daniema3         ###   ########.fr       */
+/*   Created: 2025/07/31 14:19:54 by daniema3          #+#    #+#             */
+/*   Updated: 2025/07/31 14:43:10 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static void	build_philosophers(t_philo_info *info)
+t_philo	*init_philo(t_philo_info *info, int id)
 {
-	int	id;
+	t_philo	*philo;
 
-	id = 1;
-	while (id <= info->philo_n)
-	{
-		info->philo_lst[id - 1] = init_philo(info, id);
-		id++;
-	}
-}
-
-int	main(int argc, char **argv)
-{
-	t_philo_info	*info;
-
-	info = parse_arguments(argc, argv);
-	if (info == NULL)
-		return (EXIT_FAILURE);
-	build_philosophers(info);
-	free_info(info);
-	return (EXIT_SUCCESS);
+	philo = malloc(sizeof(t_philo));
+	if (philo == NULL)
+		return (NULL);
+	philo->id = id;
+	philo->state = ALIVE;
+	philo->info = info;
+	philo->thread_id = 0;
+	return (philo);
 }

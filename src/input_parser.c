@@ -6,13 +6,13 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:30:02 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/30 20:11:00 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:06:13 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo_info	*verify_info(t_philo_info *info)
+static bool	verify_info(t_philo_info *info)
 {
 	unsigned int	err;
 
@@ -29,12 +29,10 @@ t_philo_info	*verify_info(t_philo_info *info)
 		err += printf(SLEEP_TIME_ERR);
 	if (info->eat_num < 0)
 		err += printf(EAT_NUM_ERR);
-	if (err == 0)
-		return (info);
-	return (NULL);
+	return (err == 0);
 }
 
-long long	get_number(char *str)
+static long long	get_number(char *str)
 {
 	int		i;
 	long	res;
@@ -56,7 +54,7 @@ long long	get_number(char *str)
 	return (res);
 }
 
-void	*notify_argc_err(int argc)
+static void	*notify_argc_err(int argc)
 {
 	if (argc > 6)
 		return (printf(ARGC_LONG), NULL);
@@ -89,6 +87,8 @@ t_philo_info	*parse_arguments(int argc, char **argv)
 		info->eat_num = get_number(argv[5]);
 	else
 		info->eat_num = 0;
-	info = verify_info(info);
-	return (info);
+	if (verify_info(info))
+		return (info);
+	free_info(info);
+	return (NULL);
 }
