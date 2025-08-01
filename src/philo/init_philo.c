@@ -6,13 +6,13 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:19:54 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/31 15:51:02 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 21:46:30 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo	*init_philo(t_philo_info *info, int id)
+t_philo	*init_philo(t_philo_info *info, unsigned int id)
 {
 	t_philo	*philo;
 

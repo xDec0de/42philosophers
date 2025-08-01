@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/31 15:01:19 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 21:47:43 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	build_philosophers(t_philo_info *info)
 	id = 1;
 	while (id <= info->philo_n)
 	{
-		info->philo_lst[id - 1] = init_philo(info, id);
+		info->philo_lst[id - 1] = init_philo(info, (unsigned int) id);
 		id++;
 	}
 }
