@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:53:04 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/01 21:24:25 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:17:48 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,65 +26,57 @@ void	p_print(const char *str)
 	pthread_mutex_unlock(info->m_print);
 }
 
-static void	write_unum(unsigned int nb)
+static int	write_unum_to_buffer(char *buf, unsigned int nb)
 {
-	char	buffer[10];
+	char	tmp[10];
 	int		i;
+	int		j;
 
-	i = 10;
+	i = 0;
 	if (nb == 0)
 	{
-		write(STDOUT_FILENO, "0", 1);
-		return ;
+		buf[0] = '0';
+		return (1);
 	}
 	while (nb > 0)
 	{
-		i--;
-		buffer[i] = '0' + (nb % 10);
+		tmp[i] = '0' + (nb % 10);
 		nb /= 10;
+		i++;
 	}
-	write(STDOUT_FILENO, &buffer[i], 10 - i);
-}
-
-void	write_arg(va_list args, char ch)
-{
-	if (ch == 'u')
-		write_unum(va_arg(args, unsigned int));
-	else
-		write(STDOUT_FILENO, &ch, 1);
-}
-
-static void	write_segment(const char *str, size_t start, size_t end)
-{
-	if (end > start)
-		write(STDOUT_FILENO, &str[start], end - start);
+	j = 0;
+	while (i-- > 0)
+	{
+		buf[j] = tmp[i];
+		j++;
+	}
+	return (j);
 }
 
 void	p_printf(const char *str, ...)
 {
 	va_list			args;
 	t_philo_info	*info;
+	char			buf[PRINT_BUF_SIZE];
 	size_t			i;
-	size_t			start;
+	size_t			out;
 
 	info = get_info();
 	va_start(args, str);
 	pthread_mutex_lock(info->m_print);
 	i = 0;
-	start = 0;
-	while (str[i] != '\0')
+	out = 0;
+	while (str[i] && out < PRINT_BUF_SIZE - 1)
 	{
-		if (str[i] == '%' && str[i + 1])
+		if (str[i] == '%' && str[i + 1] == 'u')
 		{
-			write_segment(str, start, i);
-			i++;
-			write_arg(args, str[i]);
-			start = ++i;
+			out += write_unum_to_buffer(&buf[out], va_arg(args, unsigned int));
+			i += 2;
 		}
 		else
-			i++;
+			buf[out++] = str[i++];
 	}
-	write_segment(str, start, i);
+	write(STDOUT_FILENO, buf, out);
 	pthread_mutex_unlock(info->m_print);
 	va_end(args);
 }

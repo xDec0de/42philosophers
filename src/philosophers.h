@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/01 22:44:32 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:17:38 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ t_philo_info	*parse_arguments(int argc, char **argv);
  - Printer
  */
 
+#define PRINT_BUF_SIZE 256
+
 /**
  * @brief Fast printing function that respects the print mutex
  * from `t_philo_info->m_print`. It does not support format
@@ -134,19 +136,20 @@ void			p_print(const char *str);
 
 /**
  * @brief Lightweight formatted printing function with support
- * for `%u` (`unsigned int` only). Uses the print mutex found in
- * `t_philo_info->m_print`.
+ * for `%u` (`unsigned int` only). Thread-safe via the mutex
+ * found in `t_philo_info->m_print`.
  * 
- * The format string is parsed and printed in segments to
- * reduce the number of `write` syscalls. It uses only stack
- * memory, no heap allocations or recursion for maximum speed.
+ * The entire formatted message is built in a stack-allocated
+ * buffer and written with a single `write` syscall to reduce
+ * context switches and increase performance. This avoids heap
+ * allocation, recursion, and dynamic memory altogether.
  * 
  * Only the `%u` specifier is supported. Any other character
- * following `%` is printed as-is.
+ * following `%` is treated literally (e.g., `%x` becomes `x`).
  * 
- * @param str The format string. Passing `NULL` results in
- * undefined behavior.
- * @param ... The variable arguments for the format string.
+ * @param str The format string. Must not be `NULL`. Passing
+ * `NULL` results in undefined behavior.
+ * @param ... Variable arguments matching `%u` occurrences.
  */
 void			p_printf(const char *str, ...);
 
