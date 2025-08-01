@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/01 22:05:11 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 22:12:27 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,24 @@ static bool	build_philosophers(t_philo_info *info)
 	return (true);
 }
 
-static	void launch_simulation(t_philo_info *info)
+static	bool launch_simulation(t_philo_info *info)
 {
-	int	id;
+	int			id;
+	t_philo		*philo;
 
 	id = 0;
 	info->start_date = get_current_time();
 	while (id < info->philo_n)
 	{
-		launch_philo(info->philo_lst[id]);
+		philo = info->philo_lst[id];
+		if (pthread_create(&philo->thread_id, NULL, &launch_philo, philo) != 0)
+		{
+			printf(THREAD_ERR);
+			return (false);
+		}
 		id++;
 	}
+	return (true);
 }
 
 int	main(int argc, char **argv)
@@ -54,7 +61,8 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (!build_philosophers(info))
 		return (EXIT_FAILURE);
-	launch_simulation(info);
+	if (!launch_simulation(info))
+		return (EXIT_FAILURE);
 	free_info(info);
 	return (EXIT_SUCCESS);
 }
