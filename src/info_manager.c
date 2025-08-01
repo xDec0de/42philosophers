@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:11:36 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/31 17:00:26 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 21:17:18 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static t_philo_info	*init_info(void)
 	info->eat_ms = 0;
 	info->sleep_ms = 0;
 	info->m_print = mutex_init();
+	info->start_date = 0;
 	if (info->m_print == NULL)
 		return (NULL);
 	return (info);

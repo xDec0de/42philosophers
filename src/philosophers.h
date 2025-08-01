@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/07/31 17:00:09 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 20:50:13 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ typedef struct s_philo_info
 	t_philo			*philo_lst[MAX_PHILOSOPHERS];
 	// The printing mutex
 	pthread_mutex_t	*m_print;
+	// The date at which the simulation started
+	size_t			start_date;
 }				t_philo_info;
 
 /*
@@ -114,6 +116,8 @@ t_philo_info	*parse_arguments(int argc, char **argv);
 /*
  - Time
  */
+
+int				get_current_ms(t_philo_info *info);
 
 /**
  * @brief Three-phase sleep strategy to improve precision while keeping
