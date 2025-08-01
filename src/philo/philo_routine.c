@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/01 22:42:10 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:07:09 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	p_eat(t_philo *philo)
 	p_sleep(philo->info->eat_ms);
 	pthread_mutex_unlock(left->m_fork);
 	pthread_mutex_unlock(philo->m_fork);
+	philo->eat_amount++;
 }
 
 void	*launch_philo(void *philo_ptr)
@@ -54,6 +55,8 @@ void	*launch_philo(void *philo_ptr)
 	{
 		p_printf(PHILO_THINKING, get_current_ms(philo->info), philo->id);
 		p_eat(philo);
+		if (philo->eat_amount == philo->info->eat_num)
+			break ;
 		p_printf(PHILO_SLEEPING, get_current_ms(philo->info), philo->id);
 		p_sleep(philo->info->sleep_ms);
 	}
