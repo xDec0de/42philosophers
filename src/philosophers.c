@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/01 22:12:27 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 22:19:25 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	build_philosophers(t_philo_info *info)
 	return (true);
 }
 
-static	bool launch_simulation(t_philo_info *info)
+static bool	launch_simulation(t_philo_info *info)
 {
 	int			id;
 	t_philo		*philo;

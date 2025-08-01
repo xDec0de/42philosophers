@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/01 22:12:13 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 22:24:20 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_philo
 	pthread_t			thread_id;
 	int					eat_amount;
 	int					last_meal_ms;
+	pthread_mutex_t		*m_fork;
 	struct s_philo_info	*info;
 }			t_philo;
 

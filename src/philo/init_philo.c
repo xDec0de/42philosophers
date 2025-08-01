@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:19:54 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/01 21:46:30 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 22:36:54 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@ t_philo	*init_philo(t_philo_info *info, unsigned int id)
 	philo->thread_id = 0;
 	philo->eat_amount = 0;
 	philo->last_meal_ms = 0;
+	philo->m_fork = mutex_init();
+	if (philo->m_fork == NULL)
+		return (NULL);
 	return (philo);
 }
