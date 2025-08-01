@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/01 22:24:20 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 22:44:32 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,23 +260,23 @@ unsigned int	p_strlen(const char *str);
 /* Philosopher log messages */
 
 // Log message: A philosopher took a fork (Left hand)
-# define PHILO_TAKE_RFORK "\e[1;30m[\e[0;33m%u\e[1;30m] \e[1;33m%u \e[1;37m\
+# define PHILO_TAKE_RFORK "\e[1;30m[\e[0;34m%u\e[1;30m] \e[1;33m%u \e[1;37m\
 has taken a \e[1;33mfork \e[1;30m(\e[1;34mRight\e[1;30m)\e[0m\n"
 
 // Log message: A philosopher took a fork (Left hand)
-# define PHILO_TAKE_LFORK "\e[1;30m[\e[0;33m%u\e[1;30m] \e[1;33m%u \e[1;37m\
+# define PHILO_TAKE_LFORK "\e[1;30m[\e[0;34m%u\e[1;30m] \e[1;33m%u \e[1;37m\
 has taken a \e[1;33mfork \e[1;30m(\e[1;34mLeft\e[1;30m)\e[0m\n"
 
 // Log message: A philosopher changed its state to EATING
-# define PHILO_EATING "\e[1;30m[\e[0;33m%u\e[1;30m] \e[1;33m%u \e[1;37m\
+# define PHILO_EATING "\e[1;30m[\e[0;35m%u\e[1;30m] \e[1;33m%u \e[1;37m\
 is \e[1;35meating\e[1;30m.\e[0m\n"
 
 // Log message: A philosopher changed its state to SLEEPING
-# define PHILO_SLEEPING "\e[1;30m[\e[0;33m%u\e[1;30m] \e[1;33m%u \e[1;37m\
+# define PHILO_SLEEPING "\e[1;30m[\e[0;36m%u\e[1;30m] \e[1;33m%u \e[1;37m\
 is \e[1;36msleeping\e[1;30m.\e[0m\n"
 
 // Log message: A philosopher changed its state to THINKING
-# define PHILO_THINKING "\e[1;30m[\e[0;33m%u\e[1;30m] \e[1;33m%u \e[1;37m\
+# define PHILO_THINKING "\e[1;30m[\e[0;32m%u\e[1;30m] \e[1;33m%u \e[1;37m\
 is \e[1;32mthinking\e[1;30m.\e[0m\n"
 
 // Log message: A philosopher died :( - Simulation ends
