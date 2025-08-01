@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/01 21:46:25 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 22:01:24 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ void			p_printf(const char *str, ...);
  - Time
  */
 
+size_t			get_current_time(void);
+
 int				get_current_ms(t_philo_info *info);
 
 /**
@@ -187,7 +189,9 @@ pthread_mutex_t	*mutex_init(void);
  - Philo functions
  */
 
-t_philo			*init_philo(t_philo_info *info, int id);
+t_philo			*init_philo(t_philo_info *info, unsigned int id);
+
+void			launch_philo(t_philo *philo);
 
 /*
  - String utils

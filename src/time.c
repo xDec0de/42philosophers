@@ -6,13 +6,13 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 21:46:08 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/01 20:48:28 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 22:00:46 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static size_t	get_current_time(void)
+size_t	get_current_time(void)
 {
 	struct timeval	time;
 
