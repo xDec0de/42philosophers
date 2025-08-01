@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:53:04 by daniema3          #+#    #+#             */
-/*   Updated: 2025/07/30 19:40:34 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 21:09:47 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,30 @@ void	p_print(const char *str)
 	pthread_mutex_unlock(info->m_print);
 }
 
-void	write_str(const char *str)
+static void write_unum(unsigned int nb)
 {
-	if (str == NULL)
-		write(STDOUT_FILENO, "(null)", 6);
-	else
-		write(STDOUT_FILENO, str, p_strlen(str));
+	char buffer[10];
+	int i;
+
+	i = 10;
+	if (nb == 0)
+	{
+		write(STDOUT_FILENO, "0", 1);
+		return ;
+	}
+	while (nb > 0)
+	{
+		i--;
+		buffer[i] = '0' + (nb % 10);
+		nb /= 10;
+	}
+	write(STDOUT_FILENO, &buffer[i], 10 - i);
 }
 
 void	write_arg(va_list args, char ch)
 {
-	if (ch == 's')
-		write_str(va_arg(args, char *));
+	if (ch == 'u')
+		write_unum(va_arg(args, unsigned int));
 	else
 		write(STDOUT_FILENO, &ch, 1);
 }
