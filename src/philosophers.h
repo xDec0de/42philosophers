@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/01 20:50:13 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 21:37:02 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,42 @@ void			free_info(t_philo_info *info);
  */
 
 t_philo_info	*parse_arguments(int argc, char **argv);
+
+/*
+ - Printer
+ */
+
+/**
+ * @brief Fast printing function that respects the print mutex
+ * from `t_philo_info->m_print`. It does not support format
+ * specifiers or varargs.
+ * 
+ * If `str` is `NULL` or an empty string, the function exits
+ * early without acquiring the mutex or making syscalls.
+ * Otherwise, the entire string is written to `STDOUT_FILENO`
+ * in a single `write` call to minimize syscall overhead.
+ * 
+ * @param str The string to print.
+ */
+void			p_print(const char *str);
+
+/**
+ * @brief Lightweight formatted printing function with support
+ * for `%u` (`unsigned int` only). Uses the print mutex found in
+ * `t_philo_info->m_print`.
+ * 
+ * The format string is parsed and printed in segments to
+ * reduce the number of `write` syscalls. It uses only stack
+ * memory, no heap allocations or recursion for maximum speed.
+ * 
+ * Only the `%u` specifier is supported. Any other character
+ * following `%` is printed as-is.
+ * 
+ * @param str The format string. Passing `NULL` results in
+ * undefined behavior.
+ * @param ... The variable arguments for the format string.
+ */
+void			p_printf(const char *str, ...);
 
 /*
  - Time

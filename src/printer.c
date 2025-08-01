@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:53:04 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/01 21:09:47 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/01 21:24:25 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	p_print(const char *str)
 	pthread_mutex_unlock(info->m_print);
 }
 
-static void write_unum(unsigned int nb)
+static void	write_unum(unsigned int nb)
 {
-	char buffer[10];
-	int i;
+	char	buffer[10];
+	int		i;
 
 	i = 10;
 	if (nb == 0)
@@ -54,29 +54,37 @@ void	write_arg(va_list args, char ch)
 		write(STDOUT_FILENO, &ch, 1);
 }
 
+static void	write_segment(const char *str, size_t start, size_t end)
+{
+	if (end > start)
+		write(STDOUT_FILENO, &str[start], end - start);
+}
+
 void	p_printf(const char *str, ...)
 {
 	va_list			args;
 	t_philo_info	*info;
 	size_t			i;
+	size_t			start;
 
-	if (str == NULL)
-		return ;
-	i = 0;
 	info = get_info();
 	va_start(args, str);
 	pthread_mutex_lock(info->m_print);
+	i = 0;
+	start = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] == '%' && str[i + 1])
 		{
+			write_segment(str, start, i);
 			i++;
 			write_arg(args, str[i]);
+			start = ++i;
 		}
 		else
-			write(STDOUT_FILENO, &str[i], 1);
-		i++;
+			i++;
 	}
+	write_segment(str, start, i);
 	pthread_mutex_unlock(info->m_print);
 	va_end(args);
 }
