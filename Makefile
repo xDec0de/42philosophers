@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+         #
+#    By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
-#    Updated: 2025/08/01 21:49:39 by daniema3         ###   ########.fr        #
+#    Updated: 2025/08/03 20:08:50 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRCS =	info_manager.c \
 		input_parser.c \
 		philosophers.c \
 		printer.c \
-		time.c
+		time.c \
+		watcher.c
 
 # > ~ Mutex utilities
 

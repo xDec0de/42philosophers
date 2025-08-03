@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/03 19:21:51 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 20:09:55 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,12 @@ int				get_current_ms(t_philo_info *info);
  * @param ms The number of milliseconds to sleep.
  */
 void			p_sleep(size_t ms);
+
+/*
+ - Watcher 
+ */
+
+bool			launch_watcher(t_philo_info *info);
 
 /*
  - Mutex utils
