@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/03 18:48:12 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 19:21:51 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ typedef struct s_philo_info
 	int				eat_num;
 	// The array of philosophers
 	t_philo			*philo_lst[MAX_PHILOSOPHERS];
+	// The printing mutex
+	pthread_mutex_t	*m_print;
 	// The date at which the simulation started
 	size_t			start_date;
 }				t_philo_info;
@@ -119,6 +121,8 @@ t_philo_info	*parse_arguments(int argc, char **argv);
  */
 
 # define PRINT_BUF_SIZE 256
+
+# define PRINT_GET_MS UINT_MAX
 
 /**
  * @brief Fast printing function that respects the print mutex

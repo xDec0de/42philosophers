@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 18:39:08 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 19:25:00 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,22 @@ static bool	p_take_forks(t_philo *philo, t_philo *left)
 		pthread_mutex_lock(left->m_fork);
 		if (!p_can_continue(philo))
 			return (pthread_mutex_unlock(left->m_fork), false);
-		p_printf(PHILO_TAKE_LFORK, get_current_ms(philo->info), philo->id);
+		p_printf(PHILO_TAKE_LFORK, PRINT_GET_MS, philo->id);
 		pthread_mutex_lock(philo->m_fork);
 		if (!p_can_continue(philo))
 			return (pthread_mutex_unlock(philo->m_fork), false);
-		p_printf(PHILO_TAKE_RFORK, get_current_ms(philo->info), philo->id);
+		p_printf(PHILO_TAKE_RFORK, PRINT_GET_MS, philo->id);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->m_fork);
 		if (!p_can_continue(philo))
 			return (pthread_mutex_unlock(philo->m_fork), false);
-		p_printf(PHILO_TAKE_RFORK, get_current_ms(philo->info), philo->id);
+		p_printf(PHILO_TAKE_RFORK, PRINT_GET_MS, philo->id);
 		pthread_mutex_lock(left->m_fork);
 		if (!p_can_continue(philo))
 			return (pthread_mutex_unlock(left->m_fork), false);
-		p_printf(PHILO_TAKE_LFORK, get_current_ms(philo->info), philo->id);
+		p_printf(PHILO_TAKE_LFORK, PRINT_GET_MS, philo->id);
 	}
 	return (true);
 }
@@ -81,7 +81,7 @@ static bool	p_eat(t_philo *philo)
 		return (false);
 	if (!p_can_continue(philo))
 		return (false);
-	p_printf(PHILO_EATING, get_current_ms(philo->info), philo->id);
+	p_printf(PHILO_EATING, PRINT_GET_MS, philo->id);
 	philo->last_meal_ms = get_current_ms(philo->info);
 	alive = p_try_sleep(philo, philo->info->eat_ms);
 	pthread_mutex_unlock(left->m_fork);
@@ -99,7 +99,7 @@ void	*launch_philo(void *philo_ptr)
 	{
 		if (!p_can_continue(philo))
 			break ;
-		p_printf(PHILO_THINKING, get_current_ms(philo->info), philo->id);
+		p_printf(PHILO_THINKING, PRINT_GET_MS, philo->id);
 		if (!p_eat(philo))
 			break ;
 		if (philo->eat_amount == philo->info->eat_num)
@@ -111,7 +111,7 @@ void	*launch_philo(void *philo_ptr)
 		}
 		if (!p_can_continue(philo))
 			break ;
-		p_printf(PHILO_SLEEPING, get_current_ms(philo->info), philo->id);
+		p_printf(PHILO_SLEEPING, PRINT_GET_MS, philo->id);
 		if (!p_try_sleep(philo, philo->info->sleep_ms))
 			break ;
 	}
