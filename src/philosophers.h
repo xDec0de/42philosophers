@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/03 17:42:26 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:19:00 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ t_philo_info	*parse_arguments(int argc, char **argv);
  - Printer
  */
 
-#define PRINT_BUF_SIZE 256
+# define PRINT_BUF_SIZE 256
 
 /**
  * @brief Fast printing function that respects the print mutex

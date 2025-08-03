@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 17:54:37 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:19:10 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static bool	p_take_forks(t_philo *philo, t_philo *left)
 	return (true);
 }
 
-static bool p_eat(t_philo *philo)
+static bool	p_eat(t_philo *philo)
 {
 	t_philo	*left;
 	bool	alive;
