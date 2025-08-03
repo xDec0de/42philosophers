@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 18:19:10 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:39:08 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,23 @@ static bool	p_take_forks(t_philo *philo, t_philo *left)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(left->m_fork);
+		if (!p_can_continue(philo))
+			return (pthread_mutex_unlock(left->m_fork), false);
 		p_printf(PHILO_TAKE_LFORK, get_current_ms(philo->info), philo->id);
 		pthread_mutex_lock(philo->m_fork);
+		if (!p_can_continue(philo))
+			return (pthread_mutex_unlock(philo->m_fork), false);
 		p_printf(PHILO_TAKE_RFORK, get_current_ms(philo->info), philo->id);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->m_fork);
+		if (!p_can_continue(philo))
+			return (pthread_mutex_unlock(philo->m_fork), false);
 		p_printf(PHILO_TAKE_RFORK, get_current_ms(philo->info), philo->id);
 		pthread_mutex_lock(left->m_fork);
+		if (!p_can_continue(philo))
+			return (pthread_mutex_unlock(left->m_fork), false);
 		p_printf(PHILO_TAKE_LFORK, get_current_ms(philo->info), philo->id);
 	}
 	return (true);
@@ -70,6 +78,8 @@ static bool	p_eat(t_philo *philo)
 	else
 		left = philo->info->philo_lst[(philo->id - 2)];
 	if (!p_take_forks(philo, left))
+		return (false);
+	if (!p_can_continue(philo))
 		return (false);
 	p_printf(PHILO_EATING, get_current_ms(philo->info), philo->id);
 	philo->last_meal_ms = get_current_ms(philo->info);
