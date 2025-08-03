@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 18:20:01 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:31:33 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ static bool	on_philo_death(t_philo *philo)
 	ms = get_current_ms(philo->info);
 	while (id < philo->info->philo_n)
 	{
+		philo = philo->info->philo_lst[id];
 		pthread_mutex_lock(philo->m_state);
-		if (philo->state != DEAD)
-			philo->state = PAUSED;
+		philo->state = PAUSED;
 		pthread_mutex_unlock(philo->m_state);
 		id++;
 	}
