@@ -6,13 +6,44 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 16:40:57 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:15:03 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static void	p_take_forks(t_philo *philo, t_philo *left)
+/*static bool	p_check_dead(t_philo *philo)
+{
+	int	current_ms;
+
+	current_ms = get_current_ms(philo->info);
+	if ((current_ms - philo->last_meal_ms) > philo->info->die_ms)
+	{
+		pthread_mutex_lock(philo->m_state);
+		philo->state = DEAD;
+		pthread_mutex_unlock(philo->m_state);
+		return (true);
+	}
+	return (false);
+}*/
+
+static bool	p_try_sleep(t_philo *philo, int ms)
+{
+	int	current_ms;
+
+	current_ms = get_current_ms(philo->info);
+	if (((current_ms + ms) - philo->last_meal_ms) > philo->info->die_ms)
+	{
+		pthread_mutex_lock(philo->m_state);
+		philo->state = DEAD;
+		pthread_mutex_unlock(philo->m_state);
+		return (false);
+	}
+	p_sleep(ms);
+	return (true);
+}
+
+static bool	p_take_forks(t_philo *philo, t_philo *left)
 {
 	if (philo->id % 2 == 0)
 	{
@@ -28,29 +59,27 @@ static void	p_take_forks(t_philo *philo, t_philo *left)
 		pthread_mutex_lock(left->m_fork);
 		p_printf(PHILO_TAKE_LFORK, get_current_ms(philo->info), philo->id);
 	}
+	return (true);
 }
 
-static void	p_eat(t_philo *philo)
+static bool p_eat(t_philo *philo)
 {
 	t_philo	*left;
+	bool	alive;
 
 	if (philo->id == 1)
 		left = philo->info->philo_lst[philo->info->philo_n - 1];
 	else
 		left = philo->info->philo_lst[(philo->id - 2)];
-	p_take_forks(philo, left);
+	if (!p_take_forks(philo, left))
+		return (false);
 	p_printf(PHILO_EATING, get_current_ms(philo->info), philo->id);
-	p_sleep(philo->info->eat_ms);
+	philo->last_meal_ms = get_current_ms(philo->info);
+	alive = p_try_sleep(philo, philo->info->eat_ms);
 	pthread_mutex_unlock(left->m_fork);
 	pthread_mutex_unlock(philo->m_fork);
 	philo->eat_amount++;
-}
-
-static void	p_set_state(t_philo *philo, t_philo_state state)
-{
-	pthread_mutex_lock(philo->m_state);
-	philo->state = state;
-	pthread_mutex_unlock(philo->m_state);
+	return (alive);
 }
 
 void	*launch_philo(void *philo_ptr)
@@ -61,17 +90,18 @@ void	*launch_philo(void *philo_ptr)
 	while (true)
 	{
 		p_printf(PHILO_THINKING, get_current_ms(philo->info), philo->id);
-		p_eat(philo);
+		if (!p_eat(philo))
+			break ;
 		if (philo->eat_amount == philo->info->eat_num)
 		{
-			p_set_state(philo, INACTIVE);
+			pthread_mutex_lock(philo->m_state);
+			philo->state = INACTIVE;
+			pthread_mutex_unlock(philo->m_state);
 			break ;
 		}
 		p_printf(PHILO_SLEEPING, get_current_ms(philo->info), philo->id);
-		p_sleep(philo->info->sleep_ms);
+		if (!p_try_sleep(philo, philo->info->sleep_ms))
+			break ;
 	}
-	pthread_mutex_lock(philo->m_state);
-	philo->state = INACTIVE;
-	pthread_mutex_unlock(philo->m_state);
 	return (philo_ptr);
 }

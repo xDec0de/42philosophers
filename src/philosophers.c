@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 16:42:53 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:12:42 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static bool	launch_simulation(t_philo_info *info)
 
 static bool	on_philo_death(t_philo *philo)
 {
-	(void) philo;
+	p_printf(PHILO_DIED, get_current_ms(philo->info), philo->id);
 	return (false);
 }
 
@@ -73,10 +73,10 @@ static bool	launch_watcher(t_philo_info *info)
 		pthread_mutex_lock(philo->m_state);
 		state = philo->state;
 		pthread_mutex_unlock(philo->m_state);
-		if (state == INACTIVE)
-			inactive++;
 		if (state == DEAD)
 			return (on_philo_death(philo));
+		else if (state == INACTIVE)
+			inactive++;
 		id++;
 	}
 	if (inactive != info->philo_n)
