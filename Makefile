@@ -6,7 +6,7 @@
 #    By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
-#    Updated: 2025/08/03 20:08:50 by daniema3         ###   ########.fr        #
+#    Updated: 2025/08/03 20:44:07 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ SRCS +=	mutex/mutex_free.c \
 # > ~ Philo functions
 
 SRCS +=	philo/init_philo.c \
-		philo/philo_routine.c
+		philo/philo_routine.c \
+		philo/philo_set_state.c
 
 # > ~ String utilities
 

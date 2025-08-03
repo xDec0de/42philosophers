@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/03 20:09:55 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 20:43:50 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,8 @@ pthread_mutex_t	*mutex_init(void);
  */
 
 t_philo			*init_philo(t_philo_info *info, unsigned int id);
+
+void			philo_set_state(t_philo *philo, t_philo_state state);
 
 void			*launch_philo(void *philo_ptr);
 

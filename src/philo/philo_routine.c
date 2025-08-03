@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 19:25:00 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 20:57:53 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,17 @@
 static bool	p_can_continue(t_philo *philo)
 {
 	t_philo_state	state;
+	int				ms;
 
 	pthread_mutex_lock(philo->m_state);
 	state = philo->state;
 	pthread_mutex_unlock(philo->m_state);
-	return (state != PAUSED && state != DEAD);
+	if (state == PAUSED || state == DEAD)
+		return (false);
+	ms = get_current_ms(philo->info);
+	if ((ms - philo->last_meal_ms) > philo->info->die_ms)
+		philo_set_state(philo, DEAD);
+	return (state != DEAD);
 }
 
 static bool	p_try_sleep(t_philo *philo, int ms)
@@ -32,9 +38,7 @@ static bool	p_try_sleep(t_philo *philo, int ms)
 	if (((current_ms + ms) - philo->last_meal_ms) > philo->info->die_ms)
 	{
 		p_sleep(philo->info->die_ms - (current_ms - philo->last_meal_ms));
-		pthread_mutex_lock(philo->m_state);
-		philo->state = DEAD;
-		pthread_mutex_unlock(philo->m_state);
+		philo_set_state(philo, DEAD);
 		return (false);
 	}
 	p_sleep(ms);
