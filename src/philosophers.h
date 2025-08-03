@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/01 23:17:38 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:42:26 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef enum e_philo_state
 {
 	// The philosopher is currently well and alive (Active).
 	ALIVE,
+	// The philosopher has been paused by the watcher.
+	PAUSED,
 	// The philosopher is inactive (Ate enough times).
 	INACTIVE,
 	// The philosopher tragically died of starvation :(

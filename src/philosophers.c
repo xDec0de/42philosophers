@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 17:12:42 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:05:18 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,23 @@ static bool	launch_simulation(t_philo_info *info)
 
 static bool	on_philo_death(t_philo *philo)
 {
-	p_printf(PHILO_DIED, get_current_ms(philo->info), philo->id);
+	int	id;
+	int	dead_id;
+	int	ms;
+
+	id = 0;
+	dead_id = philo->id;
+	ms = get_current_ms(philo->info);
+	while (id < philo->info->philo_n)
+	{
+		pthread_mutex_lock(philo->m_state);
+		if (philo->state != DEAD)
+			philo->state = PAUSED;
+		pthread_mutex_unlock(philo->m_state);
+		id++;
+	}
+	free_info(philo->info);
+	p_printf(PHILO_DIED, ms, dead_id);
 	return (false);
 }
 
@@ -81,6 +97,7 @@ static bool	launch_watcher(t_philo_info *info)
 	}
 	if (inactive != info->philo_n)
 		return (true);
+	free_info(philo->info);
 	p_printf(ALL_SURVIVED, get_current_ms(info));
 	return (false);
 }
@@ -98,6 +115,5 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	while (launch_watcher(info))
 		usleep(500);
-	free_info(info);
 	return (EXIT_SUCCESS);
 }

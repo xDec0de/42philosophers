@@ -6,31 +6,28 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 17:37:00 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:54:37 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-/*static bool	p_check_dead(t_philo *philo)
+static bool	p_can_continue(t_philo *philo)
 {
-	int	current_ms;
+	t_philo_state	state;
 
-	current_ms = get_current_ms(philo->info);
-	if ((current_ms - philo->last_meal_ms) > philo->info->die_ms)
-	{
-		pthread_mutex_lock(philo->m_state);
-		philo->state = DEAD;
-		pthread_mutex_unlock(philo->m_state);
-		return (true);
-	}
-	return (false);
-}*/
+	pthread_mutex_lock(philo->m_state);
+	state = philo->state;
+	pthread_mutex_unlock(philo->m_state);
+	return (state != PAUSED && state != DEAD);
+}
 
 static bool	p_try_sleep(t_philo *philo, int ms)
 {
 	int	current_ms;
 
+	if (!p_can_continue(philo))
+		return (false);
 	current_ms = get_current_ms(philo->info);
 	if (((current_ms + ms) - philo->last_meal_ms) > philo->info->die_ms)
 	{
@@ -90,6 +87,8 @@ void	*launch_philo(void *philo_ptr)
 	philo = philo_ptr;
 	while (true)
 	{
+		if (!p_can_continue(philo))
+			break ;
 		p_printf(PHILO_THINKING, get_current_ms(philo->info), philo->id);
 		if (!p_eat(philo))
 			break ;
@@ -100,6 +99,8 @@ void	*launch_philo(void *philo_ptr)
 			pthread_mutex_unlock(philo->m_state);
 			break ;
 		}
+		if (!p_can_continue(philo))
+			break ;
 		p_printf(PHILO_SLEEPING, get_current_ms(philo->info), philo->id);
 		if (!p_try_sleep(philo, philo->info->sleep_ms))
 			break ;
