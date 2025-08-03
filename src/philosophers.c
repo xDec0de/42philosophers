@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 18:31:33 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 19:12:12 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,28 +77,28 @@ static bool	on_philo_death(t_philo *philo)
 static bool	launch_watcher(t_philo_info *info)
 {
 	int				id;
-	t_philo			*philo;
 	t_philo_state	state;
 	int				inactive;
+	int				ms;
 
 	id = 0;
 	inactive = 0;
 	while (id < info->philo_n)
 	{
-		philo = info->philo_lst[id];
-		pthread_mutex_lock(philo->m_state);
-		state = philo->state;
-		pthread_mutex_unlock(philo->m_state);
+		pthread_mutex_lock(info->philo_lst[id]->m_state);
+		state = info->philo_lst[id]->state;
+		pthread_mutex_unlock(info->philo_lst[id]->m_state);
 		if (state == DEAD)
-			return (on_philo_death(philo));
+			return (on_philo_death(info->philo_lst[id]));
 		else if (state == INACTIVE)
 			inactive++;
 		id++;
 	}
 	if (inactive != info->philo_n)
 		return (true);
-	free_info(philo->info);
-	p_printf(ALL_SURVIVED, get_current_ms(info));
+	ms = get_current_ms(info);
+	free_info(info);
+	p_printf(ALL_SURVIVED, ms);
 	return (false);
 }
 
