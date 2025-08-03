@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 17:15:03 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:37:00 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static bool	p_try_sleep(t_philo *philo, int ms)
 	current_ms = get_current_ms(philo->info);
 	if (((current_ms + ms) - philo->last_meal_ms) > philo->info->die_ms)
 	{
+		p_sleep(philo->info->die_ms - (current_ms - philo->last_meal_ms));
 		pthread_mutex_lock(philo->m_state);
 		philo->state = DEAD;
 		pthread_mutex_unlock(philo->m_state);
