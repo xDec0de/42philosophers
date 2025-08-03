@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:53:04 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 19:23:16 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 20:16:55 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	p_print(const char *str)
 	pthread_mutex_unlock(info->m_print);
 }
 
-static int	write_unum_to_buffer(t_philo_info *info, char *buf, unsigned int nb)
+static int	write_unum(t_philo_info *info, char *buf, unsigned int nb)
 {
 	char	tmp[10];
 	int		i;
@@ -72,7 +72,7 @@ void	p_printf(const char *str, ...)
 	{
 		if (str[i] == '%' && str[i + 1] == 'u')
 		{
-			out += write_unum_to_buffer(info, &buf[out], va_arg(args, unsigned int));
+			out += write_unum(info, &buf[out], va_arg(args, unsigned int));
 			i += 2;
 		}
 		else
