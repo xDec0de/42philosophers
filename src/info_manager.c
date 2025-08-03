@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:11:36 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/01 21:17:18 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:21:32 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ static void	free_philos(t_philo_info *info)
 
 void	free_info(t_philo_info *info)
 {
-	mutex_free(info->m_print);
 	free_philos(info);
+	mutex_free(info->m_print);
 	free(info);
 }
 

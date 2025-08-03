@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 18:05:18 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:20:01 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static bool	on_philo_death(t_philo *philo)
 		id++;
 	}
 	free_info(philo->info);
-	p_printf(PHILO_DIED, ms, dead_id);
+	printf(PHILO_DIED, ms, dead_id);
 	return (false);
 }
 
