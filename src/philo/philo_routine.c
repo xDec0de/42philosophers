@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/01 23:07:09 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 16:40:57 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ static void	p_eat(t_philo *philo)
 	philo->eat_amount++;
 }
 
+static void	p_set_state(t_philo *philo, t_philo_state state)
+{
+	pthread_mutex_lock(philo->m_state);
+	philo->state = state;
+	pthread_mutex_unlock(philo->m_state);
+}
+
 void	*launch_philo(void *philo_ptr)
 {
 	t_philo	*philo;
@@ -56,7 +63,10 @@ void	*launch_philo(void *philo_ptr)
 		p_printf(PHILO_THINKING, get_current_ms(philo->info), philo->id);
 		p_eat(philo);
 		if (philo->eat_amount == philo->info->eat_num)
+		{
+			p_set_state(philo, INACTIVE);
 			break ;
+		}
 		p_printf(PHILO_SLEEPING, get_current_ms(philo->info), philo->id);
 		p_sleep(philo->info->sleep_ms);
 	}
