@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 20:09:14 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/03 20:15:19 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,16 @@ static bool	launch_simulation(t_philo_info *info)
 	return (true);
 }
 
+static int	run_one_philo(t_philo_info *info)
+{
+	printf(PHILO_THINKING, 0, 1);
+	printf(PHILO_TAKE_RFORK, 0, 1);
+	p_sleep(info->die_ms);
+	printf(PHILO_DIED, info->die_ms, 1);
+	free_info(info);
+	return (EXIT_SUCCESS);
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo_info	*info;
@@ -59,6 +69,8 @@ int	main(int argc, char **argv)
 	info = parse_arguments(argc, argv);
 	if (info == NULL)
 		return (EXIT_FAILURE);
+	if (info->philo_n == 1)
+		return (run_one_philo(info));
 	if (!build_philosophers(info))
 		return (EXIT_FAILURE);
 	if (!launch_simulation(info))
