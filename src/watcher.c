@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   watcher.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 20:08:05 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 20:08:26 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:00:56 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ bool	launch_watcher(t_philo_info *info)
 		return (true);
 	ms = get_current_ms(info);
 	free_info(info);
-	p_printf(ALL_SURVIVED, ms);
+	printf(ALL_SURVIVED, ms);
 	return (false);
 }
