@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+         #
+#    By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/22 10:51:01 by danimart          #+#    #+#              #
-#    Updated: 2025/08/03 20:44:07 by daniema3         ###   ########.fr        #
+#    Updated: 2025/08/04 16:03:20 by daniema3         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ OBJ_DIR = ./objs
 CC = gcc
 CFLAGS =	-Wall -Werror -Wextra \
 			-I$(SRC_DIR) \
-			-pthread \
 			-g3 \
 			-fdiagnostics-color=always \
 			-DMAX_PHILOSOPHERS='$(MAX_PHILOSOPHERS)' \
