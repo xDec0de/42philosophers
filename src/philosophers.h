@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/04 17:06:13 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:50:33 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,6 @@
 
 struct	s_philo_info;
 
-// Enum used to represent the actual state of a philosopher.
-typedef enum e_philo_state
-{
-	// The philosopher is currently well and alive (Active).
-	ALIVE,
-	// The philosopher has been paused by the watcher.
-	PAUSED,
-	// The philosopher is inactive (Ate enough times).
-	INACTIVE,
-	// The philosopher tragically died of starvation :(
-	DEAD
-}	t_philo_state;
-
 // Enum used to represent the different phases a philosopher can be in
 typedef enum e_philo_phase
 {
@@ -70,13 +57,15 @@ typedef enum e_philo_phase
 	SLEEPING
 }	t_philo_phase;
 
+// Special last_meal_ms value to mark a philosopher as done.
+# define LAST_MEAL_MS_DONE -1
+
 typedef struct s_philo
 {
 	unsigned int		id;
-	pthread_mutex_t		*m_state;
-	t_philo_state		state;
 	pthread_t			thread_id;
 	int					eat_amount;
+	pthread_mutex_t		*m_last_meal_ms;
 	int					last_meal_ms;
 	pthread_mutex_t		*m_fork;
 	struct s_philo_info	*info;
@@ -206,8 +195,6 @@ pthread_mutex_t	*mutex_init(void);
 bool			p_can_continue(t_philo *philo);
 
 t_philo			*init_philo(t_philo_info *info, unsigned int id);
-
-void			philo_set_state(t_philo *philo, t_philo_state state);
 
 void			*launch_philo(void *philo_ptr);
 

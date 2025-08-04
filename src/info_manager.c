@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:11:36 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 18:23:33 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:41:16 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	free_philos(t_philo_info *info)
 	id = 0;
 	while (id < info->philo_n && info->philo_lst[id] != NULL)
 	{
-		mutex_free(info->philo_lst[id]->m_state);
+		mutex_free(info->philo_lst[id]->m_last_meal_ms);
 		mutex_free(info->philo_lst[id]->m_fork);
 		free(info->philo_lst[id]);
 		info->philo_lst[id] = NULL;

@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 21:46:08 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 17:11:00 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:54:21 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	get_current_ms(t_philo_info *info)
 
 bool	p_sleep(t_philo *philo, size_t ms)
 {
-	size_t start;
-	size_t now;
+	size_t	start;
+	size_t	now;
 
 	start = get_current_time();
 	now = start;

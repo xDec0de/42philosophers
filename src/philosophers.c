@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 17:02:16 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:53:08 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ int	main(int argc, char **argv)
 	if (!launch_simulation(info))
 		return (EXIT_FAILURE);
 	while (launch_watcher(info))
-		usleep(500);
+		usleep(1000);
 	return (EXIT_SUCCESS);
 }

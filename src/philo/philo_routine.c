@@ -6,32 +6,26 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 17:09:05 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:53:43 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-bool p_can_continue(t_philo *philo)
+bool	p_can_continue(t_philo *philo)
 {
-	t_philo_state state;
-	int ms;
+	bool	cont;
 
-	pthread_mutex_lock(philo->m_state);
-	state = philo->state;
-	ms = get_current_ms(philo->info);
-	if ((ms - philo->last_meal_ms) > philo->info->die_ms)
-		philo->state = DEAD;
-	state = philo->state;
-	pthread_mutex_unlock(philo->m_state);
-	return (state != DEAD && state != PAUSED);
+	pthread_mutex_lock(philo->m_last_meal_ms);
+	cont = philo->last_meal_ms >= 0;
+	pthread_mutex_unlock(philo->m_last_meal_ms);
+	return (cont);
 }
-
 
 static bool	p_take_forks(t_philo *philo, t_philo *left)
 {
-	t_philo *first;
-	t_philo *second;
+	t_philo	*first;
+	t_philo	*second;
 
 	first = philo;
 	second = left;
@@ -72,7 +66,9 @@ static bool	p_eat(t_philo *philo)
 		return (false);
 	}
 	p_printf(PHILO_EATING, PRINT_GET_MS, philo->id);
+	pthread_mutex_lock(philo->m_last_meal_ms);
 	philo->last_meal_ms = get_current_ms(philo->info);
+	pthread_mutex_unlock(philo->m_last_meal_ms);
 	alive = p_sleep(philo, philo->info->eat_ms);
 	pthread_mutex_unlock(left->m_fork);
 	pthread_mutex_unlock(philo->m_fork);
@@ -94,9 +90,9 @@ void	*launch_philo(void *philo_ptr)
 			break ;
 		if (philo->eat_amount == philo->info->eat_num)
 		{
-			pthread_mutex_lock(philo->m_state);
-			philo->state = INACTIVE;
-			pthread_mutex_unlock(philo->m_state);
+			pthread_mutex_lock(philo->m_last_meal_ms);
+			philo->last_meal_ms = LAST_MEAL_MS_DONE;
+			pthread_mutex_unlock(philo->m_last_meal_ms);
 			break ;
 		}
 		if (!p_can_continue(philo))
