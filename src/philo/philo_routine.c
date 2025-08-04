@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 17:53:43 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:06:10 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static bool	p_take_forks(t_philo *philo, t_philo *left)
 static bool	p_eat(t_philo *philo)
 {
 	t_philo	*left;
-	bool	alive;
 
 	if (philo->id == 1)
 		left = philo->info->philo_lst[philo->info->philo_n - 1];
@@ -69,11 +68,11 @@ static bool	p_eat(t_philo *philo)
 	pthread_mutex_lock(philo->m_last_meal_ms);
 	philo->last_meal_ms = get_current_ms(philo->info);
 	pthread_mutex_unlock(philo->m_last_meal_ms);
-	alive = p_sleep(philo, philo->info->eat_ms);
+	p_sleep(philo->info->eat_ms);
 	pthread_mutex_unlock(left->m_fork);
 	pthread_mutex_unlock(philo->m_fork);
 	philo->eat_amount++;
-	return (alive);
+	return (true);
 }
 
 void	*launch_philo(void *philo_ptr)
@@ -98,8 +97,7 @@ void	*launch_philo(void *philo_ptr)
 		if (!p_can_continue(philo))
 			break ;
 		p_printf(PHILO_SLEEPING, PRINT_GET_MS, philo->id);
-		if (!p_sleep(philo, philo->info->sleep_ms))
-			break ;
+		p_sleep(philo->info->sleep_ms);
 	}
 	return (philo_ptr);
 }
