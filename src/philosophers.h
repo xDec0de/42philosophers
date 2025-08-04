@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/04 16:45:09 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:06:13 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ int				get_current_ms(t_philo_info *info);
  *
  * @param ms The number of milliseconds to sleep.
  */
-void			p_sleep(size_t ms);
+bool			p_sleep(t_philo *philo, size_t ms);
 
 /*
  - Watcher 
@@ -202,6 +202,8 @@ pthread_mutex_t	*mutex_init(void);
 /*
  - Philo functions
  */
+
+bool			p_can_continue(t_philo *philo);
 
 t_philo			*init_philo(t_philo_info *info, unsigned int id);
 

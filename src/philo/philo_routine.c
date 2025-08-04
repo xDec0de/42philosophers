@@ -6,44 +6,27 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 16:51:59 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:09:05 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static bool	p_can_continue(t_philo *philo)
+bool p_can_continue(t_philo *philo)
 {
-	t_philo_state	state;
-	int				ms;
+	t_philo_state state;
+	int ms;
 
 	pthread_mutex_lock(philo->m_state);
 	state = philo->state;
-	pthread_mutex_unlock(philo->m_state);
-	if (state == PAUSED || state == DEAD)
-		return (false);
 	ms = get_current_ms(philo->info);
 	if ((ms - philo->last_meal_ms) > philo->info->die_ms)
-		philo_set_state(philo, DEAD);
-	return (state != DEAD);
+		philo->state = DEAD;
+	state = philo->state;
+	pthread_mutex_unlock(philo->m_state);
+	return (state != DEAD && state != PAUSED);
 }
 
-static bool	p_try_sleep(t_philo *philo, int ms)
-{
-	int	current_ms;
-
-	if (!p_can_continue(philo))
-		return (false);
-	current_ms = get_current_ms(philo->info);
-	if (((current_ms + ms) - philo->last_meal_ms) > philo->info->die_ms)
-	{
-		p_sleep(philo->info->die_ms - (current_ms - philo->last_meal_ms));
-		philo_set_state(philo, DEAD);
-		return (false);
-	}
-	p_sleep(ms);
-	return (true);
-}
 
 static bool	p_take_forks(t_philo *philo, t_philo *left)
 {
@@ -90,7 +73,7 @@ static bool	p_eat(t_philo *philo)
 	}
 	p_printf(PHILO_EATING, PRINT_GET_MS, philo->id);
 	philo->last_meal_ms = get_current_ms(philo->info);
-	alive = p_try_sleep(philo, philo->info->eat_ms);
+	alive = p_sleep(philo, philo->info->eat_ms);
 	pthread_mutex_unlock(left->m_fork);
 	pthread_mutex_unlock(philo->m_fork);
 	philo->eat_amount++;
@@ -119,7 +102,7 @@ void	*launch_philo(void *philo_ptr)
 		if (!p_can_continue(philo))
 			break ;
 		p_printf(PHILO_SLEEPING, PRINT_GET_MS, philo->id);
-		if (!p_try_sleep(philo, philo->info->sleep_ms))
+		if (!p_sleep(philo, philo->info->sleep_ms))
 			break ;
 	}
 	return (philo_ptr);

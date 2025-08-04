@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 16:49:10 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:02:16 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	run_one_philo(t_philo_info *info)
 {
 	printf(PHILO_THINKING, 0, 1);
 	printf(PHILO_TAKE_FORK, 0, 1);
-	p_sleep(info->die_ms);
+	sleep(info->die_ms * 1000);
 	printf(PHILO_DIED, info->die_ms, 1);
 	free_info(info);
 	return (EXIT_SUCCESS);
