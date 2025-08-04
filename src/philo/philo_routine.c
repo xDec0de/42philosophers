@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/03 20:57:53 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:51:59 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,27 @@ static bool	p_try_sleep(t_philo *philo, int ms)
 
 static bool	p_take_forks(t_philo *philo, t_philo *left)
 {
+	t_philo *first;
+	t_philo *second;
+
+	first = philo;
+	second = left;
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(left->m_fork);
-		if (!p_can_continue(philo))
-			return (pthread_mutex_unlock(left->m_fork), false);
-		p_printf(PHILO_TAKE_LFORK, PRINT_GET_MS, philo->id);
-		pthread_mutex_lock(philo->m_fork);
-		if (!p_can_continue(philo))
-			return (pthread_mutex_unlock(philo->m_fork), false);
-		p_printf(PHILO_TAKE_RFORK, PRINT_GET_MS, philo->id);
+		first = left;
+		second = philo;
 	}
-	else
+	pthread_mutex_lock(first->m_fork);
+	if (!p_can_continue(philo))
+		return (pthread_mutex_unlock(first->m_fork), false);
+	p_printf(PHILO_TAKE_FORK, PRINT_GET_MS, philo->id);
+	pthread_mutex_lock(second->m_fork);
+	if (!p_can_continue(philo))
 	{
-		pthread_mutex_lock(philo->m_fork);
-		if (!p_can_continue(philo))
-			return (pthread_mutex_unlock(philo->m_fork), false);
-		p_printf(PHILO_TAKE_RFORK, PRINT_GET_MS, philo->id);
-		pthread_mutex_lock(left->m_fork);
-		if (!p_can_continue(philo))
-			return (pthread_mutex_unlock(left->m_fork), false);
-		p_printf(PHILO_TAKE_LFORK, PRINT_GET_MS, philo->id);
+		pthread_mutex_unlock(first->m_fork);
+		return (pthread_mutex_unlock(second->m_fork), false);
 	}
+	p_printf(PHILO_TAKE_FORK, PRINT_GET_MS, philo->id);
 	return (true);
 }
 
@@ -84,7 +83,11 @@ static bool	p_eat(t_philo *philo)
 	if (!p_take_forks(philo, left))
 		return (false);
 	if (!p_can_continue(philo))
+	{
+		pthread_mutex_unlock(left->m_fork);
+		pthread_mutex_unlock(philo->m_fork);
 		return (false);
+	}
 	p_printf(PHILO_EATING, PRINT_GET_MS, philo->id);
 	philo->last_meal_ms = get_current_ms(philo->info);
 	alive = p_try_sleep(philo, philo->info->eat_ms);
