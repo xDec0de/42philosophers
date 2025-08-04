@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 20:08:05 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 17:48:09 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:56:53 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ bool	launch_watcher(t_philo_info *info)
 		ms = get_current_ms(info);
 		philo = info->philo_lst[id];
 		pthread_mutex_lock(philo->m_last_meal_ms);
-		if ((ms - philo->last_meal_ms) > info->die_ms)
-			return (on_philo_death(philo));
-		else if (philo->last_meal_ms == LAST_MEAL_MS_DONE)
+		if (philo->last_meal_ms == LAST_MEAL_MS_DONE)
 			inactive++;
+		else if ((ms - philo->last_meal_ms) > info->die_ms)
+			return (on_philo_death(philo));
 		id++;
 		pthread_mutex_unlock(philo->m_last_meal_ms);
 	}
