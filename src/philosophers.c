@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 18:07:50 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:18:39 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static bool	launch_simulation(t_philo_info *info)
 		}
 		id++;
 	}
+	info->start_date = get_current_time();
 	return (true);
 }
 
@@ -76,6 +77,6 @@ int	main(int argc, char **argv)
 	if (!launch_simulation(info))
 		return (EXIT_FAILURE);
 	while (launch_watcher(info))
-		usleep(1000);
+		usleep(2000);
 	return (EXIT_SUCCESS);
 }
