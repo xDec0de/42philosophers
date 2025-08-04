@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 18:06:10 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:37:30 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	*launch_philo(void *philo_ptr)
 	t_philo	*philo;
 
 	philo = philo_ptr;
+	pthread_mutex_lock(philo->info->m_hold);
+	pthread_mutex_unlock(philo->info->m_hold);
 	while (true)
 	{
 		if (!p_can_continue(philo))

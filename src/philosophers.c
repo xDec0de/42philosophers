@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 18:29:55 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 18:30:51 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:37:09 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static bool	launch_simulation(t_philo_info *info)
 	t_philo		*philo;
 
 	id = 0;
-	info->start_date = get_current_time();
+	pthread_mutex_lock(info->m_hold);
 	while (id < info->philo_n)
 	{
 		philo = info->philo_lst[id];
@@ -49,6 +49,8 @@ static bool	launch_simulation(t_philo_info *info)
 		}
 		id++;
 	}
+	info->start_date = get_current_time();
+	pthread_mutex_unlock(info->m_hold);
 	return (true);
 }
 

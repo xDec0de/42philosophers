@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 20:11:36 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 17:41:16 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:41:18 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	free_info(t_philo_info *info)
 {
 	free_philos(info);
 	mutex_free(info->m_print);
+	mutex_free(info->m_hold);
 	free(info);
 }
 
@@ -63,7 +64,8 @@ static t_philo_info	*init_info(void)
 	info->sleep_ms = 0;
 	info->m_print = mutex_init();
 	info->start_date = 0;
-	if (info->m_print == NULL)
+	info->m_hold = mutex_init();
+	if (info->m_print == NULL || info->m_hold == NULL)
 		return (NULL);
 	return (info);
 }

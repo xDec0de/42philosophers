@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/04 18:04:44 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:35:56 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_philo_info
 	pthread_mutex_t	*m_print;
 	// The date at which the simulation started
 	size_t			start_date;
+	pthread_mutex_t	*m_hold;
 }				t_philo_info;
 
 /*
