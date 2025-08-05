@@ -6,7 +6,7 @@
 /*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 20:33:03 by daniema3          #+#    #+#             */
-/*   Updated: 2025/08/04 18:52:23 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:03:40 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,15 @@ static bool	p_eat(t_philo *philo)
 		left = philo->info->philo_lst[(philo->id - 2)];
 	if (!p_take_forks(philo, left))
 		return (false);
-	if (!p_can_continue(philo))
+	p_printf(PHILO_EATING, PRINT_GET_MS, philo->id);
+	pthread_mutex_lock(philo->m_last_meal_ms);
+	if (philo->last_meal_ms < 0)
 	{
 		pthread_mutex_unlock(left->m_fork);
 		pthread_mutex_unlock(philo->m_fork);
+		pthread_mutex_unlock(philo->m_last_meal_ms);
 		return (false);
 	}
-	p_printf(PHILO_EATING, PRINT_GET_MS, philo->id);
-	pthread_mutex_lock(philo->m_last_meal_ms);
 	philo->last_meal_ms = get_current_ms(philo->info);
 	pthread_mutex_unlock(philo->m_last_meal_ms);
 	p_sleep(philo->info->eat_ms);
