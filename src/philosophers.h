@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniema3 <daniema3@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: daniema3 <daniema3@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:36:41 by danimart          #+#    #+#             */
-/*   Updated: 2025/08/04 18:35:56 by daniema3         ###   ########.fr       */
+/*   Updated: 2025/08/10 09:51:03 by daniema3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,7 @@ unsigned int	p_strlen(const char *str);
 
 // Log message: A philosopher took a fork
 # define PHILO_TAKE_FORK "\e[1;30m[\e[0;34m%u\e[1;30m] \e[1;33m%u \e[1;37m\
-has taken a \e[1;33mfork\e[0m\n"
+has taken a \e[1;33mfork\e[1;30m.\e[0m\n"
 
 // Log message: A philosopher changed its state to EATING
 # define PHILO_EATING "\e[1;30m[\e[0;35m%u\e[1;30m] \e[1;33m%u \e[1;37m\
